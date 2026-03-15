@@ -553,7 +553,7 @@ Superlinearity emerges without exogenous complementarity (its coefficient set to
 \end{proposition}
 
 \begin{proof}
-(i) The transfer bonus in (\ref{eq:learning}) is $\tau \cdot |\{v_k : k \in S\}| / K$. If $A$ and $B$ have non-overlapping verticals, then $|\{v_k : k \in A \cup B\}| > \max(|\{v_k : k \in A\}|, |\{v_k : k \in B\}|)$, so the combined portfolio's learning rate strictly exceeds either part's rate. Over $T$ periods, this compounds into higher policy quality.
+(i) The transfer bonus (Eq.~\ref{eq:learning}) is proportional to the number of distinct verticals in the owned portfolio. If $A$ has nodes in logistics and retail (2 verticals) and $B$ has nodes in healthcare and finance (2 verticals), then $A \cup B$ spans 4 verticals---more than either part alone. The combined portfolio's transfer bonus is therefore higher, producing a faster effective learning rate. Over $T$ periods, this compounds into higher policy quality.
 
 (ii) When $A$ and $B$ are separate portfolios, interactions between them have $\nu = 0.5$. When combined, these same interactions have $\nu = 0.1$. By (\ref{eq:leakage}), the leakage cost drops by a factor of $0.1/0.5 = 0.2$, and by Corollary~\ref{cor:revelation}, the optimal revelation increases, raising match quality.
 
