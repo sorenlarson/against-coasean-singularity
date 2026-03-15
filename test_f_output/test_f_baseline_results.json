@@ -1,0 +1,205 @@
+{
+  "settings": {
+    "num_nodes": 30,
+    "num_verticals": 5,
+    "edge_density": 0.15,
+    "time_steps": 50,
+    "seed": 42,
+    "a0": -2.5,
+    "a1": 1.2,
+    "a2": 1.0,
+    "a3": 0.8,
+    "a4": 0.7,
+    "a5": 0.0,
+    "a6": 1.0,
+    "b_r": 5.0,
+    "lambda_L": 0.8,
+    "gamma_L": 1.5,
+    "rho_L": 0.8,
+    "phi_L": 0.15,
+    "beta0": -2.0,
+    "beta1": 3.0,
+    "beta2": 1.0,
+    "beta3": 1.5,
+    "beta4": 2.0,
+    "eta_base": 0.03,
+    "outcome_obs_market": 0.3,
+    "outcome_obs_router": 0.5,
+    "outcome_obs_owned": 0.9,
+    "router_aggregate_breadth": 1.0,
+    "transfer_rate": 0.02,
+    "router_trust_investment_rate": 0.01,
+    "router_trust_k": 3.0,
+    "actuator_mult_market": 0.5,
+    "actuator_mult_router": 0.7,
+    "actuator_mult_rollup": 1.0,
+    "interaction_owned": 1.0,
+    "interaction_router": 0.6,
+    "interaction_market": 0.2,
+    "visibility_internal": 0.1,
+    "visibility_rollup_external": 0.5,
+    "visibility_router": 0.85,
+    "visibility_market": 1.0,
+    "ownership_cost_per_node": 0.05,
+    "integration_friction": 1.0,
+    "integration_decay": 0.8,
+    "saturation_bonus_scale": 0.3,
+    "foreclosure_penalty_scale": 0.2,
+    "lambda_E": 0.3,
+    "eta_trust_pos": 0.08,
+    "eta_trust_neg": 0.04,
+    "trust_owned_bonus": 1.2,
+    "acquisition_interval": 5,
+    "initial_owned_count": 3,
+    "emv_c1": 1.0,
+    "emv_c2": 0.5,
+    "emv_c3": 1.5,
+    "emv_c4": 0.8,
+    "context_drift_scale": 0.05,
+    "opportunity_rate": 0.4,
+    "leakage_on": true,
+    "trust_generated_context_on": true,
+    "actuator_access_on": true,
+    "cross_node_learning_on": true,
+    "complementarity_on": false,
+    "endogenous_acquisition_on": true
+  },
+  "graph_summary": {
+    "num_nodes": 30,
+    "num_edges": 107,
+    "num_verticals": 5
+  },
+  "regime_results": {
+    "market": {
+      "gross_surplus": 1787.27,
+      "ownership_cost": 0.0,
+      "total_surplus": 1787.27,
+      "total_coordinations": 616,
+      "avg_match_quality": 0.7676,
+      "avg_leakage_cost": 0.2467,
+      "avg_trust_context": 0.4308,
+      "final_policy_quality": 0.3634,
+      "num_owned": 0,
+      "portfolio_value": 0
+    },
+    "router": {
+      "gross_surplus": 1953.79,
+      "ownership_cost": 0.0,
+      "total_surplus": 1953.79,
+      "total_coordinations": 625,
+      "avg_match_quality": 0.8069,
+      "avg_leakage_cost": 0.2035,
+      "avg_trust_context": 0.4832,
+      "final_policy_quality": 0.6427,
+      "num_owned": 0,
+      "portfolio_value": 0
+    },
+    "rollup": {
+      "gross_surplus": 2231.35,
+      "ownership_cost": 76.31,
+      "total_surplus": 2155.03,
+      "total_coordinations": 638,
+      "avg_match_quality": 0.8119,
+      "avg_leakage_cost": 0.1168,
+      "avg_trust_context": 0.4654,
+      "final_policy_quality": 1.0,
+      "num_owned": 12,
+      "portfolio_value": 8.9986
+    }
+  },
+  "comparisons": {
+    "rollup_vs_market_ratio": 1.2058,
+    "rollup_vs_router_ratio": 1.103,
+    "router_vs_market_ratio": 1.0932,
+    "router_trust_investment_cost": 97.0
+  },
+  "superlinearity": {
+    "tested": true,
+    "value_a": 158.11,
+    "value_b": 113.34,
+    "value_ab": 406.68,
+    "sum_parts": 271.45,
+    "superlinearity_ratio": 1.4982,
+    "is_superlinear": "True"
+  },
+  "diagnostics": {
+    "revelation_mq_increase_rate": 1.0,
+    "diag1_pass": true,
+    "revelation_leak_increase_rate": 1.0,
+    "diag2_pass": true,
+    "avg_trust_ctx_owned": 0.7429,
+    "avg_trust_ctx_external": 0.4267,
+    "diag3_pass": "True",
+    "actuator_exec_loss_corr": -0.2686,
+    "diag4_pass": "True",
+    "rollup_policy_quality": 1.0,
+    "router_policy_quality": 0.6427,
+    "diag5_pass": "True",
+    "early_external_surplus": 3.2618,
+    "late_external_surplus": 3.5592,
+    "diag6_pass": true
+  },
+  "propositions": {
+    "P1_rollup_highest_surplus": "True",
+    "P2_leakage_advantage": "True",
+    "P3_trust_context_ownership": "True",
+    "P4_cross_node_learning": "True",
+    "P5_superlinearity_emergent": "True"
+  },
+  "acquisition_path": [
+    {
+      "time_step": 5,
+      "acquired_node": 18,
+      "emv_score": 2.1578,
+      "num_owned_after": 4
+    },
+    {
+      "time_step": 10,
+      "acquired_node": 23,
+      "emv_score": 2.1585,
+      "num_owned_after": 5
+    },
+    {
+      "time_step": 15,
+      "acquired_node": 8,
+      "emv_score": 2.2608,
+      "num_owned_after": 6
+    },
+    {
+      "time_step": 20,
+      "acquired_node": 7,
+      "emv_score": 2.0378,
+      "num_owned_after": 7
+    },
+    {
+      "time_step": 25,
+      "acquired_node": 17,
+      "emv_score": 2.1324,
+      "num_owned_after": 8
+    },
+    {
+      "time_step": 30,
+      "acquired_node": 21,
+      "emv_score": 2.0881,
+      "num_owned_after": 9
+    },
+    {
+      "time_step": 35,
+      "acquired_node": 9,
+      "emv_score": 2.0313,
+      "num_owned_after": 10
+    },
+    {
+      "time_step": 40,
+      "acquired_node": 13,
+      "emv_score": 1.9488,
+      "num_owned_after": 11
+    },
+    {
+      "time_step": 45,
+      "acquired_node": 2,
+      "emv_score": 2.1735,
+      "num_owned_after": 12
+    }
+  ]
+}

@@ -1,0 +1,991 @@
+{
+  "experiments": {
+    "baseline": {
+      "description": "All channels on (except complementarity)",
+      "regime_results": {
+        "market": {
+          "gross_surplus": 1787.27,
+          "ownership_cost": 0.0,
+          "total_surplus": 1787.27,
+          "total_coordinations": 616,
+          "avg_match_quality": 0.7676,
+          "avg_leakage_cost": 0.2467,
+          "avg_trust_context": 0.4308,
+          "final_policy_quality": 0.3634,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "router": {
+          "gross_surplus": 1953.79,
+          "ownership_cost": 0.0,
+          "total_surplus": 1953.79,
+          "total_coordinations": 625,
+          "avg_match_quality": 0.8069,
+          "avg_leakage_cost": 0.2035,
+          "avg_trust_context": 0.4832,
+          "final_policy_quality": 0.6427,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "rollup": {
+          "gross_surplus": 2231.35,
+          "ownership_cost": 76.31,
+          "total_surplus": 2155.03,
+          "total_coordinations": 638,
+          "avg_match_quality": 0.8119,
+          "avg_leakage_cost": 0.1168,
+          "avg_trust_context": 0.4654,
+          "final_policy_quality": 1.0,
+          "num_owned": 12,
+          "portfolio_value": 8.9986
+        }
+      },
+      "comparisons": {
+        "rollup_vs_market_ratio": 1.2058,
+        "rollup_vs_router_ratio": 1.103,
+        "router_vs_market_ratio": 1.0932,
+        "router_trust_investment_cost": 97.0
+      },
+      "propositions": {
+        "P1_rollup_highest_surplus": "True",
+        "P2_leakage_advantage": "True",
+        "P3_trust_context_ownership": "True",
+        "P4_cross_node_learning": "True",
+        "P5_superlinearity_emergent": "True"
+      },
+      "superlinearity": {
+        "tested": true,
+        "value_a": 158.11,
+        "value_b": 113.34,
+        "value_ab": 406.68,
+        "sum_parts": 271.45,
+        "superlinearity_ratio": 1.4982,
+        "is_superlinear": "True"
+      }
+    },
+    "low_tx_costs": {
+      "description": "Market/router actuator multipliers raised near rollup level",
+      "regime_results": {
+        "market": {
+          "gross_surplus": 1854.12,
+          "ownership_cost": 0.0,
+          "total_surplus": 1854.12,
+          "total_coordinations": 616,
+          "avg_match_quality": 0.7911,
+          "avg_leakage_cost": 0.2488,
+          "avg_trust_context": 0.4312,
+          "final_policy_quality": 0.3702,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "router": {
+          "gross_surplus": 1990.89,
+          "ownership_cost": 0.0,
+          "total_surplus": 1990.89,
+          "total_coordinations": 625,
+          "avg_match_quality": 0.8195,
+          "avg_leakage_cost": 0.2068,
+          "avg_trust_context": 0.4831,
+          "final_policy_quality": 0.6479,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "rollup": {
+          "gross_surplus": 2284.6,
+          "ownership_cost": 76.31,
+          "total_surplus": 2208.29,
+          "total_coordinations": 638,
+          "avg_match_quality": 0.8294,
+          "avg_leakage_cost": 0.1179,
+          "avg_trust_context": 0.4656,
+          "final_policy_quality": 1.0,
+          "num_owned": 12,
+          "portfolio_value": 8.9986
+        }
+      },
+      "comparisons": {
+        "rollup_vs_market_ratio": 1.191,
+        "rollup_vs_router_ratio": 1.1092,
+        "router_vs_market_ratio": 1.0738,
+        "router_trust_investment_cost": 97.0
+      },
+      "propositions": {
+        "P1_rollup_highest_surplus": "True",
+        "P2_leakage_advantage": "True",
+        "P3_trust_context_ownership": "True",
+        "P4_cross_node_learning": "True",
+        "P5_superlinearity_emergent": "True"
+      },
+      "superlinearity": {
+        "tested": true,
+        "value_a": 152.4,
+        "value_b": 114.06,
+        "value_ab": 402.81,
+        "sum_parts": 266.46,
+        "superlinearity_ratio": 1.5117,
+        "is_superlinear": "True"
+      }
+    },
+    "leakage_off": {
+      "description": "Leakage channel disabled",
+      "regime_results": {
+        "market": {
+          "gross_surplus": 1940.84,
+          "ownership_cost": 0.0,
+          "total_surplus": 1940.84,
+          "total_coordinations": 616,
+          "avg_match_quality": 0.7678,
+          "avg_leakage_cost": 0.0,
+          "avg_trust_context": 0.4296,
+          "final_policy_quality": 0.3635,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "router": {
+          "gross_surplus": 2083.37,
+          "ownership_cost": 0.0,
+          "total_surplus": 2083.37,
+          "total_coordinations": 625,
+          "avg_match_quality": 0.8069,
+          "avg_leakage_cost": 0.0,
+          "avg_trust_context": 0.4829,
+          "final_policy_quality": 0.6427,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "rollup": {
+          "gross_surplus": 2307.96,
+          "ownership_cost": 76.31,
+          "total_surplus": 2231.65,
+          "total_coordinations": 638,
+          "avg_match_quality": 0.8115,
+          "avg_leakage_cost": 0.0,
+          "avg_trust_context": 0.4678,
+          "final_policy_quality": 1.0,
+          "num_owned": 12,
+          "portfolio_value": 8.9986
+        }
+      },
+      "comparisons": {
+        "rollup_vs_market_ratio": 1.1498,
+        "rollup_vs_router_ratio": 1.0712,
+        "router_vs_market_ratio": 1.0734,
+        "router_trust_investment_cost": 97.0
+      },
+      "propositions": {
+        "P1_rollup_highest_surplus": "True",
+        "P2_leakage_advantage": false,
+        "P3_trust_context_ownership": "True",
+        "P4_cross_node_learning": "True",
+        "P5_superlinearity_emergent": "True"
+      },
+      "superlinearity": {
+        "tested": true,
+        "value_a": 138.58,
+        "value_b": 116.91,
+        "value_ab": 375.38,
+        "sum_parts": 255.49,
+        "superlinearity_ratio": 1.4692,
+        "is_superlinear": "True"
+      }
+    },
+    "trust_context_off": {
+      "description": "Trust-generated context disabled",
+      "regime_results": {
+        "market": {
+          "gross_surplus": 1550.76,
+          "ownership_cost": 0.0,
+          "total_surplus": 1550.76,
+          "total_coordinations": 616,
+          "avg_match_quality": 0.6836,
+          "avg_leakage_cost": 0.246,
+          "avg_trust_context": 0.0,
+          "final_policy_quality": 0.3388,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "router": {
+          "gross_surplus": 1707.56,
+          "ownership_cost": 0.0,
+          "total_surplus": 1707.56,
+          "total_coordinations": 625,
+          "avg_match_quality": 0.7206,
+          "avg_leakage_cost": 0.2031,
+          "avg_trust_context": 0.0,
+          "final_policy_quality": 0.6052,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "rollup": {
+          "gross_surplus": 2007.27,
+          "ownership_cost": 76.31,
+          "total_surplus": 1930.96,
+          "total_coordinations": 638,
+          "avg_match_quality": 0.7363,
+          "avg_leakage_cost": 0.1118,
+          "avg_trust_context": 0.0,
+          "final_policy_quality": 1.0,
+          "num_owned": 12,
+          "portfolio_value": 8.9986
+        }
+      },
+      "comparisons": {
+        "rollup_vs_market_ratio": 1.2452,
+        "rollup_vs_router_ratio": 1.1308,
+        "router_vs_market_ratio": 1.1011,
+        "router_trust_investment_cost": 97.0
+      },
+      "propositions": {
+        "P1_rollup_highest_surplus": "True",
+        "P2_leakage_advantage": "True",
+        "P3_trust_context_ownership": "False",
+        "P4_cross_node_learning": "True",
+        "P5_superlinearity_emergent": "True"
+      },
+      "superlinearity": {
+        "tested": true,
+        "value_a": 153.14,
+        "value_b": 100.8,
+        "value_ab": 407.58,
+        "sum_parts": 253.94,
+        "superlinearity_ratio": 1.605,
+        "is_superlinear": "True"
+      }
+    },
+    "actuator_off": {
+      "description": "Actuator access equalized across regimes",
+      "regime_results": {
+        "market": {
+          "gross_surplus": 1787.27,
+          "ownership_cost": 0.0,
+          "total_surplus": 1787.27,
+          "total_coordinations": 616,
+          "avg_match_quality": 0.7676,
+          "avg_leakage_cost": 0.2467,
+          "avg_trust_context": 0.4308,
+          "final_policy_quality": 0.3634,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "router": {
+          "gross_surplus": 1921.97,
+          "ownership_cost": 0.0,
+          "total_surplus": 1921.97,
+          "total_coordinations": 625,
+          "avg_match_quality": 0.7961,
+          "avg_leakage_cost": 0.2037,
+          "avg_trust_context": 0.4832,
+          "final_policy_quality": 0.6382,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "rollup": {
+          "gross_surplus": 2223.45,
+          "ownership_cost": 76.31,
+          "total_surplus": 2147.14,
+          "total_coordinations": 638,
+          "avg_match_quality": 0.8093,
+          "avg_leakage_cost": 0.1181,
+          "avg_trust_context": 0.4654,
+          "final_policy_quality": 1.0,
+          "num_owned": 12,
+          "portfolio_value": 8.9986
+        }
+      },
+      "comparisons": {
+        "rollup_vs_market_ratio": 1.2014,
+        "rollup_vs_router_ratio": 1.1172,
+        "router_vs_market_ratio": 1.0754,
+        "router_trust_investment_cost": 97.0
+      },
+      "propositions": {
+        "P1_rollup_highest_surplus": "True",
+        "P2_leakage_advantage": "True",
+        "P3_trust_context_ownership": "True",
+        "P4_cross_node_learning": "True",
+        "P5_superlinearity_emergent": "True"
+      },
+      "superlinearity": {
+        "tested": true,
+        "value_a": 141.08,
+        "value_b": 111.65,
+        "value_ab": 385.44,
+        "sum_parts": 252.74,
+        "superlinearity_ratio": 1.5251,
+        "is_superlinear": "True"
+      }
+    },
+    "learning_off": {
+      "description": "Cross-node learning disabled (rollup learns at router speed)",
+      "regime_results": {
+        "market": {
+          "gross_surplus": 1787.27,
+          "ownership_cost": 0.0,
+          "total_surplus": 1787.27,
+          "total_coordinations": 616,
+          "avg_match_quality": 0.7676,
+          "avg_leakage_cost": 0.2467,
+          "avg_trust_context": 0.4308,
+          "final_policy_quality": 0.3634,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "router": {
+          "gross_surplus": 1953.79,
+          "ownership_cost": 0.0,
+          "total_surplus": 1953.79,
+          "total_coordinations": 625,
+          "avg_match_quality": 0.8069,
+          "avg_leakage_cost": 0.2035,
+          "avg_trust_context": 0.4832,
+          "final_policy_quality": 0.6427,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "rollup": {
+          "gross_surplus": 2116.82,
+          "ownership_cost": 76.31,
+          "total_surplus": 2040.51,
+          "total_coordinations": 638,
+          "avg_match_quality": 0.7728,
+          "avg_leakage_cost": 0.1159,
+          "avg_trust_context": 0.4654,
+          "final_policy_quality": 0.4191,
+          "num_owned": 12,
+          "portfolio_value": 8.9986
+        }
+      },
+      "comparisons": {
+        "rollup_vs_market_ratio": 1.1417,
+        "rollup_vs_router_ratio": 1.0444,
+        "router_vs_market_ratio": 1.0932,
+        "router_trust_investment_cost": 97.0
+      },
+      "propositions": {
+        "P1_rollup_highest_surplus": "True",
+        "P2_leakage_advantage": "True",
+        "P3_trust_context_ownership": "True",
+        "P4_cross_node_learning": "False",
+        "P5_superlinearity_emergent": "True"
+      },
+      "superlinearity": {
+        "tested": true,
+        "value_a": 160.28,
+        "value_b": 109.78,
+        "value_ab": 400.24,
+        "sum_parts": 270.06,
+        "superlinearity_ratio": 1.482,
+        "is_superlinear": "True"
+      }
+    },
+    "complementarity_on": {
+      "description": "Complementarity channel enabled (a5=0.5)",
+      "regime_results": {
+        "market": {
+          "gross_surplus": 1908.91,
+          "ownership_cost": 0.0,
+          "total_surplus": 1908.91,
+          "total_coordinations": 616,
+          "avg_match_quality": 0.8123,
+          "avg_leakage_cost": 0.2364,
+          "avg_trust_context": 0.4315,
+          "final_policy_quality": 0.3762,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "router": {
+          "gross_surplus": 2062.81,
+          "ownership_cost": 0.0,
+          "total_surplus": 2062.81,
+          "total_coordinations": 625,
+          "avg_match_quality": 0.8463,
+          "avg_leakage_cost": 0.1981,
+          "avg_trust_context": 0.4836,
+          "final_policy_quality": 0.6586,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "rollup": {
+          "gross_surplus": 2323.85,
+          "ownership_cost": 76.31,
+          "total_surplus": 2247.53,
+          "total_coordinations": 638,
+          "avg_match_quality": 0.8458,
+          "avg_leakage_cost": 0.1086,
+          "avg_trust_context": 0.465,
+          "final_policy_quality": 1.0,
+          "num_owned": 12,
+          "portfolio_value": 8.9986
+        }
+      },
+      "comparisons": {
+        "rollup_vs_market_ratio": 1.1774,
+        "rollup_vs_router_ratio": 1.0895,
+        "router_vs_market_ratio": 1.0806,
+        "router_trust_investment_cost": 97.0
+      },
+      "propositions": {
+        "P1_rollup_highest_surplus": "True",
+        "P2_leakage_advantage": "True",
+        "P3_trust_context_ownership": "True",
+        "P4_cross_node_learning": "True",
+        "P5_superlinearity_emergent": "True"
+      },
+      "superlinearity": {
+        "tested": true,
+        "value_a": 157.35,
+        "value_b": 118.72,
+        "value_ab": 413.37,
+        "sum_parts": 276.07,
+        "superlinearity_ratio": 1.4973,
+        "is_superlinear": "True"
+      }
+    },
+    "all_off": {
+      "description": "All channels off \u2014 sanity check (regimes should converge)",
+      "regime_results": {
+        "market": {
+          "gross_surplus": 1806.98,
+          "ownership_cost": 0.0,
+          "total_surplus": 1806.98,
+          "total_coordinations": 616,
+          "avg_match_quality": 0.6822,
+          "avg_leakage_cost": 0.0,
+          "avg_trust_context": 0.0,
+          "final_policy_quality": 0.3383,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "router": {
+          "gross_surplus": 1901.88,
+          "ownership_cost": 0.0,
+          "total_surplus": 1901.88,
+          "total_coordinations": 625,
+          "avg_match_quality": 0.7028,
+          "avg_leakage_cost": 0.0,
+          "avg_trust_context": 0.0,
+          "final_policy_quality": 0.5971,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "rollup": {
+          "gross_surplus": 1873.52,
+          "ownership_cost": 0.0,
+          "total_surplus": 1873.52,
+          "total_coordinations": 638,
+          "avg_match_quality": 0.6766,
+          "avg_leakage_cost": 0.0,
+          "avg_trust_context": 0.0,
+          "final_policy_quality": 0.3369,
+          "num_owned": 0,
+          "portfolio_value": 0
+        }
+      },
+      "comparisons": {
+        "rollup_vs_market_ratio": 1.0368,
+        "rollup_vs_router_ratio": 0.9851,
+        "router_vs_market_ratio": 1.0525,
+        "router_trust_investment_cost": 97.0
+      },
+      "propositions": {
+        "P1_rollup_highest_surplus": "False",
+        "P2_leakage_advantage": false,
+        "P3_trust_context_ownership": null,
+        "P4_cross_node_learning": "False",
+        "P5_superlinearity_emergent": false
+      },
+      "superlinearity": {
+        "tested": false,
+        "reason": "too few owned nodes"
+      }
+    },
+    "router_no_shielding": {
+      "description": "Router visibility = market (platforms don't shield info at all)",
+      "regime_results": {
+        "market": {
+          "gross_surplus": 1787.27,
+          "ownership_cost": 0.0,
+          "total_surplus": 1787.27,
+          "total_coordinations": 616,
+          "avg_match_quality": 0.7676,
+          "avg_leakage_cost": 0.2467,
+          "avg_trust_context": 0.4308,
+          "final_policy_quality": 0.3634,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "router": {
+          "gross_surplus": 1932.6,
+          "ownership_cost": 0.0,
+          "total_surplus": 1932.6,
+          "total_coordinations": 625,
+          "avg_match_quality": 0.8067,
+          "avg_leakage_cost": 0.2347,
+          "avg_trust_context": 0.4832,
+          "final_policy_quality": 0.6427,
+          "num_owned": 0,
+          "portfolio_value": 0
+        },
+        "rollup": {
+          "gross_surplus": 2231.35,
+          "ownership_cost": 76.31,
+          "total_surplus": 2155.03,
+          "total_coordinations": 638,
+          "avg_match_quality": 0.8119,
+          "avg_leakage_cost": 0.1168,
+          "avg_trust_context": 0.4654,
+          "final_policy_quality": 1.0,
+          "num_owned": 12,
+          "portfolio_value": 8.9986
+        }
+      },
+      "comparisons": {
+        "rollup_vs_market_ratio": 1.2058,
+        "rollup_vs_router_ratio": 1.1151,
+        "router_vs_market_ratio": 1.0813,
+        "router_trust_investment_cost": 97.0
+      },
+      "propositions": {
+        "P1_rollup_highest_surplus": "True",
+        "P2_leakage_advantage": "True",
+        "P3_trust_context_ownership": "True",
+        "P4_cross_node_learning": "True",
+        "P5_superlinearity_emergent": "True"
+      },
+      "superlinearity": {
+        "tested": true,
+        "value_a": 158.11,
+        "value_b": 113.34,
+        "value_ab": 406.68,
+        "sum_parts": 271.45,
+        "superlinearity_ratio": 1.4982,
+        "is_superlinear": "True"
+      }
+    }
+  },
+  "summary_rows": [
+    {
+      "experiment": "baseline",
+      "regime": "market",
+      "total_surplus": 1787.27,
+      "avg_match_quality": 0.7676,
+      "avg_leakage_cost": 0.2467,
+      "final_policy_quality": 0.3634,
+      "num_owned": 0
+    },
+    {
+      "experiment": "baseline",
+      "regime": "router",
+      "total_surplus": 1953.79,
+      "avg_match_quality": 0.8069,
+      "avg_leakage_cost": 0.2035,
+      "final_policy_quality": 0.6427,
+      "num_owned": 0
+    },
+    {
+      "experiment": "baseline",
+      "regime": "rollup",
+      "total_surplus": 2155.03,
+      "avg_match_quality": 0.8119,
+      "avg_leakage_cost": 0.1168,
+      "final_policy_quality": 1.0,
+      "num_owned": 12
+    },
+    {
+      "experiment": "low_tx_costs",
+      "regime": "market",
+      "total_surplus": 1854.12,
+      "avg_match_quality": 0.7911,
+      "avg_leakage_cost": 0.2488,
+      "final_policy_quality": 0.3702,
+      "num_owned": 0
+    },
+    {
+      "experiment": "low_tx_costs",
+      "regime": "router",
+      "total_surplus": 1990.89,
+      "avg_match_quality": 0.8195,
+      "avg_leakage_cost": 0.2068,
+      "final_policy_quality": 0.6479,
+      "num_owned": 0
+    },
+    {
+      "experiment": "low_tx_costs",
+      "regime": "rollup",
+      "total_surplus": 2208.29,
+      "avg_match_quality": 0.8294,
+      "avg_leakage_cost": 0.1179,
+      "final_policy_quality": 1.0,
+      "num_owned": 12
+    },
+    {
+      "experiment": "leakage_off",
+      "regime": "market",
+      "total_surplus": 1940.84,
+      "avg_match_quality": 0.7678,
+      "avg_leakage_cost": 0.0,
+      "final_policy_quality": 0.3635,
+      "num_owned": 0
+    },
+    {
+      "experiment": "leakage_off",
+      "regime": "router",
+      "total_surplus": 2083.37,
+      "avg_match_quality": 0.8069,
+      "avg_leakage_cost": 0.0,
+      "final_policy_quality": 0.6427,
+      "num_owned": 0
+    },
+    {
+      "experiment": "leakage_off",
+      "regime": "rollup",
+      "total_surplus": 2231.65,
+      "avg_match_quality": 0.8115,
+      "avg_leakage_cost": 0.0,
+      "final_policy_quality": 1.0,
+      "num_owned": 12
+    },
+    {
+      "experiment": "trust_context_off",
+      "regime": "market",
+      "total_surplus": 1550.76,
+      "avg_match_quality": 0.6836,
+      "avg_leakage_cost": 0.246,
+      "final_policy_quality": 0.3388,
+      "num_owned": 0
+    },
+    {
+      "experiment": "trust_context_off",
+      "regime": "router",
+      "total_surplus": 1707.56,
+      "avg_match_quality": 0.7206,
+      "avg_leakage_cost": 0.2031,
+      "final_policy_quality": 0.6052,
+      "num_owned": 0
+    },
+    {
+      "experiment": "trust_context_off",
+      "regime": "rollup",
+      "total_surplus": 1930.96,
+      "avg_match_quality": 0.7363,
+      "avg_leakage_cost": 0.1118,
+      "final_policy_quality": 1.0,
+      "num_owned": 12
+    },
+    {
+      "experiment": "actuator_off",
+      "regime": "market",
+      "total_surplus": 1787.27,
+      "avg_match_quality": 0.7676,
+      "avg_leakage_cost": 0.2467,
+      "final_policy_quality": 0.3634,
+      "num_owned": 0
+    },
+    {
+      "experiment": "actuator_off",
+      "regime": "router",
+      "total_surplus": 1921.97,
+      "avg_match_quality": 0.7961,
+      "avg_leakage_cost": 0.2037,
+      "final_policy_quality": 0.6382,
+      "num_owned": 0
+    },
+    {
+      "experiment": "actuator_off",
+      "regime": "rollup",
+      "total_surplus": 2147.14,
+      "avg_match_quality": 0.8093,
+      "avg_leakage_cost": 0.1181,
+      "final_policy_quality": 1.0,
+      "num_owned": 12
+    },
+    {
+      "experiment": "learning_off",
+      "regime": "market",
+      "total_surplus": 1787.27,
+      "avg_match_quality": 0.7676,
+      "avg_leakage_cost": 0.2467,
+      "final_policy_quality": 0.3634,
+      "num_owned": 0
+    },
+    {
+      "experiment": "learning_off",
+      "regime": "router",
+      "total_surplus": 1953.79,
+      "avg_match_quality": 0.8069,
+      "avg_leakage_cost": 0.2035,
+      "final_policy_quality": 0.6427,
+      "num_owned": 0
+    },
+    {
+      "experiment": "learning_off",
+      "regime": "rollup",
+      "total_surplus": 2040.51,
+      "avg_match_quality": 0.7728,
+      "avg_leakage_cost": 0.1159,
+      "final_policy_quality": 0.4191,
+      "num_owned": 12
+    },
+    {
+      "experiment": "complementarity_on",
+      "regime": "market",
+      "total_surplus": 1908.91,
+      "avg_match_quality": 0.8123,
+      "avg_leakage_cost": 0.2364,
+      "final_policy_quality": 0.3762,
+      "num_owned": 0
+    },
+    {
+      "experiment": "complementarity_on",
+      "regime": "router",
+      "total_surplus": 2062.81,
+      "avg_match_quality": 0.8463,
+      "avg_leakage_cost": 0.1981,
+      "final_policy_quality": 0.6586,
+      "num_owned": 0
+    },
+    {
+      "experiment": "complementarity_on",
+      "regime": "rollup",
+      "total_surplus": 2247.53,
+      "avg_match_quality": 0.8458,
+      "avg_leakage_cost": 0.1086,
+      "final_policy_quality": 1.0,
+      "num_owned": 12
+    },
+    {
+      "experiment": "all_off",
+      "regime": "market",
+      "total_surplus": 1806.98,
+      "avg_match_quality": 0.6822,
+      "avg_leakage_cost": 0.0,
+      "final_policy_quality": 0.3383,
+      "num_owned": 0
+    },
+    {
+      "experiment": "all_off",
+      "regime": "router",
+      "total_surplus": 1901.88,
+      "avg_match_quality": 0.7028,
+      "avg_leakage_cost": 0.0,
+      "final_policy_quality": 0.5971,
+      "num_owned": 0
+    },
+    {
+      "experiment": "all_off",
+      "regime": "rollup",
+      "total_surplus": 1873.52,
+      "avg_match_quality": 0.6766,
+      "avg_leakage_cost": 0.0,
+      "final_policy_quality": 0.3369,
+      "num_owned": 0
+    },
+    {
+      "experiment": "router_no_shielding",
+      "regime": "market",
+      "total_surplus": 1787.27,
+      "avg_match_quality": 0.7676,
+      "avg_leakage_cost": 0.2467,
+      "final_policy_quality": 0.3634,
+      "num_owned": 0
+    },
+    {
+      "experiment": "router_no_shielding",
+      "regime": "router",
+      "total_surplus": 1932.6,
+      "avg_match_quality": 0.8067,
+      "avg_leakage_cost": 0.2347,
+      "final_policy_quality": 0.6427,
+      "num_owned": 0
+    },
+    {
+      "experiment": "router_no_shielding",
+      "regime": "rollup",
+      "total_surplus": 2155.03,
+      "avg_match_quality": 0.8119,
+      "avg_leakage_cost": 0.1168,
+      "final_policy_quality": 1.0,
+      "num_owned": 12
+    }
+  ],
+  "analysis": {
+    "ratio_changes": {
+      "low_tx_costs": {
+        "rollup_vs_router_ratio": 1.1092,
+        "ratio_change_from_baseline": 0.0062
+      },
+      "leakage_off": {
+        "rollup_vs_router_ratio": 1.0712,
+        "ratio_change_from_baseline": -0.0318
+      },
+      "trust_context_off": {
+        "rollup_vs_router_ratio": 1.1308,
+        "ratio_change_from_baseline": 0.0278
+      },
+      "actuator_off": {
+        "rollup_vs_router_ratio": 1.1172,
+        "ratio_change_from_baseline": 0.0142
+      },
+      "learning_off": {
+        "rollup_vs_router_ratio": 1.0444,
+        "ratio_change_from_baseline": -0.0586
+      },
+      "complementarity_on": {
+        "rollup_vs_router_ratio": 1.0895,
+        "ratio_change_from_baseline": -0.0135
+      },
+      "all_off": {
+        "rollup_vs_router_ratio": 0.9851,
+        "ratio_change_from_baseline": -0.1179
+      },
+      "router_no_shielding": {
+        "rollup_vs_router_ratio": 1.1151,
+        "ratio_change_from_baseline": 0.0121
+      }
+    },
+    "all_off_sanity": {
+      "max_min_ratio": 1.0525,
+      "pass": "True"
+    },
+    "complementarity_effect": {
+      "baseline_superlinearity": 1.4982,
+      "with_complementarity_superlinearity": 1.4973
+    }
+  },
+  "density_sweep": [
+    {
+      "ownership_pct": 10,
+      "owned_count": 3,
+      "market_surplus": 1831.38,
+      "router_surplus": 1999.96,
+      "rollup_surplus": 2139.29,
+      "rollup_vs_router": 1.0697,
+      "rollup_vs_market": 1.1681,
+      "rollup_leakage": 0.1326,
+      "superlinearity": null,
+      "P1": "True"
+    },
+    {
+      "ownership_pct": 20,
+      "owned_count": 6,
+      "market_surplus": 1795.14,
+      "router_surplus": 1962.29,
+      "rollup_surplus": 2148.81,
+      "rollup_vs_router": 1.0951,
+      "rollup_vs_market": 1.197,
+      "rollup_leakage": 0.133,
+      "superlinearity": 1.0,
+      "P1": "True"
+    },
+    {
+      "ownership_pct": 30,
+      "owned_count": 9,
+      "market_surplus": 1773.51,
+      "router_surplus": 1941.8,
+      "rollup_surplus": 2170.47,
+      "rollup_vs_router": 1.1178,
+      "rollup_vs_market": 1.2238,
+      "rollup_leakage": 0.1156,
+      "superlinearity": 1.5053,
+      "P1": "True"
+    },
+    {
+      "ownership_pct": 50,
+      "owned_count": 15,
+      "market_surplus": 1637.39,
+      "router_surplus": 1805.68,
+      "rollup_surplus": 2322.92,
+      "rollup_vs_router": 1.2865,
+      "rollup_vs_market": 1.4187,
+      "rollup_leakage": 0.0815,
+      "superlinearity": 2.4531,
+      "P1": "True"
+    },
+    {
+      "ownership_pct": 70,
+      "owned_count": 21,
+      "market_surplus": 1540.58,
+      "router_surplus": 1707.33,
+      "rollup_surplus": 2487.46,
+      "rollup_vs_router": 1.4569,
+      "rollup_vs_market": 1.6146,
+      "rollup_leakage": 0.0598,
+      "superlinearity": 1.9571,
+      "P1": "True"
+    }
+  ],
+  "ownership_cost_sweep": [
+    {
+      "cost_per_node": 0.0,
+      "rollup_gross": 2231.35,
+      "ownership_cost": 57.56,
+      "rollup_net": 2173.78,
+      "router_surplus": 1953.79,
+      "rollup_vs_router": 1.1126,
+      "P1": "True"
+    },
+    {
+      "cost_per_node": 0.025,
+      "rollup_gross": 2231.35,
+      "ownership_cost": 66.94,
+      "rollup_net": 2164.41,
+      "router_surplus": 1953.79,
+      "rollup_vs_router": 1.1078,
+      "P1": "True"
+    },
+    {
+      "cost_per_node": 0.05,
+      "rollup_gross": 2231.35,
+      "ownership_cost": 76.31,
+      "rollup_net": 2155.03,
+      "router_surplus": 1953.79,
+      "rollup_vs_router": 1.103,
+      "P1": "True"
+    },
+    {
+      "cost_per_node": 0.075,
+      "rollup_gross": 2231.35,
+      "ownership_cost": 85.69,
+      "rollup_net": 2145.66,
+      "router_surplus": 1953.79,
+      "rollup_vs_router": 1.0982,
+      "P1": "True"
+    },
+    {
+      "cost_per_node": 0.1,
+      "rollup_gross": 2231.35,
+      "ownership_cost": 95.06,
+      "rollup_net": 2136.28,
+      "router_surplus": 1953.79,
+      "rollup_vs_router": 1.0934,
+      "P1": "True"
+    },
+    {
+      "cost_per_node": 0.15,
+      "rollup_gross": 2231.35,
+      "ownership_cost": 113.81,
+      "rollup_net": 2117.53,
+      "router_surplus": 1953.79,
+      "rollup_vs_router": 1.0838,
+      "P1": "True"
+    },
+    {
+      "cost_per_node": 0.2,
+      "rollup_gross": 2231.35,
+      "ownership_cost": 132.56,
+      "rollup_net": 2098.78,
+      "router_surplus": 1953.79,
+      "rollup_vs_router": 1.0742,
+      "P1": "True"
+    },
+    {
+      "cost_per_node": 0.3,
+      "rollup_gross": 2231.35,
+      "ownership_cost": 170.06,
+      "rollup_net": 2061.28,
+      "router_surplus": 1953.79,
+      "rollup_vs_router": 1.055,
+      "P1": "True"
+    }
+  ]
+}
