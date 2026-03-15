@@ -260,6 +260,7 @@ z_{ij} = \underbrace{\beta_0}_{\text{baseline}} + \underbrace{\beta_1 \ln(1 + b_
 The logarithmic form $\ln(1 + b_r \cdot r)$ ensures diminishing returns to revelation: the first units of context shared are most valuable.
 
 \subsubsection{Information Leakage}
+\label{sec:leakage}
 
 Revelation creates leakage that is convex in the amount revealed and linear in market visibility:
 
@@ -320,7 +321,13 @@ The actuator term captures how much of the matched coordination intent translate
 X_{ij} = \underbrace{\lambda_E}_{\text{scale}} \cdot \underbrace{\epsilon_{ij}}_{\substack{\text{edge} \\ \text{risk}}} \cdot \underbrace{\frac{\xi_i + \omega_j}{2}}_{\substack{\text{operational} \\ \text{fragility}}} \cdot \underbrace{(1 - \hat{a}_{ij})}_{\substack{\text{control} \\ \text{gap}}}
 \end{equation}
 
-\noindent Execution loss is the product of four factors: $\lambda_E$ scales the overall magnitude; \textbf{edge risk} $\epsilon_{ij}$ is the baseline probability of poor execution on this coordination relationship; \textbf{operational fragility} averages node $i$'s exception rate $\xi_i$ (how often non-standard cases arise) and node $j$'s quality risk $\omega_j$ (probability of operational failure); and the \textbf{control gap} $(1 - \hat{a}_{ij})$ means that higher actuator access directly reduces execution loss---an owner who can mandate process changes ($\hat{a} \approx 1$) loses almost nothing to execution failure, while a market participant who can only suggest ($\hat{a} \approx 0.25$) suffers the full risk.
+\noindent Execution loss is the product of four factors:
+\begin{itemize}[leftmargin=*]
+\item $\lambda_E$ --- \textbf{scale parameter} controlling the overall magnitude of execution losses
+\item $\epsilon_{ij}$ --- \textbf{edge risk}: how inherently complex this coordination task is, independent of who performs it. A standard commodity purchase has low $\epsilon$; integrating a custom software system with a supplier's legacy infrastructure has high $\epsilon$
+\item $(\xi_i + \omega_j)/2$ --- \textbf{operational fragility}: how prone these specific firms are to stumbling. Exception rate $\xi_i$ measures how often node $i$ encounters non-standard cases (e.g., a restaurant with dietary restriction requests on every other order); quality risk $\omega_j$ measures how often node $j$ drops the ball on delivery (e.g., a warehouse with high damage rates). The average captures the combined fragility of the pair
+\item $(1 - \hat{a}_{ij})$ --- \textbf{control gap}: the residual risk after actuator access is applied. An owner who can mandate process changes ($\hat{a} \approx 1$) has a near-zero control gap; a market participant who can only suggest ($\hat{a} \approx 0.25$) suffers most of the underlying risk
+\end{itemize}
 
 \subsubsection{Net Surplus}
 
@@ -328,8 +335,10 @@ The net surplus from a coordination event is:
 
 \begin{equation}
 \label{eq:surplus}
-\Pi_{ij}(r) = s_{ij} \cdot m_{ij}(r) - \lambda_{ij} - C_L(r) - X_{ij}
+\Pi_{ij}(r) = \underbrace{s_{ij} \cdot m_{ij}(r)}_{\text{gross value}} - \underbrace{\lambda_{ij}}_{\text{latency}} - \underbrace{C_L(r)}_{\text{leakage cost}} - \underbrace{X_{ij}}_{\text{execution loss}}
 \end{equation}
+
+\noindent \textbf{Gross value} is the base surplus of the edge scaled by match quality---how much value this coordination could generate if fully realized. \textbf{Latency cost} $\lambda_{ij}$ is the time and friction cost of coordinating across this edge. \textbf{Leakage cost} $C_L(r)$ is the cost of information exposure from revelation (Section~\ref{sec:leakage}). \textbf{Execution loss} $X_{ij}$ is the value lost to operational failures. Net surplus must be positive for coordination to proceed.
 
 \subsubsection{Optimal Revelation}
 
