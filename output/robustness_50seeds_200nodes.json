@@ -1,0 +1,856 @@
+{
+  "parallel": [
+    {
+      "seed": 42,
+      "ratio": 1.304,
+      "P1": "True",
+      "rollup_net": 11177.47,
+      "router_net": 8571.37,
+      "market_net": 9637.44
+    },
+    {
+      "seed": 43,
+      "ratio": 1.241,
+      "P1": "True",
+      "rollup_net": 10616.37,
+      "router_net": 8555.03,
+      "market_net": 9816.03
+    },
+    {
+      "seed": 44,
+      "ratio": 1.2216,
+      "P1": "True",
+      "rollup_net": 10500.71,
+      "router_net": 8595.59,
+      "market_net": 9454.84
+    },
+    {
+      "seed": 45,
+      "ratio": 1.2848,
+      "P1": "True",
+      "rollup_net": 10806.32,
+      "router_net": 8410.97,
+      "market_net": 9412.03
+    },
+    {
+      "seed": 46,
+      "ratio": 1.2417,
+      "P1": "True",
+      "rollup_net": 10745.44,
+      "router_net": 8653.52,
+      "market_net": 9799.38
+    },
+    {
+      "seed": 47,
+      "ratio": 1.1899,
+      "P1": "True",
+      "rollup_net": 10064.61,
+      "router_net": 8458.5,
+      "market_net": 9364.13
+    },
+    {
+      "seed": 48,
+      "ratio": 1.1854,
+      "P1": "True",
+      "rollup_net": 10092.73,
+      "router_net": 8513.85,
+      "market_net": 9753.51
+    },
+    {
+      "seed": 49,
+      "ratio": 1.2642,
+      "P1": "True",
+      "rollup_net": 10363.14,
+      "router_net": 8197.23,
+      "market_net": 9685.64
+    },
+    {
+      "seed": 50,
+      "ratio": 1.226,
+      "P1": "True",
+      "rollup_net": 10417.99,
+      "router_net": 8497.26,
+      "market_net": 9726.78
+    },
+    {
+      "seed": 51,
+      "ratio": 1.2469,
+      "P1": "True",
+      "rollup_net": 10828.93,
+      "router_net": 8684.76,
+      "market_net": 9871.67
+    },
+    {
+      "seed": 52,
+      "ratio": 1.2684,
+      "P1": "True",
+      "rollup_net": 10496.41,
+      "router_net": 8275.56,
+      "market_net": 9554.39
+    },
+    {
+      "seed": 53,
+      "ratio": 1.2435,
+      "P1": "True",
+      "rollup_net": 10223.48,
+      "router_net": 8221.75,
+      "market_net": 9464.16
+    },
+    {
+      "seed": 54,
+      "ratio": 1.1911,
+      "P1": "True",
+      "rollup_net": 10163.65,
+      "router_net": 8533.2,
+      "market_net": 9715.26
+    },
+    {
+      "seed": 55,
+      "ratio": 1.2306,
+      "P1": "True",
+      "rollup_net": 10527.01,
+      "router_net": 8554.25,
+      "market_net": 9815.26
+    },
+    {
+      "seed": 56,
+      "ratio": 1.195,
+      "P1": "True",
+      "rollup_net": 10195.03,
+      "router_net": 8531.7,
+      "market_net": 9455.48
+    },
+    {
+      "seed": 57,
+      "ratio": 1.2245,
+      "P1": "True",
+      "rollup_net": 10266.09,
+      "router_net": 8384.1,
+      "market_net": 9718.99
+    },
+    {
+      "seed": 58,
+      "ratio": 1.1972,
+      "P1": "True",
+      "rollup_net": 10141.57,
+      "router_net": 8471.14,
+      "market_net": 9901.57
+    },
+    {
+      "seed": 59,
+      "ratio": 1.1907,
+      "P1": "True",
+      "rollup_net": 10502.59,
+      "router_net": 8820.84,
+      "market_net": 9778.25
+    },
+    {
+      "seed": 60,
+      "ratio": 1.2197,
+      "P1": "True",
+      "rollup_net": 10470.5,
+      "router_net": 8584.63,
+      "market_net": 9696.73
+    },
+    {
+      "seed": 61,
+      "ratio": 1.1842,
+      "P1": "True",
+      "rollup_net": 10254.16,
+      "router_net": 8658.88,
+      "market_net": 9754.26
+    },
+    {
+      "seed": 62,
+      "ratio": 1.2588,
+      "P1": "True",
+      "rollup_net": 10602.77,
+      "router_net": 8422.94,
+      "market_net": 9527.32
+    },
+    {
+      "seed": 63,
+      "ratio": 1.2431,
+      "P1": "True",
+      "rollup_net": 10614.83,
+      "router_net": 8539.01,
+      "market_net": 9546.39
+    },
+    {
+      "seed": 64,
+      "ratio": 1.2455,
+      "P1": "True",
+      "rollup_net": 10596.24,
+      "router_net": 8507.32,
+      "market_net": 9592.91
+    },
+    {
+      "seed": 65,
+      "ratio": 1.2941,
+      "P1": "True",
+      "rollup_net": 10712.23,
+      "router_net": 8277.87,
+      "market_net": 9882.98
+    },
+    {
+      "seed": 66,
+      "ratio": 1.2277,
+      "P1": "True",
+      "rollup_net": 10364.22,
+      "router_net": 8441.99,
+      "market_net": 9306.76
+    },
+    {
+      "seed": 67,
+      "ratio": 1.1656,
+      "P1": "True",
+      "rollup_net": 9965.49,
+      "router_net": 8549.71,
+      "market_net": 9580.4
+    },
+    {
+      "seed": 68,
+      "ratio": 1.1599,
+      "P1": "True",
+      "rollup_net": 9931.43,
+      "router_net": 8562.64,
+      "market_net": 9676.11
+    },
+    {
+      "seed": 69,
+      "ratio": 1.2533,
+      "P1": "True",
+      "rollup_net": 10564.84,
+      "router_net": 8429.79,
+      "market_net": 9835.44
+    },
+    {
+      "seed": 70,
+      "ratio": 1.2078,
+      "P1": "True",
+      "rollup_net": 10658.98,
+      "router_net": 8824.99,
+      "market_net": 9464.87
+    },
+    {
+      "seed": 71,
+      "ratio": 1.3121,
+      "P1": "True",
+      "rollup_net": 10686.27,
+      "router_net": 8144.35,
+      "market_net": 9630.62
+    },
+    {
+      "seed": 72,
+      "ratio": 1.2507,
+      "P1": "True",
+      "rollup_net": 10565.03,
+      "router_net": 8446.99,
+      "market_net": 9768.46
+    },
+    {
+      "seed": 73,
+      "ratio": 1.1717,
+      "P1": "True",
+      "rollup_net": 10156.9,
+      "router_net": 8668.83,
+      "market_net": 9857.27
+    },
+    {
+      "seed": 74,
+      "ratio": 1.1828,
+      "P1": "True",
+      "rollup_net": 10311.04,
+      "router_net": 8717.15,
+      "market_net": 9627.35
+    },
+    {
+      "seed": 75,
+      "ratio": 1.2396,
+      "P1": "True",
+      "rollup_net": 10392.56,
+      "router_net": 8383.52,
+      "market_net": 9733.86
+    },
+    {
+      "seed": 76,
+      "ratio": 1.1919,
+      "P1": "True",
+      "rollup_net": 10404.81,
+      "router_net": 8729.8,
+      "market_net": 9603.77
+    },
+    {
+      "seed": 77,
+      "ratio": 1.202,
+      "P1": "True",
+      "rollup_net": 10358.15,
+      "router_net": 8617.78,
+      "market_net": 9753.42
+    },
+    {
+      "seed": 78,
+      "ratio": 1.2809,
+      "P1": "True",
+      "rollup_net": 10479.47,
+      "router_net": 8181.35,
+      "market_net": 9703.86
+    },
+    {
+      "seed": 79,
+      "ratio": 1.2812,
+      "P1": "True",
+      "rollup_net": 10551.78,
+      "router_net": 8235.99,
+      "market_net": 9802.28
+    },
+    {
+      "seed": 80,
+      "ratio": 1.1767,
+      "P1": "True",
+      "rollup_net": 10259.36,
+      "router_net": 8718.77,
+      "market_net": 9707.21
+    },
+    {
+      "seed": 81,
+      "ratio": 1.1716,
+      "P1": "True",
+      "rollup_net": 10278.79,
+      "router_net": 8773.25,
+      "market_net": 9659.94
+    },
+    {
+      "seed": 82,
+      "ratio": 1.2037,
+      "P1": "True",
+      "rollup_net": 10442.64,
+      "router_net": 8675.21,
+      "market_net": 9562.57
+    },
+    {
+      "seed": 83,
+      "ratio": 1.1563,
+      "P1": "True",
+      "rollup_net": 10095.2,
+      "router_net": 8730.94,
+      "market_net": 9626.81
+    },
+    {
+      "seed": 84,
+      "ratio": 1.246,
+      "P1": "True",
+      "rollup_net": 10273.36,
+      "router_net": 8245.24,
+      "market_net": 9621.74
+    },
+    {
+      "seed": 85,
+      "ratio": 1.3022,
+      "P1": "True",
+      "rollup_net": 10616.56,
+      "router_net": 8153.03,
+      "market_net": 9829.59
+    },
+    {
+      "seed": 86,
+      "ratio": 1.2211,
+      "P1": "True",
+      "rollup_net": 10454.54,
+      "router_net": 8561.49,
+      "market_net": 9593.19
+    },
+    {
+      "seed": 87,
+      "ratio": 1.2091,
+      "P1": "True",
+      "rollup_net": 10365.62,
+      "router_net": 8573.34,
+      "market_net": 9672.94
+    },
+    {
+      "seed": 88,
+      "ratio": 1.2472,
+      "P1": "True",
+      "rollup_net": 10288.42,
+      "router_net": 8249.26,
+      "market_net": 9491.94
+    },
+    {
+      "seed": 89,
+      "ratio": 1.2063,
+      "P1": "True",
+      "rollup_net": 10485.89,
+      "router_net": 8692.47,
+      "market_net": 9865.62
+    },
+    {
+      "seed": 90,
+      "ratio": 1.2067,
+      "P1": "True",
+      "rollup_net": 10583.51,
+      "router_net": 8770.77,
+      "market_net": 9916.2
+    },
+    {
+      "seed": 91,
+      "ratio": 1.2562,
+      "P1": "True",
+      "rollup_net": 10492.4,
+      "router_net": 8352.3,
+      "market_net": 9221.43
+    }
+  ],
+  "competing": [
+    {
+      "seed": 42,
+      "ratio": 0.2514,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2036.67,
+      "router_net": 8102.83
+    },
+    {
+      "seed": 43,
+      "ratio": 0.2582,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2090.08,
+      "router_net": 8095.08
+    },
+    {
+      "seed": 44,
+      "ratio": 0.2614,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2111.18,
+      "router_net": 8077.47
+    },
+    {
+      "seed": 45,
+      "ratio": 0.2535,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2020.84,
+      "router_net": 7972.11
+    },
+    {
+      "seed": 46,
+      "ratio": 0.2356,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1846.32,
+      "router_net": 7836.34
+    },
+    {
+      "seed": 47,
+      "ratio": 0.2381,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2015.51,
+      "router_net": 8466.62
+    },
+    {
+      "seed": 48,
+      "ratio": 0.2599,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2041.83,
+      "router_net": 7855.53
+    },
+    {
+      "seed": 49,
+      "ratio": 0.2288,
+      "rollup_nodes": 29,
+      "router_nodes": 77,
+      "market_nodes": 94,
+      "rollup_net": 1842.06,
+      "router_net": 8052.45
+    },
+    {
+      "seed": 50,
+      "ratio": 0.2488,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1992.05,
+      "router_net": 8005.1
+    },
+    {
+      "seed": 51,
+      "ratio": 0.2794,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2273.45,
+      "router_net": 8136.78
+    },
+    {
+      "seed": 52,
+      "ratio": 0.2493,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2004.12,
+      "router_net": 8037.7
+    },
+    {
+      "seed": 53,
+      "ratio": 0.2278,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1897.23,
+      "router_net": 8327.84
+    },
+    {
+      "seed": 54,
+      "ratio": 0.2508,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2029.34,
+      "router_net": 8092.43
+    },
+    {
+      "seed": 55,
+      "ratio": 0.233,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1889.73,
+      "router_net": 8109.75
+    },
+    {
+      "seed": 56,
+      "ratio": 0.2361,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1894.74,
+      "router_net": 8024.12
+    },
+    {
+      "seed": 57,
+      "ratio": 0.2583,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2125.29,
+      "router_net": 8226.66
+    },
+    {
+      "seed": 58,
+      "ratio": 0.2456,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2032.94,
+      "router_net": 8278.23
+    },
+    {
+      "seed": 59,
+      "ratio": 0.2388,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2012.77,
+      "router_net": 8428.08
+    },
+    {
+      "seed": 60,
+      "ratio": 0.241,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1845.74,
+      "router_net": 7659.34
+    },
+    {
+      "seed": 61,
+      "ratio": 0.2394,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1845.96,
+      "router_net": 7709.52
+    },
+    {
+      "seed": 62,
+      "ratio": 0.252,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2041.82,
+      "router_net": 8102.47
+    },
+    {
+      "seed": 63,
+      "ratio": 0.2255,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1982.59,
+      "router_net": 8791.03
+    },
+    {
+      "seed": 64,
+      "ratio": 0.2404,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2007.57,
+      "router_net": 8350.88
+    },
+    {
+      "seed": 65,
+      "ratio": 0.249,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1993.58,
+      "router_net": 8005.86
+    },
+    {
+      "seed": 66,
+      "ratio": 0.2536,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1912.03,
+      "router_net": 7538.37
+    },
+    {
+      "seed": 67,
+      "ratio": 0.2257,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1888.76,
+      "router_net": 8367.75
+    },
+    {
+      "seed": 68,
+      "ratio": 0.2181,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1724.76,
+      "router_net": 7909.59
+    },
+    {
+      "seed": 69,
+      "ratio": 0.243,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1981.93,
+      "router_net": 8155.09
+    },
+    {
+      "seed": 70,
+      "ratio": 0.2579,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2055.17,
+      "router_net": 7968.37
+    },
+    {
+      "seed": 71,
+      "ratio": 0.2692,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2081.78,
+      "router_net": 7733.36
+    },
+    {
+      "seed": 72,
+      "ratio": 0.2604,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2080.19,
+      "router_net": 7987.17
+    },
+    {
+      "seed": 73,
+      "ratio": 0.2646,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2057.66,
+      "router_net": 7775.67
+    },
+    {
+      "seed": 74,
+      "ratio": 0.233,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1939.44,
+      "router_net": 8324.58
+    },
+    {
+      "seed": 75,
+      "ratio": 0.2631,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2075.58,
+      "router_net": 7888.63
+    },
+    {
+      "seed": 76,
+      "ratio": 0.2212,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1792.96,
+      "router_net": 8104.09
+    },
+    {
+      "seed": 77,
+      "ratio": 0.2364,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1987.5,
+      "router_net": 8407.99
+    },
+    {
+      "seed": 78,
+      "ratio": 0.2333,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1972.1,
+      "router_net": 8453.37
+    },
+    {
+      "seed": 79,
+      "ratio": 0.251,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2048.37,
+      "router_net": 8162.46
+    },
+    {
+      "seed": 80,
+      "ratio": 0.2423,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1977.3,
+      "router_net": 8159.86
+    },
+    {
+      "seed": 81,
+      "ratio": 0.2456,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1989.86,
+      "router_net": 8102.44
+    },
+    {
+      "seed": 82,
+      "ratio": 0.2407,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1926.85,
+      "router_net": 8004.39
+    },
+    {
+      "seed": 83,
+      "ratio": 0.2634,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2120.79,
+      "router_net": 8051.85
+    },
+    {
+      "seed": 84,
+      "ratio": 0.2589,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2123.32,
+      "router_net": 8201.88
+    },
+    {
+      "seed": 85,
+      "ratio": 0.2621,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2165.67,
+      "router_net": 8261.76
+    },
+    {
+      "seed": 86,
+      "ratio": 0.238,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2001.12,
+      "router_net": 8408.24
+    },
+    {
+      "seed": 87,
+      "ratio": 0.2268,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1942.22,
+      "router_net": 8562.96
+    },
+    {
+      "seed": 88,
+      "ratio": 0.2325,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1913.08,
+      "router_net": 8229.01
+    },
+    {
+      "seed": 89,
+      "ratio": 0.2491,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 2048.44,
+      "router_net": 8223.67
+    },
+    {
+      "seed": 90,
+      "ratio": 0.2129,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1806.02,
+      "router_net": 8482.27
+    },
+    {
+      "seed": 91,
+      "ratio": 0.2284,
+      "rollup_nodes": 29,
+      "router_nodes": 76,
+      "market_nodes": 95,
+      "rollup_net": 1848.83,
+      "router_net": 8094.4
+    }
+  ]
+}
