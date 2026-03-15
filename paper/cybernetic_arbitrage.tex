@@ -307,16 +307,20 @@ z'_{ij} = \underbrace{\beta_0'}_{\text{threshold}} + \underbrace{\beta_1' \cdot 
 
 The actuator term captures the degree to which matched coordination intent translates to execution:
 
+The actuator term captures how much of the matched coordination intent translates to actual execution:
+
 \begin{equation}
-\hat{a}_{ij} = \mu_{ij} \cdot \frac{a_i + a_j}{2}
+\hat{a}_{ij} = \underbrace{\mu_{ij}}_{\substack{\text{regime} \\ \text{control}}} \cdot \underbrace{\frac{a_i + a_j}{2}}_{\substack{\text{node} \\ \text{capability}}}
 \end{equation}
 
-\noindent where $\mu_{ij}$ is the regime-specific actuator multiplier. Higher actuator access reduces execution loss:
+\noindent where $\mu_{ij}$ is the regime-specific actuator multiplier (1.0 for rollup-internal, 0.5 for everyone else) and $a_i, a_j$ are the nodes' intrinsic operational capability. Higher actuator access reduces execution loss:
 
 \begin{equation}
 \label{eq:execloss}
-X_{ij} = \lambda_E \cdot \epsilon_{ij} \cdot \frac{\xi_i + \omega_j}{2} \cdot (1 - \hat{a}_{ij})
+X_{ij} = \underbrace{\lambda_E}_{\text{scale}} \cdot \underbrace{\epsilon_{ij}}_{\substack{\text{edge} \\ \text{risk}}} \cdot \underbrace{\frac{\xi_i + \omega_j}{2}}_{\substack{\text{operational} \\ \text{fragility}}} \cdot \underbrace{(1 - \hat{a}_{ij})}_{\substack{\text{control} \\ \text{gap}}}
 \end{equation}
+
+\noindent Execution loss is the product of four factors: $\lambda_E$ scales the overall magnitude; \textbf{edge risk} $\epsilon_{ij}$ is the baseline probability of poor execution on this coordination relationship; \textbf{operational fragility} averages node $i$'s exception rate $\xi_i$ (how often non-standard cases arise) and node $j$'s quality risk $\omega_j$ (probability of operational failure); and the \textbf{control gap} $(1 - \hat{a}_{ij})$ means that higher actuator access directly reduces execution loss---an owner who can mandate process changes ($\hat{a} \approx 1$) loses almost nothing to execution failure, while a market participant who can only suggest ($\hat{a} \approx 0.25$) suffers the full risk.
 
 \subsubsection{Net Surplus}
 
