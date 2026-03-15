@@ -421,12 +421,12 @@ q^{t+1} = \underbrace{q^t}_{\substack{\text{current} \\ \text{knowledge}}} + \un
 \begin{equation}
 \sigma_q = \begin{cases}
 \sigma_{\text{market}} = 0.3 & \text{market (price/quantity outcomes only)} \\[4pt]
-\sigma_{\text{router}} + \frac{b_R \cdot \ln(1 + |\mathcal{E}^t_R|)}{10} & \text{router (platform data + aggregate breadth)} \\[4pt]
+\sigma_{\text{router}} + \frac{b_R \cdot \ln(1 + n_R^t)}{10} & \text{router (platform data + aggregate breadth)} \\[4pt]
 \frac{n_{\text{own}} \cdot \sigma_{\text{own}} + n_{\text{ext}} \cdot \sigma_{\text{market}}}{n_{\text{own}} + n_{\text{ext}}} & \text{rollup (weighted by interaction type)}
 \end{cases}
 \end{equation}
 
-\noindent where $\sigma_{\text{own}} = 0.9$ (full internal outcome observability for owned pairs), $\sigma_{\text{router}} = 0.5$ (platform sees richer outcomes), $b_R = 1.0$ (router aggregate breadth), and $|\mathcal{E}^t_R|$ is the number of coordination events the router observes. The router's structural advantage is \textit{breadth}: it learns from all client interactions simultaneously, analogous to how Stripe learns from all merchant transactions. The rollup's advantage is \textit{depth}: it observes full internal outcomes for owned pairs.
+\noindent where $\sigma_{\text{own}} = 0.9$ (full internal outcome observability for owned pairs), $\sigma_{\text{router}} = 0.5$ (platform sees richer outcomes), $b_R = 1.0$ (router aggregate breadth), and $n_R^t$ is the number of coordination events the router facilitated in period $t$ (more client transactions means a richer aggregate learning signal). The router's structural advantage is \textit{breadth}: it learns from all client interactions simultaneously, analogous to how Stripe learns from all merchant transactions. The rollup's advantage is \textit{depth}: it observes full internal outcomes for owned pairs.
 
 The transfer bonus $\tau_{\text{transfer}}$ is available only to the rollup:
 
