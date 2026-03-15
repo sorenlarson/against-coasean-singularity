@@ -572,7 +572,11 @@ Proposition~\ref{prop:super} is important because it addresses the critique that
 \section{Computational Results}
 %=============================================================================
 
-We implement the model as a discrete-time simulation over a directed graph with $N = 30$ nodes, $K = 5$ verticals, edge density 0.15, and $T = 50$ time steps. Node and edge parameters are drawn from uniform distributions. In the parallel-world comparison, each institutional form is run independently over the same graph---the three regimes never interact, so performance differences are attributable to institutional form alone (see Remark~1). All results are deterministic given a fixed random seed. Section~\ref{sec:competing} presents a competing-world extension where the three forms coexist and acquisitions directly transfer nodes between regimes.
+We implement the model as a discrete-time simulation over a directed graph with $N = 30$ nodes, $K = 5$ verticals, edge density 0.15, and $T = 50$ time steps. Node and edge parameters are drawn from uniform distributions. All results are deterministic given a fixed random seed.
+
+We evaluate the model in two modes. In the \textbf{parallel-world comparison}, we run three separate simulations on the same graph---one where every node coordinates through the market (no firms, just agents), one where every node coordinates through the router (a single platform serves all clients), and one where a rollup owns some nodes and the rest coordinate at arm's length. The three worlds never interact: the router does not lose clients when the rollup acquires nodes, because they exist in separate realities. Each world answers: ``if this were the \textit{only} institutional form available, how much surplus would the economy generate?'' This is useful for \textit{attribution}---isolating which channels create the structural advantage---because performance differences can only come from the institutional form, not from competitive dynamics.
+
+In the \textbf{competing-world simulation} (Section~\ref{sec:competing}), all three forms coexist in a single economy. The rollup starts with 3 nodes, the router serves $\sim$14 clients, and the rest are market participants. Each time step, the rollup acquires one node---and that node \textit{actually leaves} the router's client base. This is useful for \textit{dynamics}---showing what happens when the structural advantage compounds through competition.
 
 \subsection{Simulation Loop}
 
