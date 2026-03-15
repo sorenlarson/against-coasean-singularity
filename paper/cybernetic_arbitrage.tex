@@ -469,16 +469,18 @@ This ensures the rollup must generate enough coordination surplus to justify the
 
 When the rollup absorbs a node, it withdraws that node's operational context from the external information pool. This is not a portfolio-level penalty but a \textit{microstructure-level} degradation: external coordinators see noisy versions of the absorbed node's demand and capacity profiles, because the rollup has internalized the information that was previously observable.
 
-Formally, when a non-rollup regime computes context fit $\phi_{ij}$ with a node $j$ in a partially-absorbed vertical, it observes a degraded capacity profile:
+Formally, when a non-rollup regime tries to assess how well node $j$'s capacity matches node $i$'s demand, it does not see node $j$'s true capacity profile $\mathbf{c}_j$. It sees a noisy version:
 
 \begin{equation}
 \label{eq:foreclosure}
-\tilde{\mathbf{c}}_j = \mathbf{c}_j + \boldsymbol{\varepsilon}, \quad \boldsymbol{\varepsilon} \sim \mathcal{N}\!\left(0, \sigma_{\text{fc}}^2 \cdot \frac{|\{k \in \mathcal{O}^t : v_k = v_j\}|}{|\{k \in \mathcal{V} : v_k = v_j\}|} \cdot \mathbf{I}\right)
+\underbrace{\tilde{\mathbf{c}}_j}_{\substack{\text{degraded} \\ \text{profile}}} = \underbrace{\mathbf{c}_j}_{\substack{\text{true} \\ \text{capacity}}} + \underbrace{\boldsymbol{\varepsilon}}_{\text{noise}}, \quad \boldsymbol{\varepsilon} \sim \mathcal{N}\!\left(0,\; \sigma_{\text{fc}}^2 \cdot \underbrace{\frac{|\{k \in \mathcal{O}^t : v_k = v_j\}|}{|\{k \in \mathcal{V} : v_k = v_j\}|}}_{\substack{\text{fraction of vertical} \\ \text{absorbed by rollup}}} \cdot \mathbf{I}\right)
 \end{equation}
 
-The noise standard deviation scales with the fraction of the vertical that has been absorbed. At low ownership, the degradation is negligible; at high ownership, external coordinators are essentially guessing at the counterparty's operational state. This directly reduces the context fit $\tilde{\phi}_{ij}$ entering the match quality function (\ref{eq:match}), which lowers both the optimal revelation level (through the revelation-leakage tradeoff) and the resulting surplus.
+\noindent The noise scales with how much of node $j$'s vertical the rollup has absorbed. If the rollup owns 0 of 6 healthcare nodes, external coordinators see healthcare capacity profiles clearly (noise $\approx 0$). If the rollup owns 4 of 6, the remaining nodes' profiles are heavily obscured.
 
-The mechanism is microfounded: absorbed nodes' demand signals, capacity states, and quality data are no longer available to external coordinators because they flow through internal channels. The rollup sees the true $\mathbf{c}_j$; external coordinators see $\tilde{\mathbf{c}}_j$. This information asymmetry is a direct consequence of ownership, not an imposed penalty.
+Why does absorbing \textit{other} nodes in the vertical degrade visibility of \textit{this} node? Because operational context is partly relational---understanding a node's capacity depends on knowing the broader vertical's state. When peer institutions are absorbed, external coordinators lose the reference points they used to benchmark capacity, demand patterns, and quality norms. The market's collective information about the vertical degrades as more of it goes private.
+
+The degraded $\tilde{\mathbf{c}}_j$ enters the context fit computation ($\tilde{\phi}_{ij}$, cosine similarity between demand and capacity), producing a noisier match quality estimate. This leads to worse counterparty selection and lower surplus for external coordinators. The rollup sees the true $\mathbf{c}_j$; everyone else sees $\tilde{\mathbf{c}}_j$. This information asymmetry is a direct consequence of ownership, not an imposed penalty.
 
 \subsubsection{Acquisition Dynamics}
 
