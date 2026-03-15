@@ -593,6 +593,8 @@ Nodes owned & 0 & 0 & 12 \\
 \end{tabular}
 \end{table}
 
+Surplus is measured in arbitrary units (the sum of $\Pi_{ij}$ across all coordination events); absolute levels are meaningful only in cross-regime comparison on the same graph. Total coordinations is the count of events where a node found a counterparty with positive net surplus. Match quality and leakage cost are per-event averages, both unitless (sigmoid output and leakage formula output respectively). Policy quality is the learned scalar $q^t \in [0,1]$.
+
 On the baseline seed, the rollup generates 35\% higher net surplus than the router after deducting ownership costs. The router's average leakage (0.757) is \textit{three times} the market's (0.252), despite the router's lower nominal visibility (0.85 vs.\ 1.0). This inversion is driven by router learning leakage: the platform's systematic extraction of operational intelligence from its clients imposes a cost that exceeds the market's passive information exposure. Over 10 random graph realizations (seeds 42--51), the mean rollup/router ratio is \textbf{1.23} (std.\ 0.052), with the rollup generating higher net surplus in 10 of 10 seeds.
 
 \subsection{Channel Decomposition}
