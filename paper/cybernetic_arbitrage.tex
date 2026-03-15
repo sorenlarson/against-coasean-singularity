@@ -216,12 +216,17 @@ Ownership cost & 0 & 0 & $c_{\text{overhead}} \cdot |\mathcal{O}^t| + \sum f_j^t
 \end{tabular}
 
 \vspace{4pt}
+\begin{spacing}{1.0}
 {\small
 \textsuperscript{a}Signal quality determines how much of a coordination outcome's information content each regime can observe, modulating the effective learning rate.
+
 \textsuperscript{b}The router's signal quality includes a breadth bonus from observing all client interactions: $0.5 + \ln(1 + |\mathcal{E}^t_R|)/10$, reflecting how platforms like Stripe learn from aggregate transaction patterns.
+
 \textsuperscript{c}The rollup's signal quality is a weighted average of internal ($\sigma_{\text{own}} = 0.9$, full outcome observability) and external ($\sigma_{\text{mkt}} = 0.3$, price/quantity only), weighted by the fraction of events in each category.
+
 \textsuperscript{d}Transfer bonus: cross-vertical learning available only to the rollup. Proportional to the number of distinct verticals represented in the owned portfolio ($|\{v_k\}|$) divided by total verticals ($K$). A rollup owning logistics and healthcare nodes learns faster than one concentrated in a single vertical, because operational patterns transfer across domains.
 }
+\end{spacing}
 \end{table}
 
 The parameter values reflect the structural properties of each institutional form. The router's interaction mode ($\iota = 0.6$) is higher than the rollup's external interactions ($\iota = 0.2$) because the router is a \textit{relationship platform}: it provides a standardized, repeated interface to all its clients (onboarding, account management, API integration), which is more conducive to trust generation than arm's-length market transactions. The rollup achieves $\iota = 1.0$ on owned pairs through structural alignment (shared owner, integrated systems), but when a subsidiary deals with an unowned company, there is no platform mediating the relationship---it is a standard market transaction. This asymmetry is why the Shapley decomposition shows trust favoring the router: the router builds moderate trust broadly, while the rollup builds deep trust narrowly.
