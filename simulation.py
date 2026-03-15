@@ -132,13 +132,11 @@ class SimulationSettings:
     integration_decay: float = 0.8         # how fast integration friction dissipates per step
 
     # Context foreclosure — microfounded mechanism:
-    # When a node is owned by the rollup, its operational context (demand/capacity
-    # profiles) becomes private. External coordinators see a DEGRADED version —
-    # noise is added proportional to how much of the vertical has been absorbed.
-    # This directly models "the rollup has withdrawn this node's information from
-    # the external pool." NOT a blanket penalty — it degrades the context_fit
-    # computation at the microstructure level.
-    foreclosure_noise_scale: float = 0.4  # max noise std added to context vectors
+    # When a node is owned by the rollup, external coordinators lose node-specific
+    # information. They see capacity profiles blended toward the vertical mean —
+    # retaining industry-level info but losing the specific detail that makes
+    # coordination valuable. Blend fraction scales with vertical absorption.
+    foreclosure_blend_scale: float = 0.4  # max blend toward vertical mean
 
     # Execution loss
     lambda_E: float = 0.3
@@ -380,45 +378,55 @@ def compute_execution_loss(
     return settings.lambda_E * edge.exec_risk * risk_factor * (1.0 - actuator_term)
 
 
-def get_foreclosure_noise(
+def get_foreclosure_blend(
     node_j: NodeState,
     owned_set: set,
     economy: "GraphEconomy",
     settings: SimulationSettings,
 ) -> float:
-    """Compute noise level for context foreclosure.
+    """Compute foreclosure blend fraction.
 
-    When the rollup owns nodes in a vertical, it withdraws their operational
-    context from the external information pool. External coordinators see
-    degraded demand/capacity profiles for nodes in partially-absorbed verticals.
-    Returns the noise standard deviation to add to context vectors.
+    When the rollup owns nodes in a vertical, external coordinators lose
+    node-specific information. Instead of seeing node j's true capacity
+    profile, they see a blend toward the vertical mean — retaining
+    industry-level information but losing the node-specific detail that
+    makes coordination valuable. The blend fraction scales with how much
+    of the vertical has been absorbed.
     """
     vertical = node_j.vertical
     total_in_vertical = sum(1 for n in economy.nodes.values() if n.vertical == vertical)
     owned_in_vertical = sum(1 for nid in owned_set if economy.nodes[nid].vertical == vertical)
     frac = owned_in_vertical / max(1, total_in_vertical)
-    return settings.foreclosure_noise_scale * frac
+    return settings.foreclosure_blend_scale * frac
 
 
 def compute_context_fit_with_foreclosure(
     node_i: NodeState,
     node_j: NodeState,
-    noise_std: float,
-    rng: np.random.Generator,
+    blend_frac: float,
+    economy: "GraphEconomy",
 ) -> float:
     """Context fit with foreclosure-degraded profiles.
 
-    When external coordinators interact with nodes in absorbed verticals,
-    they see noisy versions of the counterparty's context vectors. This
-    directly degrades match quality at the microstructure level — not as
-    a portfolio-level penalty but through the information channel itself.
+    External coordinators see a partially hidden version of node j's
+    capacity profile: a blend between the true profile and the vertical
+    mean. At low ownership, the blend is minimal (nearly true profile).
+    At high ownership, the profile is mostly the vertical average —
+    the coordinator knows the industry but not the specific node.
+    This directionally degrades context fit because the vertical mean
+    has lower cosine similarity with any specific demand profile than
+    the true capacity profile does.
     """
     d = node_i.demand_profile
     c = node_j.capacity_profile
-    if noise_std > 0:
-        # External coordinator sees noisy version of counterparty's capacity
-        c = c + rng.normal(0, noise_std, size=len(c))
-        c = np.clip(c, 0, 1)
+    if blend_frac > 0:
+        # Compute vertical mean capacity
+        vertical = node_j.vertical
+        vertical_caps = [economy.nodes[n].capacity_profile
+                        for n in economy.nodes if economy.nodes[n].vertical == vertical]
+        vertical_mean = np.mean(vertical_caps, axis=0)
+        # Blend toward vertical mean: external sees less node-specific info
+        c = (1 - blend_frac) * c + blend_frac * vertical_mean
     norm_d = np.linalg.norm(d)
     norm_c = np.linalg.norm(c)
     if norm_d < 1e-10 or norm_c < 1e-10:
@@ -749,29 +757,28 @@ class InstitutionalRegime:
             trust_ij = self.trust[src, dst]
             both_owned = (src in self.owned and dst in self.owned)
 
-            # Context foreclosure: external coordinators see degraded context
-            # for nodes in absorbed verticals. This affects the revelation
-            # optimization through degraded context_fit, not as a penalty.
+            # Context foreclosure: external coordinators see partially hidden
+            # capacity profiles — blended toward the vertical mean.
             rollup_owned = getattr(s, '_rollup_owned_set', set())
             if not both_owned and self.regime_type != RegimeType.ROLLUP and rollup_owned:
-                noise = get_foreclosure_noise(node_j, rollup_owned, eco, s)
+                blend = get_foreclosure_blend(node_j, rollup_owned, eco, s)
             else:
-                noise = 0.0
+                blend = 0.0
 
             rev, surplus = choose_optimal_revelation(
                 node_i, node_j, edge, trust_ij,
                 interaction, visibility, act_mult,
                 self.policy_quality, self.leak_stocks[src], s,
                 context_fit_override=compute_context_fit_with_foreclosure(
-                    node_i, node_j, noise, self.rng) if noise > 0 else None,
+                    node_i, node_j, blend, eco) if blend > 0 else None,
                 is_router=(self.regime_type == RegimeType.ROUTER),
             )
 
             if surplus > best_surplus:
                 # Recompute components for the event record
-                if noise > 0:
+                if blend > 0:
                     context_fit = compute_context_fit_with_foreclosure(
-                        node_i, node_j, noise, self.rng)
+                        node_i, node_j, blend, eco)
                 else:
                     context_fit = compute_context_fit(node_i, node_j)
                 comp = edge.complementarity if s.complementarity_on else 0.0

@@ -477,14 +477,14 @@ Formally, when a non-rollup regime tries to assess how well node $j$'s capacity 
 
 \begin{equation}
 \label{eq:foreclosure}
-\underbrace{\tilde{\mathbf{c}}_j}_{\substack{\text{degraded} \\ \text{profile}}} = \underbrace{\mathbf{c}_j}_{\substack{\text{true} \\ \text{capacity}}} + \underbrace{\boldsymbol{\varepsilon}}_{\text{noise}}, \quad \boldsymbol{\varepsilon} \sim \mathcal{N}\!\left(0,\; \sigma_{\text{fc}}^2 \cdot \underbrace{\frac{|\{k \in \mathcal{O}^t : v_k = v_j\}|}{|\{k \in \mathcal{V} : v_k = v_j\}|}}_{\substack{\text{fraction of vertical} \\ \text{absorbed by rollup}}} \cdot \mathbf{I}\right)
+\underbrace{\tilde{\mathbf{c}}_j}_{\substack{\text{partially} \\ \text{hidden}}} = (1 - \underbrace{f}_{\substack{\text{blend} \\ \text{frac}}}) \cdot \underbrace{\mathbf{c}_j}_{\substack{\text{true} \\ \text{capacity}}} + \underbrace{f}_{\substack{\text{blend} \\ \text{frac}}} \cdot \underbrace{\bar{\mathbf{c}}_{v_j}}_{\substack{\text{vertical} \\ \text{mean}}}, \quad f = \sigma_{\text{fc}} \cdot \underbrace{\frac{|\{k \in \mathcal{O}^t : v_k = v_j\}|}{|\{k \in \mathcal{V} : v_k = v_j\}|}}_{\substack{\text{fraction of vertical} \\ \text{absorbed by rollup}}}
 \end{equation}
 
-\noindent The noise scales with how much of node $j$'s vertical the rollup has absorbed. If the rollup owns 0 of 6 healthcare nodes, external coordinators see healthcare capacity profiles clearly (noise $\approx 0$). If the rollup owns 4 of 6, the remaining nodes' profiles are heavily obscured.
+\noindent The blend fraction $f$ scales with how much of node $j$'s vertical the rollup has absorbed ($\sigma_{\text{fc}} = 0.4$). If the rollup owns 0 of 6 healthcare nodes, external coordinators see true capacity profiles ($f = 0$). If the rollup owns 4 of 6, they see profiles two-thirds blended toward the healthcare average ($f = 0.4 \times 4/6 \approx 0.27$)---they know the industry but not the specific node.
 
-Why does absorbing \textit{other} nodes in the vertical degrade visibility of \textit{this} node? Because operational context is partly relational---understanding a node's capacity depends on knowing the broader vertical's state. When peer institutions are absorbed, external coordinators lose the reference points they used to benchmark capacity, demand patterns, and quality norms. The market's collective information about the vertical degrades as more of it goes private.
+Why does absorbing \textit{other} nodes in the vertical degrade visibility of \textit{this} node? Because operational context is partly relational---understanding a node's capacity depends on knowing the broader vertical's state. When peer institutions are absorbed, external coordinators lose the reference points they used to benchmark capacity, demand patterns, and quality norms.
 
-The degraded $\tilde{\mathbf{c}}_j$ enters the context fit computation ($\tilde{\phi}_{ij}$, cosine similarity between demand and capacity), producing a noisier match quality estimate. This leads to worse counterparty selection and lower surplus for external coordinators. The rollup sees the true $\mathbf{c}_j$; everyone else sees $\tilde{\mathbf{c}}_j$. This information asymmetry is a direct consequence of ownership, not an imposed penalty.
+The partially hidden $\tilde{\mathbf{c}}_j$ enters the context fit computation, producing a less informative match quality estimate. The rollup sees the true $\mathbf{c}_j$; everyone else sees $\tilde{\mathbf{c}}_j$. However, the Shapley decomposition (Table~\ref{tab:shapley}) shows this channel contributes negligibly to the rollup advantage: the per-interaction channels (router learning leakage, cross-node learning, leakage protection) dominate. Foreclosure is theoretically motivated but empirically small under the current calibration.
 
 \subsubsection{Acquisition Dynamics}
 
@@ -631,27 +631,27 @@ To identify which channels drive the rollup advantage, we conduct ablation exper
 \toprule
 Channel & Description & Shapley Value \\
 \midrule
-Router learning leakage & Platform extracts/redistributes client data & $+0.207 \pm 0.014$ \\
-Cross-node learning & Richer signal quality under ownership & $+0.065 \pm 0.011$ \\
-Leakage protection & Lower information exposure for rollup & $+0.039 \pm 0.018$ \\
+Router learning leakage & Platform extracts/redistributes client data & $+0.208 \pm 0.009$ \\
+Cross-node learning & Richer signal quality under ownership & $+0.067 \pm 0.011$ \\
+Leakage protection & Lower information exposure for rollup & $+0.052 \pm 0.009$ \\
 Actuator access & Rollup internal control advantage & $+0.005 \pm 0.002$ \\
-Trust-generated context & Negligible & $+0.002 \pm 0.017$ \\
-Context foreclosure & Noisy; graph-dependent & $-0.058 \pm 0.055$ \\
+Context foreclosure & Negligible under current calibration & $-0.004 \pm 0.001$ \\
+Trust-generated context & Slightly favors the router & $-0.011 \pm 0.006$ \\
 \midrule
-\textbf{Total effect} & & $\mathbf{\sim +0.26}$ \\
+\textbf{Total effect} & & $\mathbf{\sim +0.32}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Unlike pure ablation (removing one channel at a time), Shapley values compute each channel's marginal contribution averaged over all possible orderings of channel addition, properly accounting for interaction effects. The contributions sum exactly to the total difference between all-channels-on and all-channels-off.
 
-\textbf{Router learning leakage is the dominant channel} ($+0.207 \pm 0.014$), robust across all 5 seeds with the tightest standard deviation of any channel. If the router learning leakage hypothesis holds, it is the single largest driver of ownership advantage.
+\textbf{Router learning leakage is the dominant channel} ($+0.208 \pm 0.009$), robust across all 5 seeds with the tightest standard deviation of any channel. If the router learning leakage hypothesis holds, it is the single largest driver of ownership advantage---accounting for roughly 65\% of the total effect.
 
-\textbf{Cross-node learning} ($+0.065 \pm 0.011$) and \textbf{leakage protection} ($+0.039 \pm 0.018$) are stable secondary channels. Together with router learning leakage, these three account for the bulk of the rollup's advantage.
+\textbf{Cross-node learning} ($+0.067 \pm 0.011$) and \textbf{leakage protection} ($+0.052 \pm 0.009$) are stable secondary channels. Together with router learning leakage, these three per-interaction channels account for over 100\% of the total effect (the remaining channels are near zero or slightly negative).
 
-\textbf{Context foreclosure is unstable} ($-0.058 \pm 0.055$). It was positive in one seed but negative in four---the noise added to external coordinators' context profiles can unpredictably help or hurt the rollup depending on graph topology. This channel, despite its microfounded motivation, does not reliably contribute to the rollup advantage in the current implementation.
+\textbf{Context foreclosure is negligible} ($-0.004 \pm 0.001$). Despite its theoretical motivation---absorbing nodes should degrade competitors' information---the effect is small because the degraded context fit (one of seven inputs to the match quality sigmoid) produces only a tiny change in surplus per event. Per-interaction channels (router leakage, learning, leakage protection) dominate portfolio-level context degradation.
 
-\textbf{Trust and actuator are negligible.} The rollup wins through information channels (router leakage, cross-node learning, leakage protection) that the classical theory of the firm does not model.
+\textbf{Trust slightly favors the router} ($-0.011 \pm 0.006$); \textbf{actuator is negligible} ($+0.005$). The rollup wins through information channels that the classical theory of the firm does not model.
 
 \begin{figure}[H]
 \centering

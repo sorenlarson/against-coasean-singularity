@@ -169,7 +169,7 @@ def run_shapley_decomposition(base: SimulationSettings) -> Dict:
         "leakage": {"leakage_on": True},
         "trust": {"trust_generated_context_on": True},
         "actuator": {"actuator_access_on": True},
-        "foreclosure": {"foreclosure_noise_scale": 0.4},
+        "foreclosure": {"foreclosure_blend_scale": 0.4},
         "router_leak": {"router_learning_leakage": 0.15},
     }
     off_values = {
@@ -177,7 +177,7 @@ def run_shapley_decomposition(base: SimulationSettings) -> Dict:
         "leakage": {"leakage_on": False},
         "trust": {"trust_generated_context_on": False},
         "actuator": {"actuator_access_on": False},
-        "foreclosure": {"foreclosure_noise_scale": 0.0},
+        "foreclosure": {"foreclosure_blend_scale": 0.0},
         "router_leak": {"router_learning_leakage": 0.0},
     }
 
