@@ -487,10 +487,16 @@ The degraded $\tilde{\mathbf{c}}_j$ enters the context fit computation ($\tilde{
 The rollup acquires one node every $\Delta_A$ periods, selecting the node with highest expected marginal value:
 
 \begin{equation}
-j^* = \arg\max_{j \notin \mathcal{O}^t} \text{EMV}(j) = c_1 \cdot \text{adj}(j) + c_2 \cdot \bar{\kappa}_j + c_3 \cdot \alpha_j + c_4 \cdot a_j
+j^* = \arg\max_{j \notin \mathcal{O}^t} \underbrace{c_1 \cdot \text{adj}(j)}_{\text{adjacency}} + \underbrace{c_2 \cdot \bar{\kappa}_j}_{\text{complementarity}} + \underbrace{c_3 \cdot \alpha_j}_{\text{info value}} + \underbrace{c_4 \cdot a_j}_{\text{actuator}}
 \end{equation}
 
-\noindent where $\text{adj}(j)$ is the fraction of $j$'s neighbors already owned, $\bar{\kappa}_j$ is the mean complementarity of edges to owned neighbors, and $\alpha_j$ and $a_j$ are the node's hidden alpha and actuator strength.
+\noindent The rollup scores each unowned node on four criteria, weighted by coefficients $c_1$ through $c_4$:
+\begin{itemize}[leftmargin=*]
+\item $c_1 \cdot \text{adj}(j)$ --- \textbf{adjacency}: what fraction of $j$'s neighbors are already owned? Acquiring nodes adjacent to existing holdings creates more internal coordination pairs
+\item $c_2 \cdot \bar{\kappa}_j$ --- \textbf{complementarity}: average synergy of $j$'s edges with owned neighbors (only active when $\beta_5 > 0$)
+\item $c_3 \cdot \alpha_j$ --- \textbf{information value}: how much private context does $j$ have? High-alpha nodes are more valuable to own because they generate richer learning signals and their context is more costly to leak
+\item $c_4 \cdot a_j$ --- \textbf{actuator strength}: how operationally capable is $j$? Nodes with strong actuators benefit more from the rollup's full control ($\mu = 1.0$)
+\end{itemize}
 
 %=============================================================================
 \section{Theoretical Analysis}
