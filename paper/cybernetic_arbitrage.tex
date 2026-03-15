@@ -297,10 +297,10 @@ Trust-generated context is $\hat{\tau}_{ij} = \sigma(z'_{ij}) \cdot \alpha_i$, w
 
 \begin{equation}
 \label{eq:trust}
-z'_{ij} = \underbrace{\beta_0'}_{\text{threshold}} + \underbrace{\beta_1' \cdot T_{ij}}_{\text{pairwise trust}} + \underbrace{\beta_2' \cdot \iota_{ij}}_{\text{interaction mode}} + \underbrace{\beta_3' \cdot (1 - \tau_{ij})}_{\text{edge accessibility}} + \underbrace{\beta_4' \cdot \alpha_i}_{\text{info available}}
+z'_{ij} = \underbrace{\beta_0'}_{\text{threshold}} + \underbrace{\beta_1' \cdot T_{ij}^t}_{\text{pairwise trust}} + \underbrace{\beta_2' \cdot \iota_{ij}}_{\text{interaction mode}} + \underbrace{\beta_3' \cdot (1 - \tau_{ij})}_{\text{edge accessibility}} + \underbrace{\beta_4' \cdot \alpha_i}_{\text{info available}}
 \end{equation}
 
-\noindent \textbf{Pairwise trust} $T_{ij} \in [0,1]$ evolves dynamically with successful coordination---repeated positive interactions build trust. \textbf{Interaction mode} $\iota_{ij}$ captures the quality of the relationship channel (owned pairs share daily standups; platform clients interact through a standardized interface; market counterparties are strangers). \textbf{Edge accessibility} $(1 - \tau_{ij})$ means edges with low trust requirements surface context more easily. \textbf{Info available} $\alpha_i$ reflects how much trust-sensitive context the node has to offer. The final multiplication by $\alpha_i$ ensures that trust-generated context is proportional to the information actually available---a node with nothing to share generates no trust context regardless of how trusted the interaction is.
+\noindent \textbf{Pairwise trust} $T_{ij}^t \in [0,1]$ evolves over time with successful coordination---repeated positive interactions build trust. \textbf{Interaction mode} $\iota_{ij}$ captures the quality of the relationship channel (owned pairs share daily standups; platform clients interact through a standardized interface; market counterparties are strangers). \textbf{Edge accessibility} $(1 - \tau_{ij})$ means edges with low trust requirements surface context more easily. \textbf{Info available} $\alpha_i$ reflects how much trust-sensitive context the node has to offer. The final multiplication by $\alpha_i$ ensures that trust-generated context is proportional to the information actually available---a node with nothing to share generates no trust context regardless of how trusted the interaction is.
 
 \subsubsection{Actuator Access}
 \label{sec:actuator}
