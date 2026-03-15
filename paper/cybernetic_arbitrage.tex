@@ -434,7 +434,7 @@ The transfer bonus $\tau_{\text{transfer}}$ is available only to the rollup:
 \tau_{\text{transfer}} = \tau \cdot \frac{|\{v_k : k \in \mathcal{O}^t\}|}{K}
 \end{equation}
 
-\noindent proportional to vertical diversity. This is not an assumed advantage but a consequence of being able to observe outcomes at nodes in different domains---an impossibility for the market or router, which lack internal access to node operations.
+\noindent proportional to vertical diversity. A platform like Stripe does observe transactions across verticals and can transfer surface patterns (fraud signatures, churn signals) --- this cross-vertical learning is already partially captured by the router's breadth bonus. The transfer bonus represents a deeper form of cross-vertical learning: operational patterns (exception handling, capacity planning, process design) that require full internal access to identify and apply. A router knows \textit{that} a client churned; an owner knows \textit{why} and can apply the fix to a subsidiary in a different vertical with the same operational friction. The model draws the line at this depth distinction: breadth-based cross-vertical learning accrues to the router, depth-based operational transfer accrues to the rollup.
 
 The router has an explicit trust-building investment mechanism with diminishing returns:
 
