@@ -262,32 +262,32 @@ The logarithmic form $\ln(1 + b_r \cdot r)$ ensures diminishing returns to revel
 \subsubsection{Information Leakage}
 \label{sec:leakage}
 
-Revelation creates leakage that is convex in the amount revealed and linear in market visibility:
+Revelation creates leakage governed by a scale parameter $\lambda_L = 0.8$ and a convexity exponent $\gamma = 1.5$ (leaking a lot is disproportionately more costly than leaking a little):
 
 \begin{equation}
 \label{eq:leakage}
-L_{ij}(r) = \lambda_L \cdot r^{\gamma} \cdot \ell_{ij} \cdot \alpha_i \cdot \nu_{ij}
+L_{ij}(r) = \underbrace{\lambda_L}_{\text{scale}} \cdot \underbrace{r^{\gamma}}_{\substack{\text{convex in} \\ \text{revelation}}} \cdot \underbrace{\ell_{ij}}_{\substack{\text{edge} \\ \text{sensitivity}}} \cdot \underbrace{\alpha_i}_{\substack{\text{info} \\ \text{value}}} \cdot \underbrace{\nu_{ij}}_{\substack{\text{market} \\ \text{visibility}}}
 \end{equation}
 
-\noindent with $\gamma > 1$ ensuring convexity (leaking a lot is disproportionately costly). The term $\alpha_i$ captures how valuable the leaked information is: nodes with high private information value suffer more from exposure.
+\noindent Instant leakage is the product of how much you reveal ($r^\gamma$), how exploitable this edge is ($\ell_{ij}$), how valuable your information is ($\alpha_i$), and how exposed your interaction is ($\nu_{ij}$, which varies by institutional form per Table~\ref{tab:params}).
 
-Leakage accumulates in a stock that depresses future surplus from external interactions:
+Leakage accumulates in a persistent stock $S_i^t$ that depresses future surplus, governed by a decay rate $\rho = 0.8$ (leaked information stays exploitable for a long time):
 
 \begin{equation}
 \label{eq:leakstock}
-S_i^{t+1} = \rho \cdot S_i^t + L_{ij}^t
+S_i^{t+1} = \underbrace{\rho \cdot S_i^t}_{\substack{\text{decayed} \\ \text{prior stock}}} + \underbrace{L_{ij}^t}_{\substack{\text{new} \\ \text{leakage}}}
 \end{equation}
 
-\noindent where $\rho \in (0,1)$ governs persistence. Total leakage cost includes both the instant leakage and the stock penalty: $C_L = L_{ij} + \phi_L \cdot S_i^t$.
+\noindent Total leakage cost combines the instant leakage with a stock penalty weighted by $\phi_L = 0.15$: $C_L = L_{ij} + \phi_L \cdot S_i^t$. The stock penalty means that past leakage continues to erode rents even after the interaction that caused it.
 
 \textbf{Router learning leakage.} The router incurs an additional form of leakage absent from market interactions. When a firm coordinates through a platform, the platform ingests the firm's operational data---resolution patterns, exception rates, quality signals---and uses it to improve its aggregate model, which serves all clients including competitors. This cost is proportional to match quality (higher-quality coordination reveals more operationally valuable information):
 
 \begin{equation}
 \label{eq:routerleak}
-L^R_{ij} = \lambda_R \cdot m_{ij} \cdot s_{ij}
+L^R_{ij} = \underbrace{\lambda_R}_{\substack{\text{learning} \\ \text{leak rate}}} \cdot \underbrace{m_{ij}}_{\substack{\text{match} \\ \text{quality}}} \cdot \underbrace{s_{ij}}_{\substack{\text{base} \\ \text{surplus}}}
 \end{equation}
 
-\noindent where $\lambda_R$ is the router learning leakage rate. This cost is added to the router's total leakage, making router interactions \textit{more} leaky than market interactions despite lower nominal visibility---because the market merely exposes information while the router systematically extracts and redistributes it.
+\noindent The router learning leakage rate $\lambda_R = 0.15$ scales with match quality $m_{ij}$ (better coordination reveals more exploitable data) and base surplus $s_{ij}$ (higher-value edges leak more valuable intelligence). This cost is added to the router's total leakage, making router interactions \textit{more} leaky than market interactions despite lower nominal visibility---because the market merely exposes information while the router systematically extracts and redistributes it.
 
 \subsubsection{Trust-Generated Context}
 \label{sec:trust}
@@ -378,7 +378,7 @@ Under the parameter regime in Table~\ref{tab:params}, the rollup's internal inte
 
 \subsubsection{Trust Dynamics}
 
-Pairwise trust $T_{ij}^t$ (how much nodes $i$ and $j$ trust each other at time $t$) evolves with interaction outcomes. After each coordination event:
+Pairwise trust $T_{ij}^t$ (how much nodes $i$ and $j$ trust each other at time $t$) evolves with interaction outcomes. Trust builds at rate $\eta^+ = 0.08$ on success and decays at rate $\eta^- = 0.04$ on failure, with an ownership bonus $b$ ($= 1.2$ for owned pairs, $1.0$ otherwise). After each coordination event:
 
 \begin{equation}
 T_{ij}^{t+1} = \text{clip}\!\left[\;
@@ -436,13 +436,13 @@ The transfer bonus $\tau_{\text{transfer}}$ is available only to the rollup:
 
 \noindent proportional to vertical diversity. A platform like Stripe does observe transactions across verticals and can transfer surface patterns (fraud signatures, churn signals) --- this cross-vertical learning is already partially captured by the router's breadth bonus. The transfer bonus represents a deeper form of cross-vertical learning: operational patterns (exception handling, capacity planning, process design) that require full internal access to identify and apply. A router knows \textit{that} a client churned; an owner knows \textit{why} and can apply the fix to a subsidiary in a different vertical with the same operational friction. The model draws the line at this depth distinction: breadth-based cross-vertical learning accrues to the router, depth-based operational transfer accrues to the rollup.
 
-The router has an explicit trust-building investment mechanism with diminishing returns:
+The router has an explicit trust-building investment mechanism. Each period, the router spends $I = 0.01$ per edge to build trust, but with diminishing returns governed by $k = 3.0$:
 
 \begin{equation}
-\Delta T_{ij}^{\text{router}} = \frac{I}{1 + C_{ij}^{\text{cumul}} / k}
+\Delta T_{ij}^{\text{router}} = \frac{\overbrace{I}^{\text{investment}}}{\underbrace{1 + C_{ij}^{\text{cumul}} / k}_{\text{diminishing returns}}}
 \end{equation}
 
-\noindent where $I$ is the per-period investment, $C_{ij}^{\text{cumul}}$ is cumulative past investment, and $k$ controls the diminishing-returns rate.
+\noindent As cumulative past investment $C_{ij}^{\text{cumul}}$ grows, each additional dollar of trust investment yields less trust gain---the early relationship-building is cheap, but sustaining deep trust gets progressively more expensive. This ensures the router is not a strawman (it \textit{can} build trust) while reflecting the real cost of earning trust without structural ownership.
 
 \subsubsection{Ownership Costs}
 \label{sec:ownership_costs}
@@ -469,7 +469,7 @@ This ensures the rollup must generate enough coordination surplus to justify the
 
 When the rollup absorbs a node, it withdraws that node's operational context from the external information pool. This is not a portfolio-level penalty but a \textit{microstructure-level} degradation: external coordinators see noisy versions of the absorbed node's demand and capacity profiles, because the rollup has internalized the information that was previously observable.
 
-Formally, when a non-rollup regime tries to assess how well node $j$'s capacity matches node $i$'s demand, it does not see node $j$'s true capacity profile $\mathbf{c}_j$. It sees a noisy version:
+Formally, when a non-rollup regime tries to assess how well node $j$'s capacity matches node $i$'s demand, it does not see node $j$'s true capacity profile $\mathbf{c}_j$. It sees a noisy version, with noise governed by the foreclosure scale parameter $\sigma_{\text{fc}} = 0.4$:
 
 \begin{equation}
 \label{eq:foreclosure}
