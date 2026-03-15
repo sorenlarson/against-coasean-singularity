@@ -62,7 +62,7 @@ The argument turns on four observations about context:
 
 \item \textbf{Learning compounds under common ownership.} When multiple nodes share an owner, successful coordination at one node generates learning signals that transfer to others. Cross-node learning creates a policy quality flywheel: the more nodes owned, the faster the shared policy improves, which increases the value of further acquisition.
 
-\item \textbf{Ownership forecloses context from competitors.} When a node is acquired, its operational information---demand signals, capacity states, quality data---is withdrawn from the external information pool. External coordinators see increasingly degraded context as more of a vertical is absorbed.
+\item \textbf{Ownership degrades competitors' context.} Acquired nodes still coordinate externally, but the high-fidelity version of their operational information---demand signals, capacity states, quality data---becomes private. External coordinators see increasingly noisy approximations of absorbed nodes' context, degrading their ability to identify and execute good matches as more of a vertical is absorbed.
 
 \item \textbf{Trust and actuator access modulate coordination quality.} Trust generates context that would not otherwise exist; actuator access determines whether coordination intent translates to execution. These channels are available to all institutional forms---platforms can invest in trust, and partial actuator access is possible without ownership---but our simulation shows they primarily benefit the router rather than the rollup under the current calibration. The rollup's advantage comes from the first three channels.
 \end{enumerate}
