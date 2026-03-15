@@ -146,24 +146,25 @@ Consider a directed graph economy $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ wit
 \begin{definition}[Node]
 Each node $i \in \mathcal{V}$ is characterized by:
 \begin{itemize}
-\item A vertical assignment $v_i \in \{1, \ldots, K\}$
-\item Context vectors $\mathbf{d}_i, \mathbf{c}_i \in [0,1]^7$ (demand and capacity profiles)
-\item Hidden alpha $\alpha_i \in [0,1]$ (private value of local information)
-\item Price sensitivity $\pi_i \in [0,1]$
-\item Actuator strength $a_i \in [0,1]$
-\item Exception rate $\xi_i \in [0,1]$ and quality risk $\omega_i \in [0,1]$
+\item A vertical assignment $v_i \in \{1, \ldots, K\}$ --- industry or domain
+\item Context vectors $\mathbf{d}_i, \mathbf{c}_i \in [0,1]^7$ --- demand profile and capacity profile, used to compute coordination fit between nodes
+\item Hidden alpha $\alpha_i \in [0,1]$ --- private value of local information; higher alpha means the node has more competitively valuable context to protect (or leak)
+\item Price sensitivity $\pi_i \in [0,1]$ --- how costly it is when the node's pricing information is exposed to competitors
+\item Actuator strength $a_i \in [0,1]$ --- the node's capacity to execute coordination actions (e.g., fulfill orders, adjust operations)
+\item Exception rate $\xi_i \in [0,1]$ --- frequency of non-standard cases that complicate execution
+\item Quality risk $\omega_i \in [0,1]$ --- probability of operational failures during coordination
 \end{itemize}
 \end{definition}
 
 \begin{definition}[Edge]
 Each edge $(i,j) \in \mathcal{E}$ is characterized by:
 \begin{itemize}
-\item Base surplus $s_{ij} > 0$ (potential value from coordination)
-\item Leakage sensitivity $\ell_{ij} \in [0,1]$
-\item Trust requirement $\tau_{ij} \in [0,1]$
-\item Complementarity $\kappa_{ij} \in [0,1]$
-\item Latency cost $\lambda_{ij} > 0$
-\item Execution risk $\epsilon_{ij} \in [0,1]$
+\item Base surplus $s_{ij} > 0$ --- potential gross value from successful coordination between $i$ and $j$
+\item Leakage sensitivity $\ell_{ij} \in [0,1]$ --- how much revealed context on this edge is exploitable by competitors (e.g., a pricing negotiation leaks more than a logistics handoff)
+\item Trust requirement $\tau_{ij} \in [0,1]$ --- how much trust is needed to surface valuable context on this edge
+\item Complementarity $\kappa_{ij} \in [0,1]$ --- exogenous synergy between the two nodes (default coefficient zero; used only in robustness checks)
+\item Latency cost $\lambda_{ij} > 0$ --- time or friction cost of coordination
+\item Execution risk $\epsilon_{ij} \in [0,1]$ --- baseline probability of poor execution on this edge
 \end{itemize}
 \end{definition}
 
