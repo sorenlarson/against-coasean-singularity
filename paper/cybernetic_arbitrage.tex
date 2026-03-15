@@ -375,7 +375,7 @@ Under the parameter regime in Table~\ref{tab:params}, the rollup's internal inte
 \end{corollary}
 
 \begin{remark}[Revelation at the boundary]
-Under the baseline calibration ($\lambda_L = 0.8$, $\gamma = 1.5$), match quality gains from revelation dominate leakage costs at every visibility level, so the optimizer selects $r = 1.0$ (full revelation) for all regimes. The revelation-leakage tradeoff is therefore \textit{theoretical} under the baseline: it describes the correct comparative statics but does not produce regime-differentiated revelation behavior. At higher leakage intensity ($\lambda_L \geq 2.0$), the tradeoff binds and regimes reveal different amounts---the rollup reveals more than the router, which reveals more than the market---consistent with Proposition~\ref{prop:tradeoff}. We retain the baseline calibration because the ownership advantage does not depend on differentiated revelation; it is driven by leakage costs, learning signal quality, and foreclosure, all of which operate at $r = 1.0$. A calibration where the tradeoff binds would add regime-differentiated revelation as an additional channel favoring the rollup.
+Under the baseline calibration ($\lambda_L = 0.8$, $\gamma = 1.5$), match quality gains from revelation dominate leakage costs at every visibility level, so the optimizer selects $r = 1.0$ (full revelation) for all regimes in $\sim$99\% of events. The revelation-leakage tradeoff is therefore \textit{theoretical} under the baseline: it describes the correct comparative statics but does not produce regime-differentiated revelation behavior. At higher leakage intensity, the tradeoff binds and produces the predicted regime differentiation: at $\lambda_L = 5.0$, the rollup reveals fully in 85\% of events, the router in 63\%, and the market in 67\%---consistent with Proposition~\ref{prop:tradeoff}. We retain the baseline calibration because the ownership advantage does not depend on differentiated revelation; it is driven by router learning leakage, cross-node learning, and leakage protection, all of which operate at $r = 1.0$. A calibration where the tradeoff binds would add regime-differentiated revelation as an additional channel favoring the rollup.
 \end{remark}
 
 \subsection{Dynamics}
@@ -625,36 +625,38 @@ To identify which channels drive the rollup advantage, we conduct ablation exper
 
 \begin{table}[H]
 \centering
-\caption{Shapley Value Decomposition of Rollup/Router Ratio (single-seed, seed 42)}
+\caption{Shapley Value Decomposition of Rollup/Router Ratio (5 seeds, mean $\pm$ std)}
 \label{tab:shapley}
 \begin{tabular}{llr}
 \toprule
 Channel & Description & Shapley Value \\
 \midrule
-Router learning leakage & Platform extracts/redistributes client data & $+0.200$ \\
-Cross-node learning & Richer signal quality under ownership & $+0.068$ \\
-Context foreclosure & Degraded context for external coordinators & $+0.047$ \\
-Leakage protection & Lower information exposure for rollup & $+0.041$ \\
-Actuator access & Rollup internal control advantage & $+0.008$ \\
-Trust-generated context & Negligible & $+0.000$ \\
+Router learning leakage & Platform extracts/redistributes client data & $+0.207 \pm 0.014$ \\
+Cross-node learning & Richer signal quality under ownership & $+0.065 \pm 0.011$ \\
+Leakage protection & Lower information exposure for rollup & $+0.039 \pm 0.018$ \\
+Actuator access & Rollup internal control advantage & $+0.005 \pm 0.002$ \\
+Trust-generated context & Negligible & $+0.002 \pm 0.017$ \\
+Context foreclosure & Noisy; graph-dependent & $-0.058 \pm 0.055$ \\
 \midrule
-\textbf{Total effect} & All-on (1.323) minus all-off (0.958) & $\mathbf{+0.365}$ \\
+\textbf{Total effect} & & $\mathbf{\sim +0.26}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Unlike pure ablation (removing one channel at a time), Shapley values compute each channel's marginal contribution averaged over all possible orderings of channel addition, properly accounting for interaction effects. The contributions sum exactly to the total difference between all-channels-on and all-channels-off.
 
-\textbf{Router learning leakage is the dominant channel}, accounting for 55\% of the total effect (+0.200 of +0.365). If the router learning leakage hypothesis holds, it is the single largest driver of ownership advantage---larger than all other channels combined.
+\textbf{Router learning leakage is the dominant channel} ($+0.207 \pm 0.014$), robust across all 5 seeds with the tightest standard deviation of any channel. If the router learning leakage hypothesis holds, it is the single largest driver of ownership advantage.
 
-\textbf{Cross-node learning, foreclosure, and leakage protection} contribute +0.068, +0.047, and +0.041 respectively. Together with router learning leakage, these four information channels account for 97\% of the total effect. The rollup's advantage is fundamentally about information control.
+\textbf{Cross-node learning} ($+0.065 \pm 0.011$) and \textbf{leakage protection} ($+0.039 \pm 0.018$) are stable secondary channels. Together with router learning leakage, these three account for the bulk of the rollup's advantage.
 
-\textbf{Trust is negligible} (+0.000) under the current calibration: the router's trust investment and the rollup's structural trust bonus roughly cancel out. \textbf{Actuator} is small (+0.008). The model is not rigged for the rollup---the two traditional ``ownership advantages'' (trust and control) contribute almost nothing. The rollup wins through information channels that the classical theory of the firm does not model.
+\textbf{Context foreclosure is unstable} ($-0.058 \pm 0.055$). It was positive in one seed but negative in four---the noise added to external coordinators' context profiles can unpredictably help or hurt the rollup depending on graph topology. This channel, despite its microfounded motivation, does not reliably contribute to the rollup advantage in the current implementation.
+
+\textbf{Trust and actuator are negligible.} The rollup wins through information channels (router leakage, cross-node learning, leakage protection) that the classical theory of the firm does not model.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{fig_shapley.pdf}
-\caption{Shapley value decomposition of the rollup/router surplus ratio. Each bar shows a channel's marginal contribution averaged over all possible orderings. Router learning leakage (the platform's systematic extraction of client data) accounts for 53\% of the total effect. Trust context is the only channel favoring the router.}
+\caption{Shapley value decomposition of the rollup/router surplus ratio (seed 42; see Table~\ref{tab:shapley} for 5-seed mean $\pm$ std). Router learning leakage is the dominant channel. Note: the foreclosure bar is positive in this seed but negative on average across seeds---see text.}
 \label{fig:shapley}
 \end{figure}
 
