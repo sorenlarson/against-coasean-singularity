@@ -351,25 +351,27 @@ r^*_{ij} = \arg\max_{r \in [0,1]} \Pi_{ij}(r)
 
 \begin{proposition}[Revelation-Leakage Tradeoff]
 \label{prop:tradeoff}
-For any edge $(i,j)$ with $s_{ij} > 0$, the optimal revelation $r^*_{ij}$ is:
+For any edge $(i,j)$ with base surplus $s_{ij} > 0$, the optimal revelation $r^*_{ij}$ is:
 \begin{enumerate}
-\item[(i)] Decreasing in visibility $\nu_{ij}$: $\partial r^* / \partial \nu < 0$
-\item[(ii)] Decreasing in leakage sensitivity $\ell_{ij}$: $\partial r^* / \partial \ell < 0$
-\item[(iii)] Increasing in base surplus $s_{ij}$: $\partial r^* / \partial s > 0$
+\item[(i)] Decreasing in visibility $\nu_{ij}$ (fraction of context that leaks to market): $\partial r^* / \partial \nu < 0$
+\item[(ii)] Decreasing in leakage sensitivity $\ell_{ij}$ (how exploitable revealed context is): $\partial r^* / \partial \ell < 0$
+\item[(iii)] Increasing in base surplus $s_{ij}$ (value of the coordination opportunity): $\partial r^* / \partial s > 0$
 \end{enumerate}
 \end{proposition}
 
+\noindent In words: nodes reveal less when leakage is costly (high visibility or sensitivity) and reveal more when the coordination prize is large. This is the core tradeoff of the model.
+
 \begin{proof}
-The first-order condition for interior $r^*$ is:
+The first-order condition for interior $r^*$ equates the marginal benefit of revelation (left side) with the marginal cost of leakage (right side):
 \[
-s_{ij} \cdot \sigma'(z) \cdot \frac{\beta_1 b_r}{1 + b_r r} = \lambda_L \gamma r^{\gamma-1} \ell_{ij} \cdot \alpha_i \cdot \nu_{ij}
+\underbrace{s_{ij} \cdot \sigma'(z) \cdot \frac{\beta_1 b_r}{1 + b_r r}}_{\text{marginal benefit: better match quality}} = \underbrace{\lambda_L \gamma r^{\gamma-1} \ell_{ij} \cdot \alpha_i \cdot \nu_{ij}}_{\text{marginal cost: more leakage}}
 \]
-The left side is the marginal benefit of revelation (improved match quality, diminishing in $r$). The right side is the marginal cost (increased leakage, increasing in $r$ for $\gamma > 1$). By the implicit function theorem applied to the FOC, $\partial r^* / \partial \nu < 0$ because increasing $\nu$ raises the marginal cost at every $r$; $\partial r^* / \partial \ell < 0$ by the same argument; $\partial r^* / \partial s > 0$ because increasing $s$ raises the marginal benefit.
+The marginal benefit diminishes in $r$ (logarithmic revelation term). The marginal cost increases in $r$ (convex leakage, $\gamma > 1$). By the implicit function theorem, $\partial r^* / \partial \nu < 0$ because increasing visibility $\nu$ raises the marginal cost at every $r$; $\partial r^* / \partial \ell < 0$ by the same argument; $\partial r^* / \partial s > 0$ because increasing the coordination prize $s$ raises the marginal benefit.
 \end{proof}
 
 \begin{corollary}[Institutional Form and Revelation]
 \label{cor:revelation}
-Under the parameter regime in Table~\ref{tab:params}, the rollup's internal interactions have higher optimal revelation than the router or market, because lower visibility ($\nu = 0.1$) shifts the revelation-leakage tradeoff toward more revelation. This directly implies higher match quality for internal interactions.
+Under the parameter regime in Table~\ref{tab:params}, the rollup's internal interactions have higher optimal revelation than the router or market, because lower visibility ($\nu = 0.1$ vs.\ $0.85$ or $1.0$) shifts the tradeoff toward more revelation. This directly implies higher match quality for internal interactions.
 \end{corollary}
 
 \subsection{Dynamics}
@@ -478,29 +480,31 @@ j^* = \arg\max_{j \notin \mathcal{O}^t} \text{EMV}(j) = c_1 \cdot \text{adj}(j) 
 
 \begin{proposition}[Rollup Dominance]
 \label{prop:dominance}
-The rollup generates higher expected per-interaction surplus than the router on internal edges $(i,j)$ with $i,j \in \mathcal{O}^t$ when:
+The rollup generates higher expected per-interaction surplus than the router on internal edges $(i,j)$ where both nodes are owned ($i,j \in \mathcal{O}^t$) when:
 \begin{equation}
-\underbrace{\Delta m(\nu_C^{\text{int}}, \nu_R)}_{\text{match quality gain}} + \underbrace{\Delta L(\nu_C^{\text{int}}, \nu_R)}_{\text{leakage savings}} + \underbrace{\Delta X(\mu_C, \mu_R)}_{\text{execution gain}} > 0
+\underbrace{\Delta m(\nu_C^{\text{int}}, \nu_R)}_{\substack{\text{match quality gain from} \\ \text{lower visibility (0.1 vs 0.85)}}} + \underbrace{\Delta L(\nu_C^{\text{int}}, \nu_R)}_{\substack{\text{leakage savings from} \\ \text{internal coordination}}} + \underbrace{\Delta X(\mu_C, \mu_R)}_{\substack{\text{execution gain from} \\ \text{actuator control (1.0 vs 0.5)}}} > 0
 \end{equation}
-\noindent where $\Delta m$, $\Delta L$, and $\Delta X$ are the differences in match quality, leakage cost savings, and execution loss savings between the rollup's internal parameters and the router's parameters.
 \end{proposition}
 
+\noindent Each $\Delta$ term is the difference between the rollup's internal value and the router's value for the same edge. The rollup wins per-interaction because it has lower visibility (reveals more without leakage), higher actuator access (executes better), and higher interaction mode (generates more trust context).
+
 \begin{proof}
-Subtract the router's surplus (\ref{eq:surplus}) from the rollup's internal surplus for the same edge and optimal revelations. Each term difference is signed by the parameter ordering in Table~\ref{tab:params}: $\nu_C^{\text{int}} < \nu_R$ implies higher $r^*$ and lower $L$; $\mu_C > \mu_R$ implies lower $X$; $\iota_C > \iota_R$ implies higher $\hat{\tau}$. The sum is positive under the parameter regime.
+Subtract the router's net surplus (\ref{eq:surplus}) from the rollup's internal net surplus for the same edge. Each term difference is signed by the parameter ordering in Table~\ref{tab:params}: lower visibility ($\nu_C^{\text{int}} = 0.1 < \nu_R = 0.85$) implies the rollup can reveal more and leak less; higher actuator multiplier ($\mu_C = 1.0 > \mu_R = 0.5$) implies lower execution loss; higher interaction mode ($\iota_C = 1.0 > \iota_R = 0.6$) implies more trust-generated context. The sum is positive under the parameter regime.
 \end{proof}
 
-The more important question is whether the rollup dominates \textit{at the portfolio level}, where it must also conduct external interactions (with unowned nodes) at weaker parameters.
+The more important question is whether the rollup dominates \textit{at the portfolio level}, where it must also conduct external interactions (with unowned nodes) at weaker parameters and pay ownership costs.
 
 \begin{proposition}[Portfolio-Level Dominance]
 \label{prop:portfolio}
 The rollup's total surplus exceeds the router's total surplus when:
 \begin{equation}
-|\mathcal{O}^t| \cdot (|\mathcal{O}^t| - 1) \cdot \overline{\Delta\Pi}^{\text{int}} + |\mathcal{O}^t| \cdot (N - |\mathcal{O}^t|) \cdot \overline{\Delta\Pi}^{\text{ext}} + \Gamma^t > 0
+\underbrace{|\mathcal{O}^t| \cdot (|\mathcal{O}^t| - 1) \cdot \overline{\Delta\Pi}^{\text{int}}}_{\text{internal advantage (positive)}} + \underbrace{|\mathcal{O}^t| \cdot (N - |\mathcal{O}^t|) \cdot \overline{\Delta\Pi}^{\text{ext}}}_{\text{external disadvantage (may be negative)}} + \underbrace{\Gamma^t}_{\substack{\text{cumulative learning} \\ \text{and trust}}} > 0
 \end{equation}
-\noindent where $\overline{\Delta\Pi}^{\text{int}}$ is the average per-interaction surplus advantage on internal edges, $\overline{\Delta\Pi}^{\text{ext}}$ is the average advantage on external edges (which may be negative), and $\Gamma^t$ captures cumulative learning and trust advantages.
 \end{proposition}
 
-This decomposition reveals the tension: the rollup wins decisively on internal interactions ($\overline{\Delta\Pi}^{\text{int}} > 0$) but may lose on external interactions ($\overline{\Delta\Pi}^{\text{ext}} \leq 0$). The balance depends on ownership density $|\mathcal{O}^t|/N$ and the magnitude of the learning term $\Gamma^t$, which grows with portfolio diversity and time.
+\noindent $\overline{\Delta\Pi}^{\text{int}}$ is the average per-interaction surplus advantage on \textbf{internal} edges (both nodes owned---where the rollup has structural advantages). $\overline{\Delta\Pi}^{\text{ext}}$ is the average advantage on \textbf{external} edges (one or both nodes unowned---which may be \textit{negative} because the rollup has no actuator or trust advantage on these edges but still pays ownership costs). $\Gamma^t$ captures cumulative advantages from learning transfer and trust accumulation that grow over time.
+
+This decomposition reveals the tension: the rollup wins decisively on internal interactions but may lose on external ones. The balance depends on \textbf{ownership density} $|\mathcal{O}^t|/N$---more owned nodes means more internal pairs (which scales quadratically) relative to external pairs---and the magnitude of the learning term $\Gamma^t$, which grows with portfolio diversity and time.
 
 \subsection{Superlinearity}
 
