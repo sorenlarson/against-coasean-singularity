@@ -15,3 +15,15 @@ texput.log
 
 # Claude Code
 .claude/
+
+# Earlier tests and specs (not part of this paper)
+cybernetic-arbitrage.md
+cybernetic_arbitrage_theory_note.md
+edge-routers.md
+simulation_brief.md
+technical_spec.md
+test_e_*
+test_f_*_spec.md
+test_f_functional_forms.md
+test_f_model_primitives.md
+validation_suite.py
