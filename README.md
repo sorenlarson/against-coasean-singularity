@@ -22,7 +22,7 @@ python ablations.py
 - `paper/` — LaTeX source and compiled PDF
 - `simulation.py` — Main simulation: graph economy, three institutional forms, all economic functions
 - `ablations.py` — Ablation runner: channel decomposition, density sweep, ownership cost sensitivity
-- `test_f_output/` — Generated results (JSON + Markdown)
+- `output/` — Generated results (JSON + Markdown)
 
 ## Paper
 

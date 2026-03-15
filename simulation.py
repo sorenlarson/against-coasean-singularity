@@ -26,7 +26,7 @@ import duckdb
 import networkx as nx
 import numpy as np
 
-OUTPUT_DIR = "test_f_output"
+OUTPUT_DIR = "output"
 
 
 # ---------------------------------------------------------------------------
