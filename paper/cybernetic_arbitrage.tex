@@ -251,7 +251,7 @@ Revelation improves coordination quality but with diminishing returns. Match qua
 z_{ij} = \underbrace{\beta_0}_{\text{baseline}} + \underbrace{\beta_1 \ln(1 + b_r \cdot r)}_{\text{revelation}} + \underbrace{\beta_2 \cdot \hat{\tau}_{ij}}_{\text{trust context}} + \underbrace{\beta_3 \cdot q}_{\text{policy quality}} + \underbrace{\beta_4 \cdot \hat{a}_{ij}}_{\text{actuator}} + \underbrace{\beta_5 \cdot \kappa_{ij}}_{\text{complementarity}} + \underbrace{\beta_6 \cdot \phi_{ij}}_{\text{context fit}}
 \end{equation}
 
-\noindent The logarithmic form of the revelation term ensures diminishing returns: the first units of context shared are most valuable. The remaining terms are: $\hat{\tau}_{ij}$, trust-generated context (Section~\ref{sec:trust}); $q$, the regime's policy quality; $\hat{a}_{ij}$, actuator access (Section~\ref{sec:actuator}); and $\phi_{ij}$, context fit:
+\noindent The logarithmic form of the revelation term ensures diminishing returns: the first units of context shared are most valuable. The remaining terms are: $\hat{\tau}_{ij}$, trust-generated context (Section~\ref{sec:trust}); $q$, the regime's \textbf{policy quality}---accumulated institutional knowledge about coordination decisions, starting at 0.1 and improving through learning (Section~\ref{sec:learning}); $\hat{a}_{ij}$, actuator access (Section~\ref{sec:actuator}); and $\phi_{ij}$, \textbf{context fit}---how well node $i$'s demand profile matches node $j$'s capacity profile:
 
 \begin{equation}
 \phi_{ij} = \frac{\mathbf{d}_i \cdot \mathbf{c}_j}{\|\mathbf{d}_i\| \|\mathbf{c}_j\|}
