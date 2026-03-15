@@ -11,6 +11,7 @@
 \usepackage{enumitem}
 \usepackage{caption}
 \usepackage{float}
+\usepackage[most]{tcolorbox}
 
 \setstretch{1.5}
 
@@ -20,7 +21,16 @@
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
 \newtheorem{assumption}{Assumption}
-\newtheorem{remark}{Remark}
+% Remark as a shaded box with rounded edges
+\newtcolorbox{remark}[1][]{
+  colback=gray!8,
+  colframe=gray!40,
+  arc=3pt,
+  boxrule=0.5pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries,
+  title={Remark\ifx&#1& \else: #1\fi},
+}
 
 % --- Title ---
 \title{\textbf{Against the Coasean Singularity}}
