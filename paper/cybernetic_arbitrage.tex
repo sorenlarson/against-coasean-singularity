@@ -148,8 +148,7 @@ Each node $i \in \mathcal{V}$ is characterized by:
 \begin{itemize}
 \item A vertical assignment $v_i \in \{1, \ldots, K\}$ --- industry or domain
 \item Context vectors $\mathbf{d}_i, \mathbf{c}_i \in [0,1]^7$ --- demand profile and capacity profile, used to compute coordination fit between nodes
-\item Hidden alpha $\alpha_i \in [0,1]$ --- private value of local information; higher alpha means the node has more competitively valuable context to protect (or leak)
-\item Price sensitivity $\pi_i \in [0,1]$ --- how costly it is when the node's pricing information is exposed to competitors
+\item Hidden alpha $\alpha_i \in [0,1]$ --- private information value; higher alpha means the node has more competitively valuable context to protect (or leak)
 \item Actuator strength $a_i \in [0,1]$ --- the node's capacity to execute coordination actions (e.g., fulfill orders, adjust operations)
 \item Exception rate $\xi_i \in [0,1]$ --- frequency of non-standard cases that complicate execution
 \item Quality risk $\omega_i \in [0,1]$ --- probability of operational failures during coordination
@@ -240,10 +239,10 @@ Revelation creates leakage that is convex in the amount revealed and linear in m
 
 \begin{equation}
 \label{eq:leakage}
-L_{ij}(r) = \lambda_L \cdot r^{\gamma} \cdot \ell_{ij} \cdot \frac{\pi_i + \alpha_i}{2} \cdot \nu_{ij}
+L_{ij}(r) = \lambda_L \cdot r^{\gamma} \cdot \ell_{ij} \cdot \alpha_i \cdot \nu_{ij}
 \end{equation}
 
-\noindent with $\gamma > 1$ ensuring convexity (leaking a lot is disproportionately costly). The term $(\pi_i + \alpha_i)/2$ captures the value of the information being leaked: price sensitivity and hidden alpha.
+\noindent with $\gamma > 1$ ensuring convexity (leaking a lot is disproportionately costly). The term $\alpha_i$ captures how valuable the leaked information is: nodes with high private information value suffer more from exposure.
 
 Leakage accumulates in a stock that depresses future surplus from external interactions:
 
@@ -322,7 +321,7 @@ For any edge $(i,j)$ with $s_{ij} > 0$, the optimal revelation $r^*_{ij}$ is:
 \begin{proof}
 The first-order condition for interior $r^*$ is:
 \[
-s_{ij} \cdot \sigma'(z) \cdot \frac{\beta_1 b_r}{1 + b_r r} = \lambda_L \gamma r^{\gamma-1} \ell_{ij} \frac{\pi_i + \alpha_i}{2} \nu_{ij}
+s_{ij} \cdot \sigma'(z) \cdot \frac{\beta_1 b_r}{1 + b_r r} = \lambda_L \gamma r^{\gamma-1} \ell_{ij} \cdot \alpha_i \cdot \nu_{ij}
 \]
 The left side is the marginal benefit of revelation (improved match quality, diminishing in $r$). The right side is the marginal cost (increased leakage, increasing in $r$ for $\gamma > 1$). By the implicit function theorem applied to the FOC, $\partial r^* / \partial \nu < 0$ because increasing $\nu$ raises the marginal cost at every $r$; $\partial r^* / \partial \ell < 0$ by the same argument; $\partial r^* / \partial s > 0$ because increasing $s$ raises the marginal benefit.
 \end{proof}

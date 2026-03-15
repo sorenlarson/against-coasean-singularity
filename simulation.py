@@ -178,8 +178,7 @@ class NodeState:
     # 7-dim context vector
     demand_profile: np.ndarray = field(default_factory=lambda: np.zeros(7))
     capacity_profile: np.ndarray = field(default_factory=lambda: np.zeros(7))
-    hidden_alpha: float = 0.0
-    price_sensitivity: float = 0.0
+    hidden_alpha: float = 0.0  # private information value; higher = more to leak and more to protect
     exception_rate: float = 0.0
     quality_risk: float = 0.0
     actuator_strength: float = 0.0
@@ -300,7 +299,7 @@ def compute_instant_leakage(
     """Instant leakage from revelation."""
     if not settings.leakage_on:
         return 0.0
-    info_exposure = (node_i.price_sensitivity + node_i.hidden_alpha) / 2.0
+    info_exposure = node_i.hidden_alpha
     return (
         settings.lambda_L
         * (revelation ** settings.gamma_L)
@@ -566,7 +565,6 @@ class GraphEconomy:
                 demand_profile=rng.uniform(0, 1, size=7),
                 capacity_profile=rng.uniform(0, 1, size=7),
                 hidden_alpha=rng.uniform(0.1, 0.9),
-                price_sensitivity=rng.uniform(0.1, 0.8),
                 exception_rate=rng.uniform(0.05, 0.3),
                 quality_risk=rng.uniform(0.05, 0.3),
                 actuator_strength=rng.uniform(0.2, 0.8),
@@ -1010,7 +1008,7 @@ class SimulationRunner:
         self.db.execute("""
             CREATE TABLE nodes (
                 node_id INTEGER, vertical INTEGER,
-                hidden_alpha DOUBLE, price_sensitivity DOUBLE,
+                hidden_alpha DOUBLE,
                 exception_rate DOUBLE, quality_risk DOUBLE,
                 actuator_strength DOUBLE
             )
@@ -1061,8 +1059,8 @@ class SimulationRunner:
         # Insert node and edge data
         for n in self.economy.nodes.values():
             self.db.execute(
-                "INSERT INTO nodes VALUES (?,?,?,?,?,?,?)",
-                [n.node_id, n.vertical, n.hidden_alpha, n.price_sensitivity,
+                "INSERT INTO nodes VALUES (?,?,?,?,?,?)",
+                [n.node_id, n.vertical, n.hidden_alpha,
                  n.exception_rate, n.quality_risk, n.actuator_strength],
             )
         for e in self.economy.edges:
