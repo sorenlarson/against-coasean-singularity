@@ -44,7 +44,7 @@
 
 \begin{abstract}
 \begin{spacing}{1.2}
-\noindent AI commoditizes execution, so value migrates to the inputs execution cannot replace: local context, trust, and operational control. A growing literature argues that AI agents will reduce transaction costs enough to shift activity from firms to markets---a ``Coasean singularity.'' This account treats coordination as an information-processing problem that AI makes cheap. We argue that coordination also requires \textit{context revelation}, which leaks the scarce resource that generates value in the first place. Who owns the assets where context is born determines how much leaks. We formalize this in a graph economy where three institutional forms---fragmented market, platform router, and vertically integrated rollup---coordinate over the same nodes and edges. We model the hypothesis that platform intermediation amplifies leakage: the router ingests clients' operational data and uses it to improve service for competitors, producing higher total leakage than the open market despite lower nominal visibility. In parallel-world comparison, the rollup generates a mean 24\% higher net surplus than the router across 10 seeds (10/10 pass). Under passive-router assumptions in a competing-world simulation, competitive feedback compounds this advantage into router extinction across all tested seeds. Ownership of the scarce context, not intermediation of it, captures the value that AI creates.
+\noindent AI commoditizes execution, so value migrates to the inputs execution cannot replace: local context, trust, and operational control. A growing literature argues that AI agents will reduce transaction costs enough to shift activity from firms to markets---a ``Coasean singularity.'' This account treats coordination as an information-processing problem that AI makes cheap. We argue that coordination also requires \textit{context revelation}, which leaks the scarce resource that generates value in the first place. Who owns the assets where context is born determines how much leaks. We formalize this in a graph economy where three institutional forms---fragmented market, platform router, and vertically integrated rollup---coordinate over the same nodes and edges. We model the hypothesis that platform intermediation amplifies leakage: the router ingests clients' operational data and uses it to improve service for competitors, producing higher total leakage than the open market despite lower nominal visibility. In parallel-world comparison, the rollup generates a mean 24\% higher net surplus than the router across 10 seeds (10/10 pass). Under passive-router assumptions in a competing-world simulation, competitive feedback compounds this advantage into router extinction across all 10 tested seeds. Ownership of the scarce context, not intermediation of it, captures the value that AI creates.
 
 \bigskip
 \noindent \textit{JEL Codes:} D23, L22, L25, O33 \\
@@ -87,7 +87,7 @@ The three institutional forms correspond to competing theses about AI-era indust
 
 \item The \textbf{router} corresponds to the SaaS platform thesis: a platform intermediary (Stripe, Salesforce, a B2B marketplace) coordinates between independent firms using AI, capturing value through superior matching without owning the underlying assets. The router can invest in trust relationships with participants, but does not own them.
 
-\item The \textbf{rollup} corresponds to the cybernetic rollup thesis: a holding company acquires operating nodes and deploys AI to coordinate internally, capturing the surplus from reduced leakage, cross-node learning transfer, and context foreclosure. This is the thesis developed in \citet{larson2025cybernetic} and related work by \citet{hobart2024routers}.
+\item The \textbf{rollup} corresponds to the cybernetic rollup thesis: a holding company acquires operating nodes and deploys AI to coordinate internally, capturing the surplus from reduced leakage and cross-node learning transfer. This is the thesis developed in \citet{larson2025cybernetic} and related work by \citet{hobart2024routers}.
 \end{itemize}
 
 We characterize the revelation-leakage tradeoff analytically and identify sufficient conditions for rollup dominance under the model's parameter regime. We then investigate the model computationally through simulation with Shapley value decomposition of channel contributions, multi-seed robustness, and a competing-world extension. Our main findings are:
@@ -95,9 +95,9 @@ We characterize the revelation-leakage tradeoff analytically and identify suffic
 \begin{enumerate}[leftmargin=*]
 \item In parallel-world comparison across 10 graph realizations, the rollup generates a mean \textbf{24\% higher net surplus} than the router (10 of 10 seeds), driven primarily by the router's learning leakage---the systematic extraction of client operational intelligence that benefits competitors.
 
-\item \textbf{Router learning leakage is the dominant channel} (55\% of Shapley-decomposed total effect). If the hypothesis that platform intermediation amplifies leakage holds, it is the single largest driver of ownership advantage---larger than cross-node learning, leakage protection, and context foreclosure combined.
+\item \textbf{Router learning leakage is the dominant channel} (55\% of Shapley-decomposed total effect). If the hypothesis that platform intermediation amplifies leakage holds, it is the single largest driver of ownership advantage---larger than cross-node learning and leakage protection combined.
 
-\item In a \textbf{competing-world simulation} with a passive router (no strategic response to client loss), the parallel-world advantage compounds through competitive feedback: each acquisition strengthens the rollup while shrinking the router's client base, producing a tipping dynamic that drives the \textbf{router to extinction across all tested seeds}. The rollup achieves 3--4$\times$ the router's cumulative surplus.
+\item In a \textbf{competing-world simulation} with a passive router (no strategic response to client loss), the parallel-world advantage compounds through competitive feedback: each acquisition strengthens the rollup while shrinking the router's client base, producing a tipping dynamic that drives the \textbf{router to extinction across all 10 tested seeds}. The rollup achieves 3--4$\times$ the router's cumulative surplus.
 
 \item \textbf{Superlinearity emerges from structure alone}: portfolio value exceeds the sum of parts (ratio 1.48) without assumed complementarity.
 
@@ -172,7 +172,7 @@ Each edge $(i,j) \in \mathcal{E}$ is characterized by:
 \item Base surplus $s_{ij} > 0$ --- potential gross value from successful coordination between $i$ and $j$
 \item Leakage sensitivity $\ell_{ij} \in [0,1]$ --- how much revealed context on this edge is exploitable by competitors (e.g., a pricing negotiation leaks more than a logistics handoff)
 \item Trust requirement $\tau_{ij} \in [0,1]$ --- how much trust is needed to surface valuable context on this edge. A high trust requirement means the coordination involves sensitive operational information (e.g., sharing proprietary quality data with a supplier) that parties will only reveal in trusted relationships; a low trust requirement means the coordination can proceed with publicly available information (e.g., a standard commodity purchase)
-\item Complementarity $\kappa_{ij} \in [0,1]$ --- exogenous synergy between the two nodes. The default coefficient is zero: we deliberately exclude assumed synergies to show that superlinearity emerges from structural channels alone (learning, leakage, foreclosure), not from baked-in complementarity. Turning on its coefficient in the match quality equation barely changes results, confirming this
+\item Complementarity $\kappa_{ij} \in [0,1]$ --- exogenous synergy between the two nodes. The default coefficient is zero: we deliberately exclude assumed synergies to show that superlinearity emerges from structural channels alone (learning, leakage protection), not from baked-in complementarity. Turning on its coefficient in the match quality equation barely changes results, confirming this
 \item Latency cost $\lambda_{ij} > 0$ --- time or friction cost of coordination
 \item Execution risk $\epsilon_{ij} \in [0,1]$ --- baseline probability of poor execution on this edge
 \end{itemize}
@@ -375,7 +375,7 @@ Under the parameter regime in Table~\ref{tab:params}, the rollup's internal inte
 \end{corollary}
 
 \begin{remark}[Revelation at the boundary]
-Under the baseline calibration ($\lambda_L = 0.8$, $\gamma = 1.5$), match quality gains from revelation dominate leakage costs at every visibility level, so the optimizer selects $r = 1.0$ (full revelation) for all regimes in $\sim$99\% of events. The revelation-leakage tradeoff is therefore \textit{theoretical} under the baseline: it describes the correct comparative statics but does not produce regime-differentiated revelation behavior. At higher leakage intensity, the tradeoff binds and produces the predicted regime differentiation: at $\lambda_L = 5.0$, the rollup reveals fully in 85\% of events, the router in 63\%, and the market in 67\%---consistent with Proposition~\ref{prop:tradeoff}. We retain the baseline calibration because the ownership advantage does not depend on differentiated revelation; it is driven by router learning leakage, cross-node learning, and leakage protection, all of which operate at $r = 1.0$. A calibration where the tradeoff binds would add regime-differentiated revelation as an additional channel favoring the rollup.
+Under the baseline calibration ($\lambda_L = 0.8$, $\gamma = 1.5$), match quality gains from revelation dominate leakage costs at every visibility level, so the optimizer selects $r = 1.0$ (full revelation) for all regimes in $\sim$99\% of events. The revelation-leakage tradeoff is therefore \textit{theoretical} under the baseline: it describes the correct comparative statics but does not produce regime-differentiated revelation behavior. At higher leakage intensity, the tradeoff binds and produces the predicted regime differentiation: at $\lambda_L = 5.0$, the rollup reveals fully in 85\% of events, the router in 63\%, and the market in 67\%---consistent with Proposition~\ref{prop:tradeoff}. We retain the baseline calibration because the ownership advantage does not depend on differentiated revelation; it is driven by router learning leakage, cross-node learning, and leakage protection, all of which operate at $r = 1.0$. A calibration where the tradeoff binds would add regime-differentiated revelation as an additional channel favoring the rollup. Under the baseline, the realized regime separation comes from router learning leakage, cross-node learning, and leakage protection---not from differentiated revelation behavior.
 \end{remark}
 
 \subsection{Dynamics}
@@ -597,7 +597,7 @@ Each time step proceeds as follows, independently for each regime:
 
 \begin{table}[H]
 \centering
-\caption{Regime Comparison: Baseline (seed 42, with context foreclosure)}
+\caption{Regime Comparison: Baseline (seed 42)}
 \label{tab:baseline}
 \begin{tabular}{lrrr}
 \toprule
@@ -792,7 +792,7 @@ Under the passive-router assumption (the router does not strategically respond t
 
 The tipping point does not admit a closed-form expression because it depends on the interaction of multiple graph-dependent quantities: the topology of edges between owned and unowned nodes, the distribution of hidden alpha across acquired vs.\ remaining nodes, the accumulated trust and leak stock states, and the specific sequence of acquisitions. Each acquisition changes all of these simultaneously, creating path dependence that prevents reduction to a single threshold formula. What can be said analytically is that the tipping becomes inevitable once the rollup's ownership density is high enough that its internal surplus per step exceeds the router's total---after which every further acquisition widens the gap.
 
-The parallel and competing results reinforce each other. The parallel model identifies \textit{which channels} create the structural edge (learning, leakage, foreclosure). The competing model shows \textit{what happens when that edge compounds}: not a permanent marginal advantage, but a tipping dynamic that eliminates the intermediary.
+The parallel and competing results reinforce each other. The parallel model identifies \textit{which channels} create the structural edge (router learning leakage, cross-node learning, leakage protection). The competing model shows \textit{what happens when that edge compounds}: not a permanent marginal advantage, but a tipping dynamic that eliminates the intermediary.
 
 %=============================================================================
 \section{Discussion}
@@ -800,7 +800,7 @@ The parallel and competing results reinforce each other. The parallel model iden
 
 \subsection{Reinterpreting the Coasean Singularity}
 
-The Coasean singularity thesis---that AI-driven transaction cost reduction will dissolve firms into agent-mediated markets---captures one real channel while missing another. Yes, AI reduces the cost of market coordination. But simultaneously, AI increases the \textit{value} of internal coordination by enabling cross-node learning that was previously impossible. The net effect on firm boundaries depends on which channel dominates.
+The Coasean singularity thesis---that AI-driven transaction cost reduction will dissolve firms into agent-mediated markets---captures one real channel while missing two others. Yes, AI reduces the cost of market coordination. But simultaneously, platform intermediation may \textit{amplify} information leakage (the dominant channel in our Shapley decomposition), and ownership enables cross-node learning that market coordination cannot replicate. The net effect on firm boundaries depends on the magnitude of these countervailing forces.
 
 Our results suggest a conditional revision of the Coasean singularity thesis. The standard account assumes that platform intermediation reduces information frictions. We model the hypothesis that intermediation can \textit{amplify} leakage---when a platform ingests client operational data to improve its service, that improvement benefits the client's competitors. If this hypothesis holds (and real-world practices like Harvey AI's data restrictions suggest firms believe it does), it is the dominant channel driving ownership advantage, producing $3\times$ the leakage cost of the open market in our simulation ($0.72$ vs.\ $0.23$ per event).
 
@@ -808,17 +808,17 @@ The updated Coasean logic: \textit{in AI-intensive industries with local, leakag
 
 \subsection{When Does the Rollup Thesis Fail?}
 
-The ablation analysis identifies the boundary conditions for rollup dominance:
+The Shapley decomposition and $\lambda_R$ sensitivity analysis identify the boundary conditions:
 
 \begin{enumerate}[leftmargin=*]
-\item \textbf{Without learning transfer}, the advantage halves (ratio drops from 1.103 to 1.044). If cross-node knowledge transfer is impractical---because operations are too heterogeneous, because AI cannot extract transferable patterns, or because organizational friction prevents implementation---the rollup becomes a marginal improvement rather than a structural advantage.
+\item \textbf{If router learning leakage is absent} ($\lambda_R = 0$), the rollup still wins but by only 3.5\% (Table~\ref{tab:lr_sensitivity}). The thesis depends materially on the hypothesis that platforms extract and redistribute client data. In industries where platforms contractually commit to data isolation (and enforce it), this channel may not operate.
 
-\item \textbf{If leakage is unimportant}, the rollup/router ratio falls to 1.071. This scenario applies where private context has little competitive value: regulated industries with mandatory disclosure, perfectly standardized commodity spot markets, or contexts where information is too short-lived to exploit. In most economically interesting coordination---supply chains, services, B2B relationships---context is private, persistent, and valuable, making leakage a binding concern.
+\item \textbf{Without cross-node learning transfer} (Shapley $+0.065$), the rollup loses its second-largest channel. If operations are too heterogeneous for knowledge to transfer across portfolio companies, or if AI cannot extract transferable patterns, the advantage narrows further.
 
-\item \textbf{If the rollup cannot reach sufficient density}, the advantage remains modest. A rollup that stalls at 10--20\% ownership captures only the learning and leakage channels, missing the compounding foreclosure effects that emerge at higher density.
+\item \textbf{If leakage is unimportant}---regulated industries with mandatory disclosure, standardized commodity markets, or contexts where information is too short-lived to exploit---the leakage protection channel ($+0.039$) contributes nothing. In most economically interesting coordination, however, context is private, persistent, and valuable.
 \end{enumerate}
 
-These conditions suggest the rollup thesis applies most strongly to industries with: (a) operationally diverse but structurally similar firms (enabling learning transfer), (b) high private-information value (making leakage costly), and (c) trust-sensitive coordination (where ownership provides structural advantages over arm's-length interaction).
+\noindent These conditions suggest the rollup thesis applies most strongly to industries where: (a) SaaS platforms learn from client data in ways that benefit competitors, (b) operations are diverse enough for cross-vertical knowledge transfer, and (c) private context has high competitive value.
 
 \subsection{Limitations}
 
