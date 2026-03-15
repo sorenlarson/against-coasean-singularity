@@ -399,16 +399,24 @@ T_{ij}^{t+1} = \text{clip}\!\left[\;
 \subsubsection{Learning Dynamics}
 \label{sec:learning}
 
-A critical design choice: all three regimes use the \textit{same base learning rate} $\eta_{\text{base}}$. Learning differences emerge endogenously from \textit{signal quality}---how much of the coordination outcome's information content each institutional form can observe.
+Each regime accumulates institutional knowledge about coordination: which counterparties work best, what revelation levels produce good outcomes, when to coordinate vs.\ wait. This knowledge is represented as a scalar \textbf{policy quality} $q^t \in [0,1]$, starting at 0.1 (naive) and improving toward 1.0 (expert). Higher policy quality directly improves match quality in every coordination event (via the $\beta_3 \cdot q$ term in Eq.~\ref{eq:match}).
 
-Each regime maintains a scalar policy quality $q^t$:
+A critical design choice: all three regimes use the \textit{same base learning rate} $\eta_{\text{base}} = 0.03$. Learning differences emerge endogenously from \textbf{signal quality} $\sigma_q$---how much of each coordination outcome's information content the regime can actually observe. The analogy: everyone improves at the same rate per unit of information, but ownership gives you access to richer information.
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Market} ($\sigma_q = 0.3$): sees only whether a deal closed and at what price. Like learning to cook by reading restaurant reviews.
+\item \textbf{Router} ($\sigma_q \approx 0.5\text{+}$): sees richer outcome data from its platform, plus patterns across all clients. Like learning to cook by reading the kitchen's order tickets.
+\item \textbf{Rollup internal} ($\sigma_q = 0.9$): sees full operational outcomes---what worked, what broke, why. Like learning to cook by standing in the kitchen.
+\end{itemize}
+
+\noindent The policy quality update:
 
 \begin{equation}
 \label{eq:learning}
-q^{t+1} = q^t + \eta_{\text{base}} \cdot \sigma_q \cdot \bar{m}^t \cdot (1 - q^t) + \tau_{\text{transfer}}
+q^{t+1} = \underbrace{q^t}_{\substack{\text{current} \\ \text{knowledge}}} + \underbrace{\eta_{\text{base}} \cdot \sigma_q}_{\substack{\text{effective} \\ \text{learning rate}}} \cdot \underbrace{\bar{m}^t}_{\substack{\text{avg match} \\ \text{quality}}} \cdot \underbrace{(1 - q^t)}_{\substack{\text{diminishing} \\ \text{returns}}} + \underbrace{\tau_{\text{transfer}}}_{\substack{\text{cross-node} \\ \text{transfer}}}
 \end{equation}
 
-\noindent where $\sigma_q \in [0,1]$ is signal quality (regime- and state-dependent) and $\bar{m}^t$ is average match quality. The key variable $\sigma_q$ is derived from the institutional form's information access:
+\noindent The effective learning rate is $\eta_{\text{base}} \cdot \sigma_q$: same base rate, modulated by how much you can see. The $(1 - q^t)$ term ensures diminishing returns---it's easy to improve from 0.1 to 0.5, hard to improve from 0.9 to 1.0. The signal quality $\sigma_q$ is derived from each regime's information access:
 
 \begin{equation}
 \sigma_q = \begin{cases}
