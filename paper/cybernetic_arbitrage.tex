@@ -497,7 +497,7 @@ Proposition~\ref{prop:super} is important because it addresses the critique that
 \section{Computational Results}
 %=============================================================================
 
-We implement the model as a discrete-time simulation over a directed graph with $N = 30$ nodes, $K = 5$ verticals, edge density 0.15, and $T = 50$ time steps. Node and edge parameters are drawn from uniform distributions. Three institutional forms are run on the same graph realization, differing only in parameter regime. All results are deterministic given a fixed random seed.
+We implement the model as a discrete-time simulation over a directed graph with $N = 30$ nodes, $K = 5$ verticals, edge density 0.15, and $T = 50$ time steps. Node and edge parameters are drawn from uniform distributions. In the parallel-world comparison, each institutional form is run independently over the same graph---the three regimes never interact, so performance differences are attributable to institutional form alone (see Remark~1). All results are deterministic given a fixed random seed. Section~\ref{sec:competing} presents a competing-world extension where the three forms coexist and acquisitions directly transfer nodes between regimes.
 
 \subsection{Baseline Comparison}
 \label{sec:baseline}
