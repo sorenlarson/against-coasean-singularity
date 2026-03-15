@@ -33,7 +33,7 @@
 
 \begin{abstract}
 \begin{spacing}{1.2}
-\noindent AI commoditizes execution, so value migrates to the inputs execution cannot replace: local context, trust, and operational control. A growing literature argues that AI agents will reduce transaction costs enough to shift activity from firms to markets---a ``Coasean singularity.'' This account treats coordination as an information-processing problem that AI makes cheap. We argue that coordination also requires \textit{context revelation}, which leaks the scarce resource that generates value in the first place. Who owns the assets where context is born determines how much leaks. We formalize this in a graph economy where three institutional forms---fragmented market, platform router, and vertically integrated rollup---coordinate over the same nodes and edges. Platform intermediation is not merely a weaker form of ownership; it is a leakage amplifier: the router systematically extracts clients' operational intelligence and deploys it to serve their competitors, producing higher total leakage than the open market despite lower nominal visibility. In parallel-world comparison, the rollup generates a mean 25\% higher net surplus than the router across 10 seeds (10/10 pass). Under passive-router assumptions in a competing-world simulation, competitive feedback compounds this advantage into router extinction across all tested seeds. Ownership of the scarce context, not intermediation of it, captures the value that AI creates.
+\noindent AI commoditizes execution, so value migrates to the inputs execution cannot replace: local context, trust, and operational control. A growing literature argues that AI agents will reduce transaction costs enough to shift activity from firms to markets---a ``Coasean singularity.'' This account treats coordination as an information-processing problem that AI makes cheap. We argue that coordination also requires \textit{context revelation}, which leaks the scarce resource that generates value in the first place. Who owns the assets where context is born determines how much leaks. We formalize this in a graph economy where three institutional forms---fragmented market, platform router, and vertically integrated rollup---coordinate over the same nodes and edges. Platform intermediation is not merely a weaker form of ownership; it is a leakage amplifier: the router systematically extracts clients' operational intelligence and deploys it to serve their competitors, producing higher total leakage than the open market despite lower nominal visibility. In parallel-world comparison, the rollup generates a mean 23\% higher net surplus than the router across 10 seeds (10/10 pass). Under passive-router assumptions in a competing-world simulation, competitive feedback compounds this advantage into router extinction across all tested seeds. Ownership of the scarce context, not intermediation of it, captures the value that AI creates.
 
 \bigskip
 \noindent \textit{JEL Codes:} D23, L22, L25, O33 \\
@@ -82,7 +82,7 @@ The three institutional forms correspond to competing theses about AI-era indust
 We characterize the revelation-leakage tradeoff analytically and identify sufficient conditions for rollup dominance under the model's parameter regime. We then investigate the model computationally through simulation with ablation analysis, multi-seed robustness, and a competing-world extension. Our main findings are:
 
 \begin{enumerate}[leftmargin=*]
-\item In parallel-world comparison across 10 graph realizations, the rollup generates a mean \textbf{25\% higher net surplus} than the router (10 of 10 seeds), driven largely by the router's learning leakage---the systematic extraction of client operational intelligence that benefits competitors.
+\item In parallel-world comparison across 10 graph realizations, the rollup generates a mean \textbf{23\% higher net surplus} than the router (10 of 10 seeds), driven largely by the router's learning leakage---the systematic extraction of client operational intelligence that benefits competitors.
 
 \item \textbf{Cross-node learning is the largest single channel.} Learning differences emerge from signal quality---what each form can observe---not assumed rates. All regimes share the same base learning rate. The router has its own advantage: aggregate breadth across all client interactions.
 
@@ -195,7 +195,7 @@ The three forms are parameterized as follows. Let $\mathcal{O}^t \subseteq \math
 Parameter & Market & Router & Rollup \\
 \midrule
 Visibility $\nu_{ij}$ & 1.0 & 0.85 & $\begin{cases} 0.1 & i,j \in \mathcal{O}^t \\ 0.5 & \text{otherwise} \end{cases}$ \\[8pt]
-Actuator $\mu_{ij}$ & 0.5 & 0.7 & $\begin{cases} 1.0 & i,j \in \mathcal{O}^t \\ 0.5 & \text{otherwise} \end{cases}$ \\[8pt]
+Actuator $\mu_{ij}$ & 0.5 & 0.5 & $\begin{cases} 1.0 & i,j \in \mathcal{O}^t \\ 0.5 & \text{otherwise} \end{cases}$ \\[8pt]
 Interaction $\iota_{ij}$ & 0.2 & 0.6 & $\begin{cases} 1.0 & i,j \in \mathcal{O}^t \\ 0.2 & \text{otherwise} \end{cases}$ \\[8pt]
 Base learning rate $\eta_{\text{base}}$ & 0.03 & 0.03 & 0.03 \\
 Signal quality $\sigma_q$ & 0.3 & $0.5 + \text{breadth}$ & $\text{wtd}(\sigma_{\text{own}}, \sigma_{\text{mkt}})$ \\
@@ -510,19 +510,19 @@ We implement the model as a discrete-time simulation over a directed graph with 
 \toprule
 Metric & Market & Router & Rollup \\
 \midrule
-Gross coordination surplus & 1,859 & 1,606 & 2,195 \\
+Gross coordination surplus & 1,859 & 1,567 & 2,195 \\
 Ownership costs & 0 & 0 & 76 \\
-\textbf{Net surplus} & \textbf{1,859} & \textbf{1,606} & \textbf{2,119} \\
+\textbf{Net surplus} & \textbf{1,859} & \textbf{1,567} & \textbf{2,119} \\
 Total coordinations & 603 & 586 & 638 \\
-Avg match quality & 0.767 & 0.804 & 0.812 \\
+Avg match quality & 0.767 & 0.793 & 0.812 \\
 Avg leakage cost & 0.252 & 0.757 & 0.120 \\
-Final policy quality & 0.363 & 0.639 & 1.000 \\
+Final policy quality & 0.363 & 0.635 & 1.000 \\
 Nodes owned & 0 & 0 & 12 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-On the baseline seed, the rollup generates 32\% higher net surplus than the router after deducting ownership costs. The router's average leakage (0.757) is \textit{three times} the market's (0.252), despite the router's lower nominal visibility (0.85 vs.\ 1.0). This inversion is driven by router learning leakage: the platform's systematic extraction of operational intelligence from its clients imposes a cost that exceeds the market's passive information exposure. Over 10 random graph realizations (seeds 42--51), the mean rollup/router ratio is \textbf{1.25} (std.\ 0.044), with the rollup generating higher net surplus in 10 of 10 seeds.
+On the baseline seed, the rollup generates 35\% higher net surplus than the router after deducting ownership costs. The router's average leakage (0.757) is \textit{three times} the market's (0.252), despite the router's lower nominal visibility (0.85 vs.\ 1.0). This inversion is driven by router learning leakage: the platform's systematic extraction of operational intelligence from its clients imposes a cost that exceeds the market's passive information exposure. Over 10 random graph realizations (seeds 42--51), the mean rollup/router ratio is \textbf{1.23} (std.\ 0.052), with the rollup generating higher net surplus in 10 of 10 seeds.
 
 \subsection{Channel Decomposition}
 
@@ -536,25 +536,25 @@ To identify which channels drive the rollup advantage, we conduct ablation exper
 \toprule
 Channel & Description & Shapley Value \\
 \midrule
-Router learning leakage & Platform extracts/redistributes client data & $+0.198$ \\
-Cross-node learning & Richer signal quality under ownership & $+0.077$ \\
-Leakage protection & Lower information exposure for rollup & $+0.052$ \\
-Context foreclosure & Degraded context for external coordinators & $+0.034$ \\
-Trust-generated context & Favors the router & $-0.005$ \\
-Actuator access & Favors the router & $-0.019$ \\
+Router learning leakage & Platform extracts/redistributes client data & $+0.216$ \\
+Leakage protection & Lower information exposure for rollup & $+0.092$ \\
+Cross-node learning & Richer signal quality under ownership & $+0.078$ \\
+Context foreclosure & Degraded context for external coordinators & $+0.037$ \\
+Actuator access & Rollup internal control advantage & $+0.005$ \\
+Trust-generated context & Favors the router & $-0.024$ \\
 \midrule
-\textbf{Total effect} & All-on (1.286) minus all-off (0.949) & $\mathbf{+0.337}$ \\
+\textbf{Total effect} & All-on (1.353) minus all-off (0.949) & $\mathbf{+0.404}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Unlike pure ablation (removing one channel at a time), Shapley values compute each channel's marginal contribution averaged over all possible orderings of channel addition, properly accounting for interaction effects. The contributions sum exactly to the total difference between all-channels-on and all-channels-off.
 
-\textbf{Router learning leakage is the dominant channel}, accounting for 59\% of the total effect. The router's practice of ingesting client operational data and using it to improve service for competitors imposes a cost that exceeds all other channels combined. This is the paper's central empirical finding: platform intermediation does not merely fail to shield information---it systematically extracts and redistributes it.
+\textbf{Router learning leakage is the dominant channel}, accounting for 53\% of the total effect. The router's practice of ingesting client operational data and using it to improve service for competitors imposes a cost that exceeds all other channels combined. This is the paper's central empirical finding: platform intermediation does not merely fail to shield information---it systematically extracts and redistributes it.
 
-\textbf{Cross-node learning is second} at $+0.077$ (23\% of total). Learning differences emerge from signal quality, not assumed rates: the rollup observes richer outcomes at owned nodes while the router learns from aggregate breadth. Depth plus cross-vertical transfer outweighs breadth.
+\textbf{Leakage protection and cross-node learning are second and third} at $+0.092$ and $+0.078$ respectively. Together with router learning leakage, these three information channels account for 96\% of the total effect. The rollup's advantage is fundamentally about information control: retaining context internally, learning from richer signals, and avoiding the systematic extraction that platform intermediation imposes.
 
-\textbf{Trust and actuator favor the router} ($-0.005$ and $-0.019$). The router must earn trust through investment to access context; the rollup accesses it through ownership. When trust is present, it narrows the gap. This confirms the model is not rigged: two channels actively favor the router, and the rollup wins despite them.
+\textbf{Trust favors the router} ($-0.024$). The router must earn trust through investment to access context; the rollup accesses it through ownership. When trust is present, it narrows the gap. This confirms the model is not rigged: the router has a genuine strength, and the rollup wins despite it.
 
 \subsection{Ownership Density}
 

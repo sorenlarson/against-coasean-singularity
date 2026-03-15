@@ -100,11 +100,10 @@ class SimulationSettings:
     router_trust_k: float = 3.0
 
     # Actuator access — microfounded from control rights
-    # Market: no control, recommendations only (bilateral negotiation)
-    # Router: contractual influence, API-level control
+    # Market and router: can recommend but not execute (no operational control)
     # Rollup internal: full operational control (board seat + management)
     actuator_mult_market: float = 0.5
-    actuator_mult_router: float = 0.7
+    actuator_mult_router: float = 0.5
     actuator_mult_rollup: float = 1.0
 
     # Interaction modes (for trust context)
