@@ -578,6 +578,20 @@ We evaluate the model in two modes. In the \textbf{parallel-world comparison}, w
 
 In the \textbf{competing-world simulation} (Section~\ref{sec:competing}), all three forms coexist in a single economy. The rollup starts with 3 nodes, the router serves $\sim$14 clients, and the rest are market participants. Each time step, the rollup acquires one node---and that node \textit{actually leaves} the router's client base. This is useful for \textit{dynamics}---showing what happens when the structural advantage compounds through competition.
 
+\subsection{What Happens in Each World: A Walkthrough}
+
+To build intuition, consider a single coordination event. Node 7 has a coordination opportunity and selects Node 12 as its best counterparty.
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{In the market world}, Nodes 7 and 12 coordinate directly. Their interaction is fully exposed to the market (visibility $= 1.0$), neither party has operational control over the other (actuator $= 0.5$), and trust builds slowly through arm's-length interaction (interaction mode $= 0.2$).
+
+\item \textbf{In the router world}, the same two nodes coordinate, but now their interaction flows through the platform's institutional layer. Visibility is slightly lower ($0.85$), trust builds faster through the platform's standardized interface (interaction mode $= 0.6$)---but the platform also extracts operational intelligence from the interaction (router learning leakage), imposing a cost that represents the value donated to the platform's shared model.
+
+\item \textbf{In the rollup world}, if both nodes are owned, their interaction is internal: minimal leakage (visibility $= 0.1$), full operational control (actuator $= 1.0$), high-trust interaction (mode $= 1.0$), and no router learning leakage. If only one is owned, the interaction reverts to market-level parameters.
+\end{itemize}
+
+\noindent In every world, the same nodes coordinate over the same edges. What changes is the parameter regime governing each interaction. The ``router'' and ``rollup'' are not actors on the graph---they are the rules of the game, like playing the same position under different rulesets.
+
 \subsection{Simulation Loop}
 
 Each time step proceeds as follows, independently for each regime:
