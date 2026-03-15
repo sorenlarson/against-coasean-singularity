@@ -490,7 +490,7 @@ The rollup acquires one node every $\Delta_A$ periods, selecting the node with h
 j^* = \arg\max_{j \notin \mathcal{O}^t} \underbrace{c_1 \cdot \text{adj}(j)}_{\text{adjacency}} + \underbrace{c_2 \cdot \bar{\kappa}_j}_{\text{complementarity}} + \underbrace{c_3 \cdot \alpha_j}_{\text{info value}} + \underbrace{c_4 \cdot a_j}_{\text{actuator}}
 \end{equation}
 
-\noindent The rollup scores each unowned node on four criteria, weighted by coefficients $c_1$ through $c_4$:
+\noindent The rollup scores each unowned node on four criteria, weighted by coefficients $c_1 = 1.0$, $c_2 = 0.5$, $c_3 = 1.5$, $c_4 = 0.8$ (information value weighted highest, complementarity lowest):
 \begin{itemize}[leftmargin=*]
 \item $c_1 \cdot \text{adj}(j)$ --- \textbf{adjacency}: what fraction of $j$'s neighbors are already owned? Acquiring nodes adjacent to existing holdings creates more internal coordination pairs
 \item $c_2 \cdot \bar{\kappa}_j$ --- \textbf{complementarity}: average synergy of $j$'s edges with owned neighbors (only active when $\beta_5 > 0$)
