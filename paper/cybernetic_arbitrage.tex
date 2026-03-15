@@ -570,6 +570,24 @@ Proposition~\ref{prop:super} is important because it addresses the critique that
 
 We implement the model as a discrete-time simulation over a directed graph with $N = 30$ nodes, $K = 5$ verticals, edge density 0.15, and $T = 50$ time steps. Node and edge parameters are drawn from uniform distributions. In the parallel-world comparison, each institutional form is run independently over the same graph---the three regimes never interact, so performance differences are attributable to institutional form alone (see Remark~1). All results are deterministic given a fixed random seed. Section~\ref{sec:competing} presents a competing-world extension where the three forms coexist and acquisitions directly transfer nodes between regimes.
 
+\subsection{Simulation Loop}
+
+Each time step proceeds as follows, independently for each regime:
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Context drift.} Every node's demand and capacity profiles receive a small random perturbation (shared across regimes, so all three face the same changing economy).
+
+\item \textbf{Opportunity generation.} Each node generates a Poisson-distributed number of coordination opportunities (mean 0.3 per node per step). An opportunity means: this node has something it could coordinate with a neighbor.
+
+\item \textbf{Counterparty selection and revelation.} For each opportunity, the node evaluates all its graph neighbors. For each candidate counterparty, it computes the optimal revelation level (grid search over $r \in \{0, 0.25, 0.5, 0.75, 1.0\}$) that maximizes net surplus given the current trust, leakage stock, policy quality, and institutional parameters. It selects the counterparty with the highest positive net surplus. If no counterparty yields positive surplus, the opportunity goes unexercised.
+
+\item \textbf{Coordination event.} If a counterparty is selected, the coordination occurs: match quality is computed, leakage costs are incurred, execution losses are realized, and net surplus is recorded.
+
+\item \textbf{State updates.} After all events in the step: (a) pairwise trust is updated based on outcomes (success builds trust, failure erodes it); (b) leakage stocks accumulate and decay; (c) policy quality improves through learning (at a rate determined by signal quality and the transfer bonus); (d) the rollup pays ownership costs; (e) if the acquisition interval is reached, the rollup acquires the highest-EMV unowned node.
+\end{enumerate}
+
+\noindent After $T$ steps, the simulation produces per-regime totals for surplus, coordination count, average match quality, average leakage, and final policy quality.
+
 \subsection{Baseline Comparison}
 \label{sec:baseline}
 
