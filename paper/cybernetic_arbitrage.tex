@@ -487,10 +487,10 @@ The degraded $\tilde{\mathbf{c}}_j$ enters the context fit computation ($\tilde{
 The rollup acquires one node every $\Delta_A$ periods, selecting the node with highest expected marginal value:
 
 \begin{equation}
-j^* = \arg\max_{j \notin \mathcal{O}^t} \underbrace{c_1 \cdot \text{adj}(j)}_{\text{adjacency}} + \underbrace{c_2 \cdot \bar{\kappa}_j}_{\text{complementarity}} + \underbrace{c_3 \cdot \alpha_j}_{\text{info value}} + \underbrace{c_4 \cdot a_j}_{\text{actuator}}
+j^* = \arg\max_{j \notin \mathcal{O}^t} \underbrace{w_{\text{adj}} \cdot \text{adj}(j)}_{\text{adjacency}} + \underbrace{w_{\text{comp}} \cdot \bar{\kappa}_j}_{\text{complementarity}} + \underbrace{w_{\alpha} \cdot \alpha_j}_{\text{info value}} + \underbrace{w_{\text{act}} \cdot a_j}_{\text{actuator}}
 \end{equation}
 
-\noindent The rollup scores each unowned node on four criteria, weighted by coefficients $c_1 = 1.0$, $c_2 = 0.5$, $c_3 = 1.5$, $c_4 = 0.8$ (information value weighted highest, complementarity lowest):
+\noindent The rollup scores each unowned node on four criteria. Information value is weighted highest ($w_\alpha = 1.5$), followed by adjacency ($w_{\text{adj}} = 1.0$), actuator strength ($w_{\text{act}} = 0.8$), and complementarity ($w_{\text{comp}} = 0.5$):
 \begin{itemize}[leftmargin=*]
 \item $c_1 \cdot \text{adj}(j)$ --- \textbf{adjacency}: what fraction of $j$'s neighbors are already owned? Acquiring nodes adjacent to existing holdings creates more internal coordination pairs
 \item $c_2 \cdot \bar{\kappa}_j$ --- \textbf{complementarity}: average synergy of $j$'s edges with owned neighbors (only active when the complementarity coefficient is nonzero)
