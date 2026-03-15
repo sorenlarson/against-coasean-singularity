@@ -547,7 +547,7 @@ V(A \cup B) > V(A) + V(B)
 Superlinearity emerges without exogenous complementarity (its coefficient set to zero) when:
 \begin{enumerate}
 \item[(i)] Cross-partition learning: nodes in $A$ and $B$ span different verticals, so $A \cup B$ has a higher transfer bonus than either $A$ or $B$ alone.
-\item[(ii)] Internal leakage reduction: coordination between $A$ and $B$ has visibility $\nu^{\text{int}} = 0.1$ in the combined portfolio versus $\nu^{\text{ext}} = 0.5$ when $A$ and $B$ are separate.
+\item[(ii)] Internal leakage reduction: when $A$ and $B$ are separate portfolios, coordination between a node in $A$ and a node in $B$ is an \textit{external} interaction (neither rollup owns both sides), with visibility $\nu^{\text{ext}} = 0.5$. When combined into one portfolio, the same coordination becomes \textit{internal} ($\nu^{\text{int}} = 0.1$). Combining doesn't just add internal interactions---it \textit{converts} cross-partition interactions from external to internal, reducing their leakage by 80\%.
 \item[(iii)] Trust accumulation: owned pairs $(i \in A, j \in B)$ build trust at the accelerated rate ($b = 1.2$) in the combined portfolio.
 \end{enumerate}
 \end{proposition}
