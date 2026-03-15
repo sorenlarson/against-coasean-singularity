@@ -16,6 +16,9 @@ texput.log
 # Claude Code
 .claude/
 
+# Blog drafts
+blog_draft.md
+
 # Earlier tests and specs (not part of this paper)
 cybernetic-arbitrage.md
 cybernetic_arbitrage_theory_note.md
