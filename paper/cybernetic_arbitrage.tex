@@ -183,7 +183,7 @@ Each edge $(i,j) \in \mathcal{E}$ is characterized by:
 Three institutional forms are evaluated over the same graph. Each is characterized by a parameter regime $\Theta = (\nu, \mu, \iota)$ governing visibility, actuator access, and interaction mode.
 
 \begin{remark}[Parallel-World Comparison]
-We adopt a \textit{parallel-world} design: the same underlying economy is run separately under each institutional form. Each regime faces identical initial conditions, opportunity draws, and context drift. This is the standard approach for mechanism comparison---it cleanly attributes performance differences to institutional form rather than to path-dependent competitive dynamics. An alternative \textit{in-world competition} design, where the three forms coexist in a single economy and compete for nodes and surplus, would test strategic dynamics but risks conflating ``better coordination model'' with ``won the race first.'' We present both: the parallel-world analysis for clean attribution (Sections~\ref{sec:baseline}--\ref{sec:shielding}) and a competing-world extension for competitive dynamics (Section~\ref{sec:competing}).
+We adopt a \textit{parallel-world} design: the same underlying economy is run separately under each institutional form. Each regime faces identical initial conditions, opportunity draws, and context drift. This is the standard approach for mechanism comparison---it cleanly attributes performance differences to institutional form rather than to path-dependent competitive dynamics. An alternative \textit{in-world competition} design, where the three forms coexist in a single economy and compete for nodes and surplus, would test strategic dynamics but risks conflating ``better coordination model'' with ``won the race first.'' We present both: the parallel-world analysis for clean attribution (Sections~\ref{sec:baseline}--\ref{sec:superlinearity}) and a competing-world extension for competitive dynamics (Section~\ref{sec:competing}).
 \end{remark}
 
 \begin{definition}[Institutional Form]
@@ -675,12 +675,8 @@ Cost/node/step & Own.\ cost & Rollup net & Router & Ratio \\
 
 With context foreclosure, the rollup wins at every tested ownership cost level (single-seed). Foreclosure degrades the router's information environment, lowering its surplus relative to models without foreclosure. At the highest tested overhead (0.30 per node per step), the rollup still maintains a positive net advantage. However, the multi-seed analysis shows that the baseline parallel-world edge is modest (mean 1.6\%, 6/10 seeds), so the cost sensitivity should be interpreted as illustrative of the direction rather than as precise break-even estimates.
 
-\subsection{Router Information Shielding}
-\label{sec:shielding}
-
-We test whether platform intermediaries shield participants' information by setting router visibility equal to market visibility ($\nu_R = 1.0$). The rollup/router ratio changes by only 0.012 (single-seed). Platform information shielding is a non-factor, consistent with the observation that SaaS platforms \textit{redirect} information flow rather than reducing total information exposure.
-
 \subsection{Superlinearity Without Complementarity}
+\label{sec:superlinearity}
 
 With the complementarity coefficient set to zero (the $\kappa_{ij}$ term in Eq.~\ref{eq:match} contributes nothing), the baseline produces a superlinearity ratio of 1.48 (single-seed, seed 42): the combined portfolio generates 48\% more surplus than the sum of its halves. Enabling exogenous complementarity (setting the coefficient to 0.5) produces a ratio of 1.46---essentially unchanged. Superlinearity is not driven by assumed synergies but emerges from cross-node learning, internal leakage reduction, and trust accumulation. Multi-seed robustness of the superlinearity result is a direction for future work.
 
