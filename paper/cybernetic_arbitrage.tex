@@ -530,32 +530,31 @@ To identify which channels drive the rollup advantage, we conduct ablation exper
 
 \begin{table}[H]
 \centering
-\caption{Ablation Analysis: Channel Decomposition (single-seed, seed 42, net of ownership costs)}
-\label{tab:ablation}
-\begin{tabular}{llcc}
+\caption{Shapley Value Decomposition of Rollup/Router Ratio (single-seed, seed 42)}
+\label{tab:shapley}
+\begin{tabular}{llr}
 \toprule
-Channel Ablated & Description & Ratio & $\Delta$ from Baseline \\
+Channel & Description & Shapley Value \\
 \midrule
-(none --- baseline) & All channels active & 1.103 & --- \\
-Learning & No cross-node transfer & 1.044 & $-0.059$ \\
-Leakage & Leakage cost set to zero & 1.071 & $-0.032$ \\
-Complementarity & Exogenous complementarity enabled & 1.090 & $-0.013$ \\
-Actuator & All regimes get market actuator & 1.117 & $+0.014$ \\
-Trust context & Trust-generated context set to zero & 1.131 & $+0.028$ \\
-All channels & All channels disabled & 0.985 & $-0.118$ \\
+Router learning leakage & Platform extracts/redistributes client data & $+0.198$ \\
+Cross-node learning & Richer signal quality under ownership & $+0.077$ \\
+Leakage protection & Lower information exposure for rollup & $+0.052$ \\
+Context foreclosure & Degraded context for external coordinators & $+0.034$ \\
+Trust-generated context & Favors the router & $-0.005$ \\
+Actuator access & Favors the router & $-0.019$ \\
+\midrule
+\textbf{Total effect} & All-on (1.286) minus all-off (0.949) & $\mathbf{+0.337}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Three findings emerge:
+Unlike pure ablation (removing one channel at a time), Shapley values compute each channel's marginal contribution averaged over all possible orderings of channel addition, properly accounting for interaction effects. The contributions sum exactly to the total difference between all-channels-on and all-channels-off.
 
-\textbf{Learning is the largest single channel.} Disabling cross-node learning reduces the ratio from 1.103 to 1.044---a drop of 0.059, the largest single-channel effect. Learning differences emerge from \textit{signal quality}---the rollup observes richer outcomes at owned nodes---not from an assumed learning rate advantage (all regimes share $\eta_{\text{base}} = 0.03$). The router has its own learning advantage: aggregate breadth across all client interactions. But depth plus cross-vertical transfer outweighs breadth.
+\textbf{Router learning leakage is the dominant channel}, accounting for 59\% of the total effect. The router's practice of ingesting client operational data and using it to improve service for competitors imposes a cost that exceeds all other channels combined. This is the paper's central empirical finding: platform intermediation does not merely fail to shield information---it systematically extracts and redistributes it.
 
-\textbf{Leakage is second.} Disabling leakage reduces the ratio by 0.032. With context foreclosure included, the rollup's information advantage is robust even without explicit leakage costs.
+\textbf{Cross-node learning is second} at $+0.077$ (23\% of total). Learning differences emerge from signal quality, not assumed rates: the rollup observes richer outcomes at owned nodes while the router learns from aggregate breadth. Depth plus cross-vertical transfer outweighs breadth.
 
-\textbf{Sanity check passes.} With all channels disabled, the ratio falls to 0.985---the rollup loses because ownership costs remain but information advantages are gone. The 0.118 drop from baseline to all-off confirms the combined magnitude of the information channels.
-
-\textbf{Trust and actuator channels favor the router.} A counterintuitive finding: removing trust-generated context or actuator access \textit{increases} the rollup/router ratio ($+0.028$ and $+0.014$ respectively). This occurs because the router depends on these channels more than the rollup does. The router's interaction mode ($\iota_R = 0.6$) combined with its trust investment mechanism generates substantial trust-based context---removing this channel hurts the router disproportionately. Similarly, the router's actuator multiplier ($\mu_R = 0.7$) gives it a meaningful advantage over the market ($\mu_M = 0.5$); equalizing actuator access removes this router advantage. The rollup's dominance comes from \textit{other} channels (learning, leakage, foreclosure) that more than compensate. These sign reversals confirm that the model is not rigged in the rollup's favor: two of its four conceptual pillars actually favor the router under the current parameterization.
+\textbf{Trust and actuator favor the router} ($-0.005$ and $-0.019$). The router must earn trust through investment to access context; the rollup accesses it through ownership. When trust is present, it narrows the gap. This confirms the model is not rigged: two channels actively favor the router, and the rollup wins despite them.
 
 \subsection{Ownership Density}
 

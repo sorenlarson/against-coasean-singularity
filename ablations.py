@@ -152,6 +152,118 @@ def run_ownership_cost_sweep(base: SimulationSettings) -> Dict:
     return {"ownership_cost_sweep": rows}
 
 
+def run_shapley_decomposition(base: SimulationSettings) -> Dict:
+    """Shapley value decomposition of channel contributions.
+
+    Instead of pure ablation (remove one channel, measure change), Shapley
+    computes each channel's marginal contribution averaged over ALL possible
+    orderings of channel addition. This properly handles interaction effects
+    and the contributions sum exactly to the total difference.
+    """
+    import itertools
+    import math
+
+    # Define channels and their on/off settings
+    channels = {
+        "learning": {"cross_node_learning_on": True},
+        "leakage": {"leakage_on": True},
+        "trust": {"trust_generated_context_on": True},
+        "actuator": {"actuator_access_on": True},
+        "foreclosure": {"foreclosure_noise_scale": 0.4},
+        "router_leak": {"router_learning_leakage": 0.15},
+    }
+    off_values = {
+        "learning": {"cross_node_learning_on": False},
+        "leakage": {"leakage_on": False},
+        "trust": {"trust_generated_context_on": False},
+        "actuator": {"actuator_access_on": False},
+        "foreclosure": {"foreclosure_noise_scale": 0.0},
+        "router_leak": {"router_learning_leakage": 0.0},
+    }
+
+    channel_names = list(channels.keys())
+    n = len(channel_names)
+
+    print("\n" + "=" * 60)
+    print("  SHAPLEY VALUE DECOMPOSITION")
+    print(f"  {n} channels, {2**n} coalitions")
+    print("=" * 60)
+
+    # Evaluate all 2^n coalitions
+    coalition_values = {}
+    for i in range(2**n):
+        # Which channels are on?
+        active = set()
+        for j, name in enumerate(channel_names):
+            if i & (1 << j):
+                active.add(name)
+
+        # Build settings: start with all off, turn on active channels
+        overrides = {}
+        for name in channel_names:
+            if name in active:
+                overrides.update(channels[name])
+            else:
+                overrides.update(off_values[name])
+        # Also disable acquisition and set initial_owned_count=0 for all-off base
+        overrides["initial_owned_count"] = base.initial_owned_count
+        overrides["endogenous_acquisition_on"] = base.endogenous_acquisition_on
+
+        settings = build_settings(base, overrides)
+        results = run_test_f(settings, write_artifacts=False)
+        rr = results["regime_results"]
+
+        rollup = rr["rollup"]["total_surplus"]
+        router = rr["router"]["total_surplus"]
+        ratio = rollup / router if router != 0 else 0.0
+
+        coalition_key = frozenset(active)
+        coalition_values[coalition_key] = ratio
+
+        active_str = ",".join(sorted(active)) if active else "(none)"
+        print(f"  [{i+1:>2}/{2**n}] {active_str:<50s} ratio={ratio:.4f}")
+
+    # Compute Shapley values
+    shapley = {}
+    for name in channel_names:
+        sv = 0.0
+        others = [c for c in channel_names if c != name]
+        # Iterate over all subsets of other channels
+        for size in range(n):
+            for subset in itertools.combinations(others, size):
+                S = frozenset(subset)
+                S_with = S | {name}
+                # Marginal contribution of adding this channel to S
+                marginal = coalition_values[S_with] - coalition_values[S]
+                # Weight: |S|!(n-|S|-1)! / n!
+                weight = math.factorial(len(S)) * math.factorial(n - len(S) - 1) / math.factorial(n)
+                sv += weight * marginal
+        shapley[name] = round(sv, 4)
+
+    # Verify: sum should equal total effect
+    all_on = coalition_values[frozenset(channel_names)]
+    all_off = coalition_values[frozenset()]
+    total_effect = round(all_on - all_off, 4)
+    shapley_sum = round(sum(shapley.values()), 4)
+
+    print(f"\n  Shapley values (sum to total effect):")
+    for name in sorted(shapley, key=lambda k: shapley[k], reverse=True):
+        print(f"    {name:<15s} {shapley[name]:>+.4f}")
+    print(f"    {'---':<15s} {'---':>6s}")
+    print(f"    {'SUM':<15s} {shapley_sum:>+.4f}")
+    print(f"    {'Total effect':<15s} {total_effect:>+.4f}")
+    print(f"    {'All-on ratio':<15s} {all_on:.4f}")
+    print(f"    {'All-off ratio':<15s} {all_off:.4f}")
+
+    return {
+        "shapley_values": shapley,
+        "total_effect": total_effect,
+        "shapley_sum": shapley_sum,
+        "all_on_ratio": round(all_on, 4),
+        "all_off_ratio": round(all_off, 4),
+    }
+
+
 def build_settings(base: SimulationSettings, overrides: Dict) -> SimulationSettings:
     """Create a new SimulationSettings with overrides applied."""
     params = {k: v for k, v in base.__dict__.items()}
@@ -202,6 +314,9 @@ def run_ablations(
     # Ownership cost sweep
     cost_results = run_ownership_cost_sweep(base)
 
+    # Shapley decomposition
+    shapley_results = run_shapley_decomposition(base)
+
     output = {
         "experiments": {
             name: {
@@ -217,6 +332,7 @@ def run_ablations(
         "analysis": analysis,
         "density_sweep": density_results["density_sweep"],
         "ownership_cost_sweep": cost_results["ownership_cost_sweep"],
+        "shapley": shapley_results,
     }
 
     # Write combined output
@@ -368,6 +484,21 @@ def _render_ablation_markdown(output: Dict) -> str:
                 f"| {row['rollup_net']} | {row['router_surplus']} "
                 f"| {row['rollup_vs_router']} | {'PASS' if row['P1'] else 'FAIL'} |"
             )
+
+    # Shapley decomposition
+    shapley = output.get("shapley", {})
+    if shapley.get("shapley_values"):
+        lines.append("\n## Shapley Value Decomposition\n")
+        lines.append("Channel contributions to rollup/router ratio, accounting for interaction effects.\n")
+        lines.append("| Channel | Shapley Value |")
+        lines.append("|---|---|")
+        sv = shapley["shapley_values"]
+        for name in sorted(sv, key=lambda k: sv[k], reverse=True):
+            lines.append(f"| {name} | {sv[name]:+.4f} |")
+        lines.append(f"| **Sum** | **{shapley['shapley_sum']:+.4f}** |")
+        lines.append(f"| **Total effect** | **{shapley['total_effect']:+.4f}** |")
+        lines.append(f"\n- All-on ratio: {shapley['all_on_ratio']}")
+        lines.append(f"- All-off ratio: {shapley['all_off_ratio']}")
 
     lines.append("")
     return "\n".join(lines)
