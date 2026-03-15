@@ -378,13 +378,23 @@ Under the parameter regime in Table~\ref{tab:params}, the rollup's internal inte
 
 \subsubsection{Trust Dynamics}
 
-Pairwise trust evolves with interaction outcomes:
+Pairwise trust $T_{ij}^t$ (how much nodes $i$ and $j$ trust each other at time $t$) evolves with interaction outcomes. After each coordination event:
 
 \begin{equation}
-T_{ij}^{t+1} = \text{clip}\!\left[T_{ij}^t + \eta^+ (1 - T_{ij}^t) \cdot b \cdot \mathbf{1}[\Pi > 0] - \eta^- T_{ij}^t \cdot \mathbf{1}[\Pi \leq 0],\; 0,\; 1\right]
+T_{ij}^{t+1} = \text{clip}\!\left[\;
+\underbrace{T_{ij}^t}_{\substack{\text{current} \\ \text{trust}}}
++ \underbrace{\eta^+ (1 - T_{ij}^t) \cdot b}_{\substack{\text{trust gain on} \\ \text{success}}} \cdot \underbrace{\mathbf{1}[\Pi > 0]}_{\substack{\text{positive} \\ \text{surplus?}}}
+- \underbrace{\eta^- T_{ij}^t}_{\substack{\text{trust loss on} \\ \text{failure}}} \cdot \underbrace{\mathbf{1}[\Pi \leq 0]}_{\substack{\text{negative} \\ \text{surplus?}}}
+,\; 0,\; 1\;\right]
 \end{equation}
 
-\noindent where $b = 1.2$ for owned pairs and $b = 1.0$ otherwise. The asymmetric update (owned pairs build trust faster) reflects the structural stability of ownership relative to arm's-length relationships.
+\noindent Trust grows when coordination succeeds ($\Pi > 0$) and decays when it fails ($\Pi \leq 0$), clipped to $[0,1]$. The key parameters:
+\begin{itemize}[leftmargin=*]
+\item $\eta^+$ --- \textbf{trust gain rate}: how fast trust builds after a successful interaction
+\item $(1 - T_{ij}^t)$ --- \textbf{diminishing returns}: trust builds slower as it approaches 1.0
+\item $b$ --- \textbf{ownership bonus}: $b = 1.2$ for owned pairs (structural alignment accelerates trust), $b = 1.0$ otherwise
+\item $\eta^-$ --- \textbf{trust decay rate}: how fast trust erodes after a failed interaction
+\end{itemize}
 
 \subsubsection{Learning Dynamics}
 \label{sec:learning}
