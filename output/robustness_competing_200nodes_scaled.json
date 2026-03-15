@@ -1,0 +1,302 @@
+[
+  {
+    "seed": 42,
+    "ratio": 1.992,
+    "rollup_nodes": 119,
+    "router_nodes": 8
+  },
+  {
+    "seed": 43,
+    "ratio": 2.021,
+    "rollup_nodes": 119,
+    "router_nodes": 7
+  },
+  {
+    "seed": 44,
+    "ratio": 1.97,
+    "rollup_nodes": 119,
+    "router_nodes": 11
+  },
+  {
+    "seed": 45,
+    "ratio": 1.859,
+    "rollup_nodes": 119,
+    "router_nodes": 11
+  },
+  {
+    "seed": 46,
+    "ratio": 1.841,
+    "rollup_nodes": 119,
+    "router_nodes": 8
+  },
+  {
+    "seed": 47,
+    "ratio": 1.748,
+    "rollup_nodes": 119,
+    "router_nodes": 11
+  },
+  {
+    "seed": 48,
+    "ratio": 1.844,
+    "rollup_nodes": 119,
+    "router_nodes": 10
+  },
+  {
+    "seed": 49,
+    "ratio": 1.893,
+    "rollup_nodes": 119,
+    "router_nodes": 6
+  },
+  {
+    "seed": 50,
+    "ratio": 2.079,
+    "rollup_nodes": 119,
+    "router_nodes": 12
+  },
+  {
+    "seed": 51,
+    "ratio": 1.92,
+    "rollup_nodes": 119,
+    "router_nodes": 7
+  },
+  {
+    "seed": 52,
+    "ratio": 1.823,
+    "rollup_nodes": 119,
+    "router_nodes": 9
+  },
+  {
+    "seed": 53,
+    "ratio": 1.758,
+    "rollup_nodes": 119,
+    "router_nodes": 8
+  },
+  {
+    "seed": 54,
+    "ratio": 1.8,
+    "rollup_nodes": 119,
+    "router_nodes": 10
+  },
+  {
+    "seed": 55,
+    "ratio": 1.778,
+    "rollup_nodes": 119,
+    "router_nodes": 7
+  },
+  {
+    "seed": 56,
+    "ratio": 1.85,
+    "rollup_nodes": 119,
+    "router_nodes": 6
+  },
+  {
+    "seed": 57,
+    "ratio": 1.927,
+    "rollup_nodes": 119,
+    "router_nodes": 10
+  },
+  {
+    "seed": 58,
+    "ratio": 1.951,
+    "rollup_nodes": 119,
+    "router_nodes": 9
+  },
+  {
+    "seed": 59,
+    "ratio": 1.978,
+    "rollup_nodes": 119,
+    "router_nodes": 10
+  },
+  {
+    "seed": 60,
+    "ratio": 2.068,
+    "rollup_nodes": 119,
+    "router_nodes": 6
+  },
+  {
+    "seed": 61,
+    "ratio": 1.841,
+    "rollup_nodes": 119,
+    "router_nodes": 11
+  },
+  {
+    "seed": 62,
+    "ratio": 1.938,
+    "rollup_nodes": 119,
+    "router_nodes": 11
+  },
+  {
+    "seed": 63,
+    "ratio": 1.909,
+    "rollup_nodes": 119,
+    "router_nodes": 9
+  },
+  {
+    "seed": 64,
+    "ratio": 1.869,
+    "rollup_nodes": 119,
+    "router_nodes": 6
+  },
+  {
+    "seed": 65,
+    "ratio": 1.75,
+    "rollup_nodes": 119,
+    "router_nodes": 6
+  },
+  {
+    "seed": 66,
+    "ratio": 1.998,
+    "rollup_nodes": 119,
+    "router_nodes": 8
+  },
+  {
+    "seed": 67,
+    "ratio": 1.896,
+    "rollup_nodes": 119,
+    "router_nodes": 13
+  },
+  {
+    "seed": 68,
+    "ratio": 1.771,
+    "rollup_nodes": 119,
+    "router_nodes": 7
+  },
+  {
+    "seed": 69,
+    "ratio": 1.819,
+    "rollup_nodes": 119,
+    "router_nodes": 11
+  },
+  {
+    "seed": 70,
+    "ratio": 1.812,
+    "rollup_nodes": 119,
+    "router_nodes": 11
+  },
+  {
+    "seed": 71,
+    "ratio": 1.934,
+    "rollup_nodes": 119,
+    "router_nodes": 7
+  },
+  {
+    "seed": 72,
+    "ratio": 1.903,
+    "rollup_nodes": 119,
+    "router_nodes": 9
+  },
+  {
+    "seed": 73,
+    "ratio": 2.015,
+    "rollup_nodes": 119,
+    "router_nodes": 11
+  },
+  {
+    "seed": 74,
+    "ratio": 1.828,
+    "rollup_nodes": 119,
+    "router_nodes": 8
+  },
+  {
+    "seed": 75,
+    "ratio": 1.958,
+    "rollup_nodes": 119,
+    "router_nodes": 7
+  },
+  {
+    "seed": 76,
+    "ratio": 1.817,
+    "rollup_nodes": 119,
+    "router_nodes": 11
+  },
+  {
+    "seed": 77,
+    "ratio": 1.722,
+    "rollup_nodes": 119,
+    "router_nodes": 9
+  },
+  {
+    "seed": 78,
+    "ratio": 1.713,
+    "rollup_nodes": 119,
+    "router_nodes": 6
+  },
+  {
+    "seed": 79,
+    "ratio": 1.894,
+    "rollup_nodes": 119,
+    "router_nodes": 9
+  },
+  {
+    "seed": 80,
+    "ratio": 1.846,
+    "rollup_nodes": 119,
+    "router_nodes": 10
+  },
+  {
+    "seed": 81,
+    "ratio": 1.815,
+    "rollup_nodes": 119,
+    "router_nodes": 8
+  },
+  {
+    "seed": 82,
+    "ratio": 1.851,
+    "rollup_nodes": 119,
+    "router_nodes": 7
+  },
+  {
+    "seed": 83,
+    "ratio": 1.812,
+    "rollup_nodes": 119,
+    "router_nodes": 10
+  },
+  {
+    "seed": 84,
+    "ratio": 2.006,
+    "rollup_nodes": 119,
+    "router_nodes": 8
+  },
+  {
+    "seed": 85,
+    "ratio": 1.968,
+    "rollup_nodes": 119,
+    "router_nodes": 8
+  },
+  {
+    "seed": 86,
+    "ratio": 1.962,
+    "rollup_nodes": 119,
+    "router_nodes": 10
+  },
+  {
+    "seed": 87,
+    "ratio": 1.822,
+    "rollup_nodes": 119,
+    "router_nodes": 9
+  },
+  {
+    "seed": 88,
+    "ratio": 1.765,
+    "rollup_nodes": 119,
+    "router_nodes": 5
+  },
+  {
+    "seed": 89,
+    "ratio": 1.842,
+    "rollup_nodes": 119,
+    "router_nodes": 12
+  },
+  {
+    "seed": 90,
+    "ratio": 1.694,
+    "rollup_nodes": 119,
+    "router_nodes": 9
+  },
+  {
+    "seed": 91,
+    "ratio": 1.728,
+    "rollup_nodes": 119,
+    "router_nodes": 9
+  }
+]
