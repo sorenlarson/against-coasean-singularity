@@ -216,6 +216,8 @@ Ownership cost & 0 & 0 & $c_{\text{overhead}} \cdot |\mathcal{O}^t| + \sum f_j^t
 \end{tabular}
 \end{table}
 
+The parameter values reflect the structural properties of each institutional form. The router's interaction mode ($\iota = 0.6$) is higher than the rollup's external interactions ($\iota = 0.2$) because the router is a \textit{relationship platform}: it provides a standardized, repeated interface to all its clients (onboarding, account management, API integration), which is more conducive to trust generation than arm's-length market transactions. The rollup achieves $\iota = 1.0$ on owned pairs through structural alignment (shared owner, integrated systems), but when a subsidiary deals with an unowned company, there is no platform mediating the relationship---it is a standard market transaction. This asymmetry is why the Shapley decomposition shows trust favoring the router: the router builds moderate trust broadly, while the rollup builds deep trust narrowly.
+
 \begin{assumption}[Identical Graph]
 \label{ass:identical}
 All three institutional forms operate over the same graph $\mathcal{G}$ with the same node and edge parameters. They differ only in the parameter regime $\Theta$.
