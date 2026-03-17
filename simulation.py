@@ -37,6 +37,7 @@ class RegimeType(Enum):
     MARKET = "market"
     ROUTER = "router"
     ROLLUP = "rollup"
+    ISOLATED_ROUTER = "isolated_router"
 
 
 # ---------------------------------------------------------------------------
@@ -63,7 +64,7 @@ class SimulationSettings:
     b_r: float = 5.0  # diminishing returns on revelation
 
     # Leakage
-    lambda_L: float = 0.8
+    lambda_L: float = 2.5
     gamma_L: float = 1.5
     rho_L: float = 0.8
     phi_L: float = 0.15
@@ -105,6 +106,7 @@ class SimulationSettings:
     actuator_mult_market: float = 0.5
     actuator_mult_router: float = 0.5
     actuator_mult_rollup: float = 1.0
+    actuator_mult_isolated_router: float = 0.5
 
     # Interaction modes (for trust context)
     # Microfounded: interaction_mode = probability of entering trust-generating state
@@ -114,6 +116,7 @@ class SimulationSettings:
     interaction_owned: float = 1.0
     interaction_router: float = 0.6
     interaction_market: float = 0.2
+    interaction_isolated_router: float = 0.6
 
     # Market visibility — microfounded from information channel properties
     # visibility = P(revealed context reaches competitive market)
@@ -122,9 +125,10 @@ class SimulationSettings:
     # Router: platform aggregates data, has own incentives → weak shielding
     # Market: direct bilateral, observable by market participants → full exposure
     visibility_internal: float = 0.1
-    visibility_rollup_external: float = 0.5
+    visibility_rollup_external: float = 0.85
     visibility_router: float = 0.85
     visibility_market: float = 1.0
+    visibility_isolated_router: float = 0.85
 
     # Ownership costs — per-node overhead and integration friction
     ownership_cost_per_node: float = 0.05  # per-step overhead per owned node (mgmt, governance, reporting)
@@ -167,6 +171,16 @@ class SimulationSettings:
     cross_node_learning_on: bool = True
     complementarity_on: bool = False
     endogenous_acquisition_on: bool = True
+
+    # Isolated router subscription cost
+    subscription_cost_per_node: float = 0.03
+
+    # Leakage sensitivity bounds (graph generation)
+    leakage_sensitivity_low: float = 0.1
+    leakage_sensitivity_high: float = 0.9
+
+    # Competing world: router response strategy
+    router_strategy: str = "passive"
 
 
 @dataclass
@@ -594,7 +608,7 @@ class GraphEconomy:
                         dst=j,
                         base_surplus=rng.uniform(1.0, 5.0),
                         info_requirement=rng.uniform(0.2, 0.8),
-                        leakage_sensitivity=rng.uniform(0.1, 0.9),
+                        leakage_sensitivity=rng.uniform(s.leakage_sensitivity_low, s.leakage_sensitivity_high),
                         trust_requirement=rng.uniform(0.2, 0.8),
                         complementarity=rng.uniform(0.0, 1.0),
                         latency_cost=rng.uniform(0.05, 0.3),
@@ -653,6 +667,8 @@ class InstitutionalRegime:
         self.router_trust_cumulative = np.zeros((n, n))
         # Ownership costs tracking
         self.total_ownership_cost: float = 0.0
+        # Subscription costs tracking (isolated router)
+        self.total_subscription_cost: float = 0.0
         # Integration friction per node (decays over time after acquisition)
         self.integration_friction: Dict[int, float] = {}
 
@@ -670,6 +686,8 @@ class InstitutionalRegime:
             return s.actuator_mult_market
         elif self.regime_type == RegimeType.ROUTER:
             return s.actuator_mult_router
+        elif self.regime_type == RegimeType.ISOLATED_ROUTER:
+            return s.actuator_mult_isolated_router
         else:
             return s.actuator_mult_rollup
 
@@ -679,6 +697,8 @@ class InstitutionalRegime:
             return s.interaction_market
         elif self.regime_type == RegimeType.ROUTER:
             return s.interaction_router
+        elif self.regime_type == RegimeType.ISOLATED_ROUTER:
+            return s.interaction_isolated_router
         else:
             if src in self.owned and dst in self.owned:
                 return s.interaction_owned
@@ -691,6 +711,8 @@ class InstitutionalRegime:
             return s.visibility_market
         elif self.regime_type == RegimeType.ROUTER:
             return s.visibility_router
+        elif self.regime_type == RegimeType.ISOLATED_ROUTER:
+            return s.visibility_isolated_router
         else:
             if src in self.owned and dst in self.owned:
                 return s.visibility_internal
@@ -703,12 +725,14 @@ class InstitutionalRegime:
             return s.actuator_mult_rollup
         elif self.regime_type == RegimeType.ROUTER:
             return s.actuator_mult_router
+        elif self.regime_type == RegimeType.ISOLATED_ROUTER:
+            return s.actuator_mult_isolated_router
         else:
             return s.actuator_mult_market
 
     def invest_in_trust(self, time_step: int) -> float:
         """Router trust investment with diminishing returns. Returns cost."""
-        if self.regime_type != RegimeType.ROUTER:
+        if self.regime_type not in (RegimeType.ROUTER, RegimeType.ISOLATED_ROUTER):
             return 0.0
         s = self.settings
         cost = 0.0
@@ -858,13 +882,11 @@ class InstitutionalRegime:
             effective_signal = np.mean([e.match_quality for e in events])
             transfer = 0.0
 
-        elif self.regime_type == RegimeType.ROUTER:
-            # Router: moderate outcome observability per event
+        elif self.regime_type in (RegimeType.ROUTER, RegimeType.ISOLATED_ROUTER):
+            # Router/isolated router: moderate outcome observability per event
             signal_quality = s.outcome_obs_router
-            # Router's structural advantage: aggregate learning across ALL events
-            # It sees patterns across its entire client base
             effective_signal = np.mean([e.match_quality for e in events])
-            # Breadth bonus: more events → better signal (diminishing returns)
+            # Breadth bonus: aggregate learning across all events (diminishing returns)
             breadth_bonus = s.router_aggregate_breadth * math.log(1 + len(events)) / 10.0
             signal_quality = min(1.0, signal_quality + breadth_bonus)
             transfer = 0.0
@@ -971,6 +993,18 @@ class InstitutionalRegime:
         self.total_ownership_cost += cost
         return cost
 
+    def compute_subscription_costs(self) -> float:
+        """Compute per-step subscription costs for isolated router.
+
+        The isolated router charges a subscription fee per client node per step,
+        in exchange for data isolation (no learning leakage to competitors).
+        """
+        if self.regime_type != RegimeType.ISOLATED_ROUTER:
+            return 0.0
+        cost = self.settings.num_nodes * self.settings.subscription_cost_per_node
+        self.total_subscription_cost += cost
+        return cost
+
     def compute_portfolio_value(self) -> float:
         """Sum of hidden_alpha for owned nodes."""
         return sum(self.economy.nodes[n].hidden_alpha for n in self.owned)
@@ -1000,7 +1034,7 @@ class SimulationRunner:
         self.economy = GraphEconomy(self.settings, self.rng)
 
         # Deterministic regime seeds (not using hash() which is randomized per process)
-        regime_seed_offsets = {"market": 1000, "router": 2000, "rollup": 3000}
+        regime_seed_offsets = {"market": 1000, "router": 2000, "rollup": 3000, "isolated_router": 4000}
         for rt in RegimeType:
             regime_rng = np.random.default_rng(self.settings.seed + regime_seed_offsets[rt.value])
             regime = InstitutionalRegime(rt, self.economy, self.settings, regime_rng)
@@ -1098,8 +1132,8 @@ class SimulationRunner:
         self.settings._rollup_owned_set = rollup_owned
 
         for regime_name, regime in self.regimes.items():
-            # Router invests in trust
-            if regime.regime_type == RegimeType.ROUTER:
+            # Router/isolated router invests in trust
+            if regime.regime_type in (RegimeType.ROUTER, RegimeType.ISOLATED_ROUTER):
                 cost = regime.invest_in_trust(t)
                 self.router_trust_cost += cost
 
@@ -1122,12 +1156,14 @@ class SimulationRunner:
 
             # Ownership costs (rollup only — deducted from surplus)
             ownership_cost = regime.compute_ownership_costs()
+            # Subscription costs (isolated router — deducted from surplus)
+            subscription_cost = regime.compute_subscription_costs()
 
             # Collect step metrics
             metrics = TimeStepMetrics(
                 time_step=t,
                 regime=regime_name,
-                total_surplus=sum(e.net_surplus for e in step_events) - ownership_cost,
+                total_surplus=sum(e.net_surplus for e in step_events) - ownership_cost - subscription_cost,
                 num_coordinations=len(step_events),
                 avg_match_quality=float(np.mean([e.match_quality for e in step_events])) if step_events else 0.0,
                 avg_leakage=float(np.mean([e.leakage_cost for e in step_events])) if step_events else 0.0,
@@ -1178,7 +1214,8 @@ class SimulationRunner:
 
             gross_surplus = sum(e.net_surplus for e in events)
             ownership_cost = regime.total_ownership_cost
-            total_surplus = gross_surplus - ownership_cost
+            subscription_cost = regime.total_subscription_cost
+            total_surplus = gross_surplus - ownership_cost - subscription_cost
             total_coordinations = len(events)
             avg_mq = float(np.mean([e.match_quality for e in events])) if events else 0.0
             avg_leak = float(np.mean([e.leakage_cost for e in events])) if events else 0.0
@@ -1188,6 +1225,7 @@ class SimulationRunner:
             regime_results[name] = {
                 "gross_surplus": round(gross_surplus, 2),
                 "ownership_cost": round(ownership_cost, 2),
+                "subscription_cost": round(subscription_cost, 2),
                 "total_surplus": round(total_surplus, 2),
                 "total_coordinations": total_coordinations,
                 "avg_match_quality": round(avg_mq, 4),
@@ -1202,11 +1240,14 @@ class SimulationRunner:
         market_surplus = regime_results["market"]["total_surplus"]
         router_surplus = regime_results["router"]["total_surplus"]
         rollup_surplus = regime_results["rollup"]["total_surplus"]
+        isolated_router_surplus = regime_results["isolated_router"]["total_surplus"]
 
         comparisons = {
             "rollup_vs_market_ratio": round(rollup_surplus / market_surplus, 4) if market_surplus != 0 else None,
             "rollup_vs_router_ratio": round(rollup_surplus / router_surplus, 4) if router_surplus != 0 else None,
+            "rollup_vs_isolated_router_ratio": round(rollup_surplus / isolated_router_surplus, 4) if isolated_router_surplus != 0 else None,
             "router_vs_market_ratio": round(router_surplus / market_surplus, 4) if market_surplus != 0 else None,
+            "isolated_router_vs_router_ratio": round(isolated_router_surplus / router_surplus, 4) if router_surplus != 0 else None,
             "router_trust_investment_cost": round(self.router_trust_cost, 2),
         }
 
@@ -1377,9 +1418,11 @@ class SimulationRunner:
         superlinearity: Dict, diagnostics: Dict,
     ) -> Dict:
         """Evaluate P1-P5."""
+        rollup_s = regime_results["rollup"]["total_surplus"]
         p1 = (
-            regime_results["rollup"]["total_surplus"] > regime_results["router"]["total_surplus"]
-            and regime_results["rollup"]["total_surplus"] > regime_results["market"]["total_surplus"]
+            rollup_s > regime_results["router"]["total_surplus"]
+            and rollup_s > regime_results["market"]["total_surplus"]
+            and rollup_s > regime_results["isolated_router"]["total_surplus"]
         )
         # P2: Rollup has lower avg leakage than market (leakage protection advantage)
         p2 = (
@@ -1427,12 +1470,13 @@ class SimulationRunner:
 
         # Regime comparison table
         lines.append("## Regime Comparison\n")
-        lines.append("| Metric | Market | Router | Rollup |")
-        lines.append("|---|---|---|---|")
+        lines.append("| Metric | Market | Router | Isolated Router | Rollup |")
+        lines.append("|---|---|---|---|---|")
         rr = results["regime_results"]
         metrics = [
             ("Gross surplus", "gross_surplus"),
             ("Ownership cost", "ownership_cost"),
+            ("Subscription cost", "subscription_cost"),
             ("Net surplus", "total_surplus"),
             ("Total coordinations", "total_coordinations"),
             ("Avg match quality", "avg_match_quality"),
@@ -1443,7 +1487,7 @@ class SimulationRunner:
             ("Portfolio value", "portfolio_value"),
         ]
         for label, key in metrics:
-            lines.append(f"| {label} | {rr['market'][key]} | {rr['router'][key]} | {rr['rollup'][key]} |")
+            lines.append(f"| {label} | {rr['market'][key]} | {rr['router'][key]} | {rr['isolated_router'][key]} | {rr['rollup'][key]} |")
 
         # Cross-regime ratios
         lines.append("\n## Cross-Regime Comparisons\n")
@@ -1526,22 +1570,30 @@ class CompetingWorldRunner:
         # Shared state
         self.owned: set = set()  # rollup-owned nodes
         self.router_clients: set = set()  # nodes using the router
+        self.isolated_router_clients: set = set()  # nodes using the isolated router
         self.market_nodes: set = set()  # independent market nodes
 
         # Per-regime state
         self.trust = None  # N×N trust matrix (shared)
         self.leak_stocks = None
-        self.policy_quality = {"market": 0.1, "router": 0.1, "rollup": 0.1}
+        self.policy_quality = {"market": 0.1, "router": 0.1, "isolated_router": 0.1, "rollup": 0.1}
         self.router_trust_cumulative = None
         self.integration_friction: Dict[int, float] = {}
         self.total_ownership_cost: float = 0.0
+        self.total_subscription_cost: float = 0.0
+
+        # Router strategy state
+        self.effective_router_learning_leakage: float = self.settings.router_learning_leakage
+        self.effective_trust_investment_rate: float = self.settings.router_trust_investment_rate
+        self.initial_router_count: int = 0
+        self.clients_lost: int = 0
 
         # Results
         self.events: Dict[str, List[CoordinationEvent]] = {
-            "market": [], "router": [], "rollup": [],
+            "market": [], "router": [], "isolated_router": [], "rollup": [],
         }
         self.step_surplus: Dict[str, List[float]] = {
-            "market": [], "router": [], "rollup": [],
+            "market": [], "router": [], "isolated_router": [], "rollup": [],
         }
 
     def setup(self) -> None:
@@ -1562,9 +1614,11 @@ class CompetingWorldRunner:
                 self.integration_friction[nid] = self.settings.integration_friction
 
         remaining = [nid for nid in alphas if nid not in self.owned]
-        router_count = len(remaining) // 2  # router starts with half the remaining nodes
-        self.router_clients = set(remaining[:router_count])
-        self.market_nodes = set(remaining[router_count:])
+        third = len(remaining) // 3
+        self.router_clients = set(remaining[:third])
+        self.isolated_router_clients = set(remaining[third:2*third])
+        self.market_nodes = set(remaining[2*third:])
+        self.initial_router_count = len(self.router_clients)
 
     def run(self) -> Dict:
         self.setup()
@@ -1589,6 +1643,19 @@ class CompetingWorldRunner:
                     continue
                 if self.economy.get_directed_edge(i, j) is None:
                     continue
+                investment = self.effective_trust_investment_rate
+                cumul = self.router_trust_cumulative[i, j]
+                gain = investment / (1.0 + cumul / s.router_trust_k)
+                self.trust[i, j] = min(1.0, self.trust[i, j] + gain)
+                self.router_trust_cumulative[i, j] += investment
+
+        # Isolated router trust investment
+        for i in self.isolated_router_clients:
+            for j in self.isolated_router_clients:
+                if i == j:
+                    continue
+                if self.economy.get_directed_edge(i, j) is None:
+                    continue
                 investment = s.router_trust_investment_rate
                 cumul = self.router_trust_cumulative[i, j]
                 gain = investment / (1.0 + cumul / s.router_trust_k)
@@ -1596,7 +1663,7 @@ class CompetingWorldRunner:
                 self.router_trust_cumulative[i, j] += investment
 
         # Generate opportunities and coordinate within each regime's pool
-        regime_events = {"market": [], "router": [], "rollup": []}
+        regime_events = {"market": [], "router": [], "isolated_router": [], "rollup": []}
 
         for nid in range(s.num_nodes):
             count = self.rng.poisson(s.opportunity_rate)
@@ -1606,6 +1673,8 @@ class CompetingWorldRunner:
                     regime_name = "rollup"
                 elif nid in self.router_clients:
                     regime_name = "router"
+                elif nid in self.isolated_router_clients:
+                    regime_name = "isolated_router"
                 else:
                     regime_name = "market"
 
@@ -1615,7 +1684,7 @@ class CompetingWorldRunner:
                     self.events[regime_name].append(event)
 
         # Update learning per regime
-        for regime_name in ["market", "router", "rollup"]:
+        for regime_name in ["market", "router", "isolated_router", "rollup"]:
             evts = regime_events[regime_name]
             self._update_learning(regime_name, evts)
 
@@ -1629,17 +1698,33 @@ class CompetingWorldRunner:
             if self.integration_friction[nid] < 1e-6:
                 del self.integration_friction[nid]
 
+        # Subscription cost for isolated router
+        sub_cost = len(self.isolated_router_clients) * s.subscription_cost_per_node
+        self.total_subscription_cost += sub_cost
+
         # Track surplus per step
-        for regime_name in ["market", "router", "rollup"]:
+        for regime_name in ["market", "router", "isolated_router", "rollup"]:
             surplus = sum(e.net_surplus for e in regime_events[regime_name])
             if regime_name == "rollup":
                 surplus -= step_cost
+            elif regime_name == "isolated_router":
+                surplus -= sub_cost
             self.step_surplus[regime_name].append(surplus)
 
         # Acquisition: rollup takes best node from router or market
         if (s.endogenous_acquisition_on and t > 0
                 and t % s.acquisition_interval == 0):
             self._acquire(t)
+
+        # Router strategy response (applied from step 0 for non-passive)
+        self.clients_lost = self.initial_router_count - len(self.router_clients)
+        if s.router_strategy == "data_isolation":
+            # Preemptive: eliminate learning leakage from the start
+            self.effective_router_learning_leakage = 0.0
+        elif s.router_strategy == "full_defensive":
+            # Strongest response: eliminate leakage AND double trust investment
+            self.effective_router_learning_leakage = 0.0
+            self.effective_trust_investment_rate = s.router_trust_investment_rate * 2.0
 
     def _coordinate(self, src: int, regime_name: str, t: int) -> Optional[CoordinationEvent]:
         """Coordinate an opportunity for a node within its regime's rules."""
@@ -1655,6 +1740,9 @@ class CompetingWorldRunner:
         elif regime_name == "router":
             # Router can coordinate with other router clients
             accessible = [n for n in neighbors if n in self.router_clients]
+        elif regime_name == "isolated_router":
+            # Isolated router can coordinate with other isolated router clients
+            accessible = [n for n in neighbors if n in self.isolated_router_clients]
         else:
             # Market can coordinate with other market nodes
             accessible = [n for n in neighbors if n in self.market_nodes]
@@ -1686,6 +1774,10 @@ class CompetingWorldRunner:
                 visibility = s.visibility_router
                 act_mult = s.actuator_mult_router
                 interaction = s.interaction_router
+            elif regime_name == "isolated_router":
+                visibility = s.visibility_isolated_router
+                act_mult = s.actuator_mult_isolated_router
+                interaction = s.interaction_isolated_router
             else:
                 visibility = s.visibility_market
                 act_mult = s.actuator_mult_market
@@ -1694,11 +1786,15 @@ class CompetingWorldRunner:
             trust_ij = self.trust[src, dst]
             policy_q = self.policy_quality[regime_name]
 
+            # Router uses is_router=True (incurs learning leakage) unless
+            # defensive strategy has eliminated it. Isolated router never incurs it.
+            is_router = (regime_name == "router" and self.effective_router_learning_leakage > 0)
+
             rev, surplus = choose_optimal_revelation(
                 node_i, node_j, edge, trust_ij,
                 interaction, visibility, act_mult,
                 policy_q, self.leak_stocks[src], s,
-                is_router=(regime_name == "router"),
+                is_router=is_router,
             )
 
             if surplus > best_surplus:
@@ -1745,9 +1841,9 @@ class CompetingWorldRunner:
 
         if regime_name == "market":
             signal_quality = s.outcome_obs_market
-        elif regime_name == "router":
+        elif regime_name in ("router", "isolated_router"):
             signal_quality = s.outcome_obs_router
-            # Router breadth bonus — but now based on ACTUAL client count
+            # Breadth bonus — based on ACTUAL client count
             breadth_bonus = s.router_aggregate_breadth * math.log(1 + len(events)) / 10.0
             signal_quality = min(1.0, signal_quality + breadth_bonus)
         else:
@@ -1773,9 +1869,9 @@ class CompetingWorldRunner:
             self.policy_quality[regime_name], avg_signal, rate, transfer)
 
     def _acquire(self, t: int) -> None:
-        """Rollup acquires best available node from router clients or market."""
+        """Rollup acquires best available node from any non-rollup regime."""
         s = self.settings
-        candidates = (self.router_clients | self.market_nodes)
+        candidates = (self.router_clients | self.isolated_router_clients | self.market_nodes)
         if not candidates:
             return
 
@@ -1790,6 +1886,7 @@ class CompetingWorldRunner:
         if best_node is not None:
             # Remove from current regime
             self.router_clients.discard(best_node)
+            self.isolated_router_clients.discard(best_node)
             self.market_nodes.discard(best_node)
             # Add to rollup
             self.owned.add(best_node)
@@ -1797,34 +1894,45 @@ class CompetingWorldRunner:
 
     def _compute_results(self) -> Dict:
         results = {}
-        for regime_name in ["market", "router", "rollup"]:
+        for regime_name in ["market", "router", "isolated_router", "rollup"]:
             evts = self.events[regime_name]
             gross = sum(e.net_surplus for e in evts)
             own_cost = self.total_ownership_cost if regime_name == "rollup" else 0.0
-            net = gross - own_cost
+            sub_cost = self.total_subscription_cost if regime_name == "isolated_router" else 0.0
+            net = gross - own_cost - sub_cost
+
+            if regime_name == "rollup":
+                num_nodes = len(self.owned)
+            elif regime_name == "router":
+                num_nodes = len(self.router_clients)
+            elif regime_name == "isolated_router":
+                num_nodes = len(self.isolated_router_clients)
+            else:
+                num_nodes = len(self.market_nodes)
 
             results[regime_name] = {
                 "gross_surplus": round(gross, 2),
                 "ownership_cost": round(own_cost, 2),
+                "subscription_cost": round(sub_cost, 2),
                 "total_surplus": round(net, 2),
                 "total_coordinations": len(evts),
                 "avg_match_quality": round(float(np.mean([e.match_quality for e in evts])), 4) if evts else 0.0,
                 "avg_leakage_cost": round(float(np.mean([e.leakage_cost for e in evts])), 4) if evts else 0.0,
                 "final_policy_quality": round(self.policy_quality[regime_name], 4),
-                "num_nodes": len(self.owned) if regime_name == "rollup" else (
-                    len(self.router_clients) if regime_name == "router" else len(self.market_nodes)),
+                "num_nodes": num_nodes,
             }
 
         # Per-step surplus trajectories
         results["trajectories"] = {
-            name: [round(s, 2) for s in self.step_surplus[name]]
-            for name in ["market", "router", "rollup"]
+            name: [round(float(s), 2) for s in self.step_surplus[name]]
+            for name in ["market", "router", "isolated_router", "rollup"]
         }
 
         # Final node allocation
         results["final_allocation"] = {
             "rollup_owned": len(self.owned),
             "router_clients": len(self.router_clients),
+            "isolated_router_clients": len(self.isolated_router_clients),
             "market_nodes": len(self.market_nodes),
         }
 
@@ -1856,31 +1964,32 @@ if __name__ == "__main__":
     if args.competing:
         results = run_competing_world(settings)
         print("\n=== Test F: Competing World ===\n")
-        print(f"{'Regime':<10} {'Gross':>10} {'OwnCost':>8} {'Net':>10} {'Coords':>7} {'MatchQ':>7} {'Leak':>7} {'PolicyQ':>8} {'Nodes':>6}")
-        print("-" * 82)
-        for name in ["market", "router", "rollup"]:
+        print(f"{'Regime':<17} {'Gross':>10} {'OwnCost':>8} {'SubCost':>8} {'Net':>10} {'Coords':>7} {'MatchQ':>7} {'Leak':>7} {'PolicyQ':>8} {'Nodes':>6}")
+        print("-" * 105)
+        for name in ["market", "router", "isolated_router", "rollup"]:
             r = results[name]
-            print(f"{name:<10} {r['gross_surplus']:>10.1f} {r['ownership_cost']:>8.1f} {r['total_surplus']:>10.1f} "
+            print(f"{name:<17} {r['gross_surplus']:>10.1f} {r['ownership_cost']:>8.1f} {r['subscription_cost']:>8.1f} {r['total_surplus']:>10.1f} "
                   f"{r['total_coordinations']:>7} {r['avg_match_quality']:>7.4f} "
                   f"{r['avg_leakage_cost']:>7.4f} {r['final_policy_quality']:>8.4f} {r['num_nodes']:>6}")
         alloc = results["final_allocation"]
-        print(f"\nFinal allocation: rollup={alloc['rollup_owned']} router={alloc['router_clients']} market={alloc['market_nodes']}")
+        print(f"\nFinal allocation: rollup={alloc['rollup_owned']} router={alloc['router_clients']} "
+              f"isolated_router={alloc['isolated_router_clients']} market={alloc['market_nodes']}")
 
         # Per-step surplus trajectory (last 10 steps)
         print("\n--- Surplus trajectory (last 10 steps) ---")
         traj = results["trajectories"]
-        for name in ["market", "router", "rollup"]:
+        for name in ["market", "router", "isolated_router", "rollup"]:
             last10 = traj[name][-10:]
             print(f"  {name:<10} {[round(x, 1) for x in last10]}")
     else:
         results = run_test_f(settings, write_artifacts=not args.no_write)
         rr = results["regime_results"]
         print("\n=== Test F: Cybernetic Arbitrage (Parallel Worlds) ===\n")
-        print(f"{'Regime':<10} {'Gross':>10} {'OwnCost':>8} {'Net':>10} {'Coords':>7} {'MatchQ':>7} {'Leak':>7} {'PolicyQ':>8}")
-        print("-" * 75)
-        for name in ["market", "router", "rollup"]:
+        print(f"{'Regime':<17} {'Gross':>10} {'OwnCost':>8} {'SubCost':>8} {'Net':>10} {'Coords':>7} {'MatchQ':>7} {'Leak':>7} {'PolicyQ':>8}")
+        print("-" * 95)
+        for name in ["market", "router", "isolated_router", "rollup"]:
             r = rr[name]
-            print(f"{name:<10} {r['gross_surplus']:>10.1f} {r['ownership_cost']:>8.1f} {r['total_surplus']:>10.1f} "
+            print(f"{name:<17} {r['gross_surplus']:>10.1f} {r['ownership_cost']:>8.1f} {r['subscription_cost']:>8.1f} {r['total_surplus']:>10.1f} "
                   f"{r['total_coordinations']:>7} {r['avg_match_quality']:>7.4f} "
                   f"{r['avg_leakage_cost']:>7.4f} {r['final_policy_quality']:>8.4f}")
 

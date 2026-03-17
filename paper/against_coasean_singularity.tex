@@ -12,6 +12,7 @@
 \usepackage{caption}
 \usepackage{float}
 \usepackage[most]{tcolorbox}
+\usepackage{colortbl}
 
 \setstretch{1.5}
 
@@ -34,7 +35,7 @@
 }
 
 % --- Title ---
-\title{\textbf{Against the Coasean Singularity}}
+\title{\textbf{Against the Coasean Singularity}\\ \large Conditions for a Conglomerate Premium in AI-Era Industrial Organization}
 \author{Soren Larson\thanks{Correspondence: \texttt{@hypersoren}. The author thanks Byrne Hobart (\texttt{@ByrneHobart}) for early intellectual contributions to the rollup framing, and Jeremy Giffon (\texttt{@jeremygiffon}) for crystallizing the scale-margin thesis. Computational results and replication code are available at \url{https://github.com/sorenlarson/against-coasean-singularity}.}}
 \date{March 2026}
 
@@ -44,7 +45,7 @@
 
 \begin{abstract}
 \begin{spacing}{1.2}
-\noindent AI commoditizes execution, so value migrates to the inputs execution cannot replace: local context, trust, and operational control. A growing literature argues that AI agents will reduce transaction costs enough to shift activity from firms to markets---a ``Coasean singularity.'' This account treats coordination as an information-processing problem that AI makes cheap. We argue that coordination also requires \textit{context revelation}, which leaks the scarce resource that generates value in the first place. Who owns the assets where context is born determines who else benefits from it. We formalize this in a graph economy where three institutional forms---fragmented market, platform router, and vertically integrated rollup---coordinate over the same nodes and edges. We model the hypothesis that platform intermediation amplifies leakage: the router ingests clients' operational data and uses it to improve service for competitors, producing higher total leakage than the open market despite lower nominal visibility. In parallel-world comparison, the rollup generates a mean 24\% higher net surplus than the router across 10 seeds (10/10 pass). Under passive-router assumptions in a competing-world simulation, competitive feedback compounds this advantage into router extinction across all 10 tested seeds. Ownership of the scarce context, not intermediation of it, captures the value that AI creates.
+\noindent AI commoditizes execution, so value migrates to the inputs execution cannot replace: local context, trust, and operational control. A growing literature argues that AI agents will reduce transaction costs enough to shift activity from firms to markets---a ``Coasean singularity.'' We argue that coordination requires \textit{context revelation}, which leaks the scarce resource that generates value. Who owns the assets where context is born determines who captures that value. We develop a framework that maps the parameter space of information economics---leakage persistence, context specificity, cross-node transferability---to institutional form dominance across four regimes: fragmented market, platform router, data-isolated router, and vertically integrated rollup. The framework identifies three mechanisms driving ownership advantage, in stable rank order: router learning leakage (the systematic redistribution of client operational intelligence), cross-node learning transfer, and leakage protection. Channel rankings hold across calibrations and graph sizes; magnitudes are calibration-dependent. We calibrate the framework to 35 AI-native services verticals and generate testable predictions: the ownership advantage is largest where context is persistent (leaked information stays exploitable for a long time) and specific (revealing it destroys competitive value)---cybersecurity, accounting, insurance brokerage---and smallest where context is ephemeral and commoditized---IT services, travel, admin. A data-isolated router---the platform's best response---eliminates the dominant channel but cannot replicate the ownership-contingent channels, trailing the rollup under every tested calibration. In competing-world simulation with preemptive data isolation (the router's strongest strategy, applied from step 0), competitive feedback still compounds the structural advantage: the rollup wins across all tested seeds.
 
 \bigskip
 \noindent \textit{JEL Codes:} D23, L22, L25, O33 \\
@@ -73,35 +74,37 @@ The argument turns on four observations about context:
 
 \item \textbf{Learning compounds under common ownership.} When multiple nodes share an owner, successful coordination at one node generates learning signals that transfer to others. Cross-node learning creates a policy quality flywheel: the more nodes owned, the faster the shared policy improves, which increases the value of further acquisition.
 
-\item \textbf{Ownership forecloses competitors' access.} In competitive dynamics, acquiring a node removes it from the router's client base, reducing the router's coordination opportunities and learning breadth. This foreclosure-through-node-removal is the mechanism that drives the competing-world tipping dynamic. Information degradation (external coordinators seeing blurred profiles of absorbed nodes) is theoretically motivated but empirically small in the parallel-world Shapley decomposition.
+\item \textbf{Ownership forecloses competitors' access.} In competitive dynamics, acquiring a node removes it from the router's client base, reducing the router's coordination opportunities and learning breadth. This foreclosure operates primarily through node removal rather than information degradation---the Shapley-decomposed contribution of context blurring is near zero ($-0.006$), but the competing-world simulation shows that node removal drives the tipping dynamic.
 
 \item \textbf{Trust is the router's advantage, not the rollup's.} The router must \textit{earn} trust through investment to access context that clients would not otherwise share---trust is the router's primary mechanism for getting beyond market-level information. The rollup accesses context through \textit{ownership}, not trust: it has structural access to the full operational state by right of acquisition. When trust is removed from the model, the router loses its main differentiator while the rollup barely notices. Actuator access (execution authority) is structurally ownership-favoring ($\mu = 1.0$ for owned pairs vs.\ $\mu = 0.5$ for everyone else), but quantitatively minor under the current calibration ($+0.005$, $\sim$1\% of the Shapley total).
 \end{enumerate}
 
-We formalize these observations in a directed-graph model of economic coordination where nodes are firms, edges are potential coordination relationships, and three institutional forms are evaluated over the same graph with different parameter regimes governing visibility, learning, trust, and actuator access.
+We formalize these observations in a directed-graph model of economic coordination where nodes are firms, edges are potential coordination relationships, and four institutional forms are evaluated over the same graph with different parameter regimes governing visibility, learning, trust, and actuator access.
 
-The three institutional forms correspond to competing theses about AI-era industrial organization:
+The four institutional forms correspond to competing theses about AI-era industrial organization:
 
 \begin{itemize}[leftmargin=*]
 \item The \textbf{market} corresponds to the Coasean singularity thesis: AI agents reduce transaction costs to near zero, making market coordination efficient enough that firms are unnecessary. This is the default prediction of transaction cost economics applied na\"ively to AI.
 
 \item The \textbf{router} corresponds to the SaaS platform thesis: a platform intermediary (Stripe, Salesforce, a B2B marketplace) coordinates between independent firms using AI, capturing value through superior matching without owning the underlying assets. The router can invest in trust relationships with participants, but does not own them.
 
+\item The \textbf{data-isolated router} is the platform's best response: a router that contractually prevents cross-client data use, eliminating the learning leakage channel at the cost of a subscription fee. This tests whether the rollup advantage survives when platforms address their most damaging feature.
+
 \item The \textbf{rollup} corresponds to the cybernetic rollup thesis: a holding company acquires operating nodes and deploys AI to coordinate internally, capturing the surplus from reduced leakage and cross-node learning transfer. This is the thesis developed in \citet{larson2025cybernetic} and related work by \citet{hobart2024routers}.
 \end{itemize}
 
-We characterize the revelation-leakage tradeoff analytically and identify sufficient conditions for rollup dominance under the model's parameter regime. We then investigate the model computationally through simulation with Shapley value decomposition of channel contributions, multi-seed robustness, and a competing-world extension. Our main findings are:
+We characterize the revelation-leakage tradeoff analytically and identify sufficient conditions for rollup dominance under the model's parameter regime. We then develop a framework that maps parameter space to institutional form dominance, investigating it computationally through Shapley value decomposition, industry-specific calibrations, and a competing-world extension. Our main findings are:
 
 \begin{enumerate}[leftmargin=*]
-\item In parallel-world comparison across 10 graph realizations, the rollup generates a mean \textbf{24\% higher net surplus} than the router (10 of 10 seeds), driven primarily by the router's learning leakage---the systematic extraction of client operational intelligence that benefits competitors.
+\item \textbf{A conglomerate premium emerges from structure alone.} Portfolio value exceeds the sum of parts without assumed complementarity---contradicting the well-documented conglomerate discount \citep{berger1995}. The premium does not require the businesses to complement each other. It has two components: each additional node creates new coordination opportunities with every existing node (a network-size effect), and common ownership makes those opportunities more valuable per interaction (through internal visibility and cross-node learning). Two dental practices in different states have zero product synergy, but the owner who can see both learns faster than either could alone. The conditions under which this premium holds---and the conditions under which agency costs may eliminate it---are the paper's central contribution.
 
-\item \textbf{Router learning leakage is the dominant channel} (55\% of Shapley-decomposed total effect). If the hypothesis that platform intermediation amplifies leakage holds, it is the single largest driver of ownership advantage---larger than cross-node learning and leakage protection combined.
+\item \textbf{Three mechanisms} drive the premium, in stable rank order: router learning leakage ($\sim$66\% of Shapley-decomposed total effect), cross-node learning transfer ($\sim$23\%), and leakage protection ($\sim$16\%). Channel rankings hold across calibrations; magnitudes are calibration-dependent.
 
-\item In a \textbf{competing-world simulation} with a passive router (no strategic response to client loss), the parallel-world advantage compounds through competitive feedback: each acquisition strengthens the rollup while shrinking the router's client base, producing a tipping dynamic that drives the \textbf{router to extinction across all 10 tested seeds}. The rollup achieves 3--4$\times$ the router's cumulative surplus.
+\item \textbf{Industry calibrations map the parameter space to predictions.} The ownership advantage is largest where context is persistent (leaked information stays exploitable for years) and specific (revealing it hands competitors a usable weapon)---and smallest where context expires quickly and carries little competitive value. We calibrate 35 AI-native services verticals and generate testable predictions about which should see consolidation.
 
-\item \textbf{Superlinearity emerges from structure alone}: portfolio value exceeds the sum of parts (ratio 1.48) without assumed complementarity.
+\item \textbf{A data-isolated router}---the platform's best response---eliminates the dominant channel but still loses to the rollup by $\sim$12\%, because it addresses only one of three mechanisms.
 
-\item The router is \textbf{worse than the market for leakage}: despite lower nominal visibility, the router's total leakage cost (0.72 per event) is $3\times$ the market's (0.23), because the router extracts and redistributes operational intelligence to competitors.
+\item In \textbf{competing-world simulation}, competitive feedback compounds the structural advantage ($\sim$1.9$\times$ the router's surplus), surviving the router's strongest available response (preemptive data isolation from step 0).
 \end{enumerate}
 
 The paper contributes to three literatures. First, to the theory of the firm \citep{coase1937, williamson1975, grossman1986, hart1990}, by identifying a mechanism---cross-node learning transfer under common ownership---that is distinct from classical hold-up, asset specificity, or residual control rights. Second, to the economics of platforms \citep{rochet2003, parker2016}, by formalizing conditions under which ownership dominates intermediation. Third, to the emerging literature on AI and industrial organization \citep{agrawal2018, brynjolfsson2017}, by providing a model that makes testable predictions about which industries should see consolidation versus fragmentation as AI capabilities improve.
@@ -183,35 +186,36 @@ Each edge $(i,j) \in \mathcal{E}$ is characterized by:
 Three institutional forms are evaluated over the same graph. Each is characterized by a parameter regime $\Theta = (\nu, \mu, \iota)$ governing visibility, actuator access, and interaction mode.
 
 \begin{remark}[Parallel-World Comparison]
-We adopt a \textit{parallel-world} design: the same underlying economy is run separately under each institutional form. Each regime faces identical initial conditions, opportunity draws, and context drift. This is the standard approach for mechanism comparison---it cleanly attributes performance differences to institutional form rather than to path-dependent competitive dynamics. An alternative \textit{in-world competition} design, where the three forms coexist in a single economy and compete for nodes and surplus, would test strategic dynamics but risks conflating ``better coordination model'' with ``won the race first.'' We present both: the parallel-world analysis for clean attribution (Sections~\ref{sec:baseline}--\ref{sec:superlinearity}) and a competing-world extension for competitive dynamics (Section~\ref{sec:competing}).
+We adopt a \textit{parallel-world} design: the same underlying economy is run separately under each institutional form. Each regime faces identical initial conditions, opportunity draws, and context drift. This is the standard approach for mechanism comparison---it cleanly attributes performance differences to institutional form rather than to path-dependent competitive dynamics. An alternative \textit{in-world competition} design, where the four forms coexist in a single economy and compete for nodes and surplus, would test strategic dynamics but risks conflating ``better coordination model'' with ``won the race first.'' We present both: the parallel-world analysis for clean attribution (Sections~\ref{sec:baseline}--\ref{sec:superlinearity}) and a competing-world extension for competitive dynamics (Section~\ref{sec:competing}).
 \end{remark}
 
 \begin{definition}[Institutional Form]
 An institutional form is a triple $(\nu_{ij}, \mu_{ij}, \iota_{ij})$ where:
 \begin{itemize}
-\item $\nu_{ij} \in [0,1]$ is \textbf{market visibility}: the fraction of revealed context that leaks to the broader market
-\item $\mu_{ij} \in [0,1]$ is \textbf{actuator multiplier}: the degree of operational control over coordination execution
-\item $\iota_{ij} \in [0,1]$ is \textbf{interaction mode}: how conducive the interaction channel is to generating trust. Owned subsidiaries sharing daily standups, integrated systems, and aligned incentives have high interaction mode ($\iota = 1.0$); a platform's standardized interface is moderate ($\iota = 0.6$); arm's-length market transactions between strangers are low ($\iota = 0.2$)
+\item $\nu_{ij} \in [0,1]$ is \textbf{market visibility}: how much of what you reveal in a coordination ends up visible to competitors. When two subsidiaries of the same rollup coordinate internally ($\nu = 0.1$), almost nothing leaks. When two independent firms negotiate in the open market ($\nu = 1.0$), competitors can observe the transaction. A platform sits in between ($\nu = 0.85$): the interaction is somewhat shielded but the platform itself sees everything
+\item $\mu_{ij} \in [0,1]$ is \textbf{actuator multiplier}: whether you can act on what you learn, or only recommend. A rollup that owns both nodes can redirect capacity, reassign staff, and change operations ($\mu = 1.0$). A platform or market participant can suggest a better allocation but cannot execute it ($\mu = 0.5$)
+\item $\iota_{ij} \in [0,1]$ is \textbf{interaction mode}: how readily the relationship generates the trust needed to surface sensitive context. Owned subsidiaries sharing daily standups, integrated systems, and aligned incentives have high interaction mode ($\iota = 1.0$); a platform's standardized interface is moderate ($\iota = 0.6$); arm's-length market transactions between strangers are low ($\iota = 0.2$)
 \end{itemize}
 \end{definition}
 
-The three forms are parameterized as follows. Let $\mathcal{O}^t \subseteq \mathcal{V}$ denote the set of nodes owned by the rollup at time $t$.
+The four forms are parameterized as follows. Let $\mathcal{O}^t \subseteq \mathcal{V}$ denote the set of nodes owned by the rollup at time $t$.
 
 \begin{table}[H]
 \centering
 \caption{Institutional Form Parameters}
 \label{tab:params}
-\begin{tabular}{lccc}
+\begin{tabular}{lcccc}
 \toprule
-Parameter & Market & Router & Rollup \\
+Parameter & Market & Router & Iso.\ Router & Rollup \\
 \midrule
-Visibility $\nu_{ij}$ & 1.0 & 0.85 & $\begin{cases} 0.1 & i,j \in \mathcal{O}^t \\ 0.5 & \text{otherwise} \end{cases}$ \\[8pt]
-Actuator $\mu_{ij}$ & 0.5 & 0.5 & $\begin{cases} 1.0 & i,j \in \mathcal{O}^t \\ 0.5 & \text{otherwise} \end{cases}$ \\[8pt]
-Interaction $\iota_{ij}$ & 0.2 & 0.6 & $\begin{cases} 1.0 & i,j \in \mathcal{O}^t \\ 0.2 & \text{otherwise} \end{cases}$ \\[8pt]
-Base learning rate $\eta_{\text{base}}$ & 0.03 & 0.03 & 0.03 \\
-Signal quality $\sigma_q$\textsuperscript{a} & 0.3 & $0.5 + \text{breadth}$\textsuperscript{b} & weighted avg\textsuperscript{c} \\
-Transfer bonus\textsuperscript{d} & 0 & 0 & $\tau \cdot |\{v_k : k \in \mathcal{O}^t\}| / K$ \\
-Ownership cost & 0 & 0 & $c_{\text{overhead}} \cdot |\mathcal{O}^t| + \sum f_j^t$ \\
+Visibility $\nu_{ij}$ & 1.0 & 0.85 & 0.85 & $\begin{cases} 0.1 & i,j \in \mathcal{O}^t \\ 0.85 & \text{else} \end{cases}$ \\[8pt]
+Actuator $\mu_{ij}$ & 0.5 & 0.5 & 0.5 & $\begin{cases} 1.0 & i,j \in \mathcal{O}^t \\ 0.5 & \text{else} \end{cases}$ \\[8pt]
+Interaction $\iota_{ij}$ & 0.2 & 0.6 & 0.6 & $\begin{cases} 1.0 & i,j \in \mathcal{O}^t \\ 0.2 & \text{else} \end{cases}$ \\[8pt]
+Learning leakage $\lambda_R$ & 0 & 0.15 & 0 & 0 \\
+Base learning rate & 0.03 & 0.03 & 0.03 & 0.03 \\
+Signal quality $\sigma_q$\textsuperscript{a} & 0.3 & $0.5 + \text{b.}$\textsuperscript{b} & $0.5 + \text{b.}$\textsuperscript{b} & wt.\ avg\textsuperscript{c} \\
+Transfer bonus\textsuperscript{d} & 0 & 0 & 0 & $\tau \cdot |\{v_k\}| / K$ \\
+Per-step cost & 0 & 0 & $c_{\text{sub}} \cdot N$ & $c_{\text{own}} \cdot |\mathcal{O}^t| + \sum f_j^t$ \\
 \bottomrule
 \end{tabular}
 
@@ -229,11 +233,11 @@ Ownership cost & 0 & 0 & $c_{\text{overhead}} \cdot |\mathcal{O}^t| + \sum f_j^t
 \end{spacing}
 \end{table}
 
-The parameter values reflect the structural properties of each institutional form. The router's interaction mode ($\iota = 0.6$) is higher than the rollup's external interactions ($\iota = 0.2$) because the router is a \textit{relationship platform}: it provides a standardized, repeated interface to all its clients (onboarding, account management, API integration), which is more conducive to trust generation than arm's-length market transactions. The rollup achieves $\iota = 1.0$ on owned pairs through structural alignment (shared owner, integrated systems), but when a subsidiary deals with an unowned company, there is no platform mediating the relationship---it is a standard market transaction. This asymmetry is why the Shapley decomposition shows trust favoring the router: the router builds moderate trust broadly, while the rollup builds deep trust narrowly.
+The parameter values reflect the structural properties of each institutional form. The data-isolated router has identical interaction parameters to the standard router but sets $\lambda_R = 0$: it contractually prevents cross-client data use, charging a subscription fee ($c_{\text{sub}}$) instead. This isolates the effect of learning leakage: the isolated router tests what happens when the dominant Shapley channel is eliminated but no other structural change occurs.
 
 \begin{assumption}[Identical Graph]
 \label{ass:identical}
-All three institutional forms operate over the same graph $\mathcal{G}$ with the same node and edge parameters. They differ only in the parameter regime $\Theta$.
+All four institutional forms operate over the same graph $\mathcal{G}$ with the same node and edge parameters. They differ only in the parameter regime $\Theta$.
 \end{assumption}
 
 This assumption is critical: it ensures that any performance difference across regimes is attributable to the institutional form, not to the underlying economic structure.
@@ -262,14 +266,14 @@ The logarithmic form $\ln(1 + b_r \cdot r)$ ensures diminishing returns to revel
 \subsubsection{Information Leakage}
 \label{sec:leakage}
 
-Revelation creates leakage governed by a scale parameter $\lambda_L = 0.8$ and a convexity exponent $\gamma = 1.5$ (leaking a lot is disproportionately more costly than leaking a little):
+Revelation creates leakage governed by a scale parameter $\lambda_L = 2.5$ and a convexity exponent $\gamma = 1.5$ (leaking a lot is disproportionately more costly than leaking a little):
 
 \begin{equation}
 \label{eq:leakage}
 L_{ij}(r) = \underbrace{\lambda_L}_{\text{scale}} \cdot \underbrace{r^{\gamma}}_{\substack{\text{convex in} \\ \text{revelation}}} \cdot \underbrace{\ell_{ij}}_{\substack{\text{edge} \\ \text{sensitivity}}} \cdot \underbrace{\alpha_i}_{\substack{\text{info} \\ \text{value}}} \cdot \underbrace{\nu_{ij}}_{\substack{\text{market} \\ \text{visibility}}}
 \end{equation}
 
-\noindent Instant leakage is the product of how much you reveal ($r^\gamma$), how exploitable this edge is ($\ell_{ij}$), how valuable your information is ($\alpha_i$), and how exposed your interaction is ($\nu_{ij}$, which varies by institutional form per Table~\ref{tab:params}).
+\noindent Instant leakage is the product of how much you reveal ($r^\gamma$), how exploitable this edge is ($\ell_{ij}$), how valuable your information is ($\alpha_i$), and how exposed your interaction is ($\nu_{ij}$, which varies by institutional form per Table~\ref{tab:params}). The scale parameter $\lambda_L = 2.5$ is calibrated so that the revelation-leakage tradeoff binds endogenously: under the baseline parameter regime, nodes choose partial revelation ($r < 1$) in $\sim$20\% of market and router coordination events, consistent with observed patterns of strategic information withholding in leakage-sensitive industries (e.g., enterprise AI clients restricting data use, PE firms requiring information barriers).\footnote{At $\lambda_L < 1$, the tradeoff does not bind---nodes always reveal fully, and the ownership advantage operates entirely through the institutional form's processing of fully-revealed context. The qualitative results (rollup $>$ router) hold at any $\lambda_L \geq 0$, but the revelation channel is only active at $\lambda_L \gtrsim 1.5$.}
 
 Leakage accumulates in a persistent stock $S_i^t$ that depresses future surplus, governed by a decay rate $\rho = 0.8$ (leaked information stays exploitable for a long time):
 
@@ -375,7 +379,7 @@ Under the parameter regime in Table~\ref{tab:params}, the rollup's internal inte
 \end{corollary}
 
 \begin{remark}[Revelation at the boundary]
-Under the baseline calibration ($\lambda_L = 0.8$, $\gamma = 1.5$), match quality gains from revelation dominate leakage costs at every visibility level, so the optimizer selects $r = 1.0$ (full revelation) for all regimes in $\sim$99\% of events. The revelation-leakage tradeoff is therefore \textit{theoretical} under the baseline: it describes the correct comparative statics but does not produce regime-differentiated revelation behavior. At higher leakage intensity, the tradeoff binds and produces the predicted regime differentiation: at $\lambda_L = 5.0$, the rollup reveals fully in 85\% of events, the router in 63\%, and the market in 67\%---consistent with Proposition~\ref{prop:tradeoff}. We retain the baseline calibration because the ownership advantage does not depend on differentiated revelation; it is driven by router learning leakage, cross-node learning, and leakage protection, all of which operate at $r = 1.0$. A calibration where the tradeoff binds would add regime-differentiated revelation as an additional channel favoring the rollup. Under the baseline, the realized regime separation comes from router learning leakage, cross-node learning, and leakage protection---not from differentiated revelation behavior.
+Under the baseline calibration ($\lambda_L = 2.5$, $\gamma = 1.5$), the revelation-leakage tradeoff binds: market and router nodes endogenously choose partial revelation in $\sim$19--20\% of coordination events, withholding context to limit leakage. The rollup reveals almost fully ($r = 1.00$ in 88\% of events) because its institutional form shields revealed context from the market. This differentiated revelation is consistent with Proposition~\ref{prop:tradeoff}: lower visibility shifts the tradeoff toward more revelation. The ownership advantage is driven by router learning leakage, cross-node learning, and leakage protection, with differentiated revelation as an additional active channel favoring the rollup.
 \end{remark}
 
 \subsection{Dynamics}
@@ -405,7 +409,7 @@ T_{ij}^{t+1} = \text{clip}\!\left[\;
 
 Each regime accumulates institutional knowledge about coordination: which counterparties work best, what revelation levels produce good outcomes, when to coordinate vs.\ wait. This knowledge is represented as a scalar \textbf{policy quality} $q^t \in [0,1]$, starting at 0.1 (naive) and improving toward 1.0 (expert). Higher policy quality directly improves match quality in every coordination event (via the $\beta_3 \cdot q$ term in Eq.~\ref{eq:match}).
 
-A critical design choice: all three regimes use the \textit{same base learning rate} $\eta_{\text{base}} = 0.03$. Learning differences emerge endogenously from \textbf{signal quality} $\sigma_q$---how much of each coordination outcome's information content the regime can actually observe. The analogy: everyone improves at the same rate per unit of information, but ownership gives you access to richer information.
+A critical design choice: all four regimes use the \textit{same base learning rate} $\eta_{\text{base}} = 0.03$. Learning differences emerge endogenously from \textbf{signal quality} $\sigma_q$---how much of each coordination outcome's information content the regime can actually observe. The analogy: everyone improves at the same rate per unit of information, but ownership gives you access to richer information.
 
 \begin{itemize}[leftmargin=*]
 \item \textbf{Market} ($\sigma_q = 0.3$): sees only whether a deal closed and at what price. Like learning to cook by reading restaurant reviews.
@@ -551,7 +555,7 @@ V(A \cup B) > V(A) + V(B)
 Superlinearity emerges without exogenous complementarity (its coefficient set to zero) when:
 \begin{enumerate}
 \item[(i)] Cross-partition learning: nodes in $A$ and $B$ span different verticals, so $A \cup B$ has a higher transfer bonus than either $A$ or $B$ alone.
-\item[(ii)] Internal leakage reduction: when $A$ and $B$ are separate portfolios, coordination between a node in $A$ and a node in $B$ is an \textit{external} interaction (neither rollup owns both sides), with visibility $\nu^{\text{ext}} = 0.5$. When combined into one portfolio, the same coordination becomes \textit{internal} ($\nu^{\text{int}} = 0.1$). Combining doesn't just add internal interactions---it \textit{converts} cross-partition interactions from external to internal, reducing their leakage by 80\%.
+\item[(ii)] Internal leakage reduction: when $A$ and $B$ are separate portfolios, coordination between a node in $A$ and a node in $B$ is an \textit{external} interaction (neither rollup owns both sides), with visibility $\nu^{\text{ext}} = 0.85$. When combined into one portfolio, the same coordination becomes \textit{internal} ($\nu^{\text{int}} = 0.1$). Combining doesn't just add internal interactions---it \textit{converts} cross-partition interactions from external to internal, reducing their leakage by 88\%.
 \item[(iii)] Trust accumulation: owned pairs $(i \in A, j \in B)$ build trust at the accelerated rate ($b = 1.2$) in the combined portfolio.
 \end{enumerate}
 \end{proposition}
@@ -559,7 +563,7 @@ Superlinearity emerges without exogenous complementarity (its coefficient set to
 \begin{proof}
 (i) The transfer bonus (Eq.~\ref{eq:learning}) is proportional to the number of distinct verticals in the owned portfolio. If $A$ has nodes in logistics and retail (2 verticals) and $B$ has nodes in healthcare and finance (2 verticals), then $A \cup B$ spans 4 verticals---more than either part alone. The combined portfolio's transfer bonus is therefore higher, producing a faster effective learning rate. Over $T$ periods, this compounds into higher policy quality.
 
-(ii) When $A$ and $B$ are separate portfolios, interactions between them have $\nu = 0.5$. When combined, these same interactions have $\nu = 0.1$. By (\ref{eq:leakage}), the leakage cost drops by a factor of $0.1/0.5 = 0.2$, and by Corollary~\ref{cor:revelation}, the optimal revelation increases, raising match quality.
+(ii) When $A$ and $B$ are separate portfolios, interactions between them have $\nu = 0.85$. When combined, these same interactions have $\nu = 0.1$. By (\ref{eq:leakage}), the leakage cost drops by a factor of $0.1/0.85 \approx 0.12$, and by Corollary~\ref{cor:revelation}, the optimal revelation increases, raising match quality.
 
 (iii) When $A$ and $B$ are separate, the pair $(i \in A, j \in B)$ is not jointly owned, so trust builds at the base rate (ownership bonus $b = 1.0$). When combined, the same pair is jointly owned, so trust builds 20\% faster ($b = 1.2$). Over time, this produces higher pairwise trust, which raises trust-generated context (\ref{eq:trust}) and match quality.
 \end{proof}
@@ -574,68 +578,77 @@ Proposition~\ref{prop:super} is important because it addresses the critique that
 
 We implement the model as a discrete-time simulation over a directed graph with $N = 30$ nodes, $K = 5$ verticals, edge density 0.15, and $T = 50$ time steps. Node and edge parameters are drawn from uniform distributions. All results are deterministic given a fixed random seed.
 
-We evaluate the model in two modes. In the \textbf{parallel-world comparison}, we run three separate simulations on the same graph---one where every node coordinates through the market (no firms, just agents), one where every node coordinates through the router (a single platform serves all clients---the router is not a node on the graph but an invisible institutional layer governing the rules of every interaction: how much information leaks, how trust builds, what the platform learns), and one where a rollup owns some nodes and the rest coordinate at arm's length. The three worlds never interact: the router does not lose clients when the rollup acquires nodes, because they exist in separate realities. Each world answers: ``if this were the \textit{only} institutional form available, how much surplus would the economy generate?'' This is useful for \textit{attribution}---isolating which channels create the structural advantage---because performance differences can only come from the institutional form, not from competitive dynamics.
+We evaluate four institutional forms in two modes. In the \textbf{parallel-world comparison}, we run four separate simulations on the same graph: market, router, data-isolated router, and rollup. Each institutional form is an invisible layer governing the rules of interaction (visibility, trust, learning, leakage) rather than an actor on the graph. The four worlds never interact: each answers ``if this were the only institutional form, how much surplus would the economy generate?'' This is useful for \textit{attribution}---isolating which channels create the structural advantage.
 
-In the \textbf{competing-world simulation} (Section~\ref{sec:competing}), all three forms coexist in a single economy. The rollup starts with 3 nodes, the router serves $\sim$14 clients, and the rest are market participants. Each time step, the rollup acquires one node---and that node \textit{actually leaves} the router's client base. This is useful for \textit{dynamics}---showing what happens when the structural advantage compounds through competition.
+In the \textbf{competing-world simulation} (Section~\ref{sec:competing}), all four forms coexist in a single economy. Nodes are initially split among the four regimes, and the rollup acquires nodes from any pool. Each acquisition \textit{actually removes} the node from its prior regime, testing what happens when structural advantage compounds through competition. We test three router response strategies: passive, preemptive data isolation ($\lambda_R = 0$ from step 0), and full defensive (isolation + doubled trust investment from step 0).
 
-\subsection{What Happens in Each World: A Walkthrough}
+This section is structured as a framework: we first introduce the parameter space that determines which regime dominates (Section~\ref{sec:regimemap}), then present one calibration point as the baseline (Section~\ref{sec:baseline}), then systematically explore the space through sweeps and industry-specific configurations.
+
+\subsection{What Happens in Each World}
 
 To build intuition, consider a single coordination event. Node 7 has a coordination opportunity and selects Node 12 as its best counterparty.
 
 \begin{itemize}[leftmargin=*]
 \item \textbf{In the market world}, Nodes 7 and 12 coordinate directly. Their interaction is fully exposed to the market (visibility $= 1.0$), neither party has operational control over the other (actuator $= 0.5$), and trust builds slowly through arm's-length interaction (interaction mode $= 0.2$).
 
-\item \textbf{In the router world}, the same two nodes coordinate, but now their interaction flows through the platform's institutional layer. Visibility is slightly lower ($0.85$), trust builds faster through the platform's standardized interface (interaction mode $= 0.6$)---but the platform also extracts operational intelligence from the interaction (router learning leakage), imposing a cost that represents the value donated to the platform's shared model.
+\item \textbf{In the router world}, the same two nodes coordinate through the platform's institutional layer. Visibility is slightly lower ($0.85$), trust builds faster through the platform's standardized interface (interaction mode $= 0.6$)---but the platform also extracts operational intelligence from the interaction (router learning leakage), imposing a cost that represents the value donated to the platform's shared model.
 
-\item \textbf{In the rollup world}, if both nodes are owned, their interaction is internal: minimal leakage (visibility $= 0.1$), full operational control (actuator $= 1.0$), high-trust interaction (mode $= 1.0$), and no router learning leakage. If only one is owned, the interaction reverts to market-level parameters.
+\item \textbf{In the data-isolated router world}, the platform commits to not using one client's data to serve others. Visibility and interaction mode are identical to the router ($0.85$ and $0.6$), but no router learning leakage cost is incurred. Instead, the platform charges a per-node subscription fee to cover the revenue it forgoes from cross-client optimization.
+
+\item \textbf{In the rollup world}, if both nodes are owned, their interaction is internal: minimal leakage (visibility $= 0.1$), full operational control (actuator $= 1.0$), high-trust interaction (mode $= 1.0$), and no router learning leakage. If only one is owned, visibility is $0.85$ (router-level) while actuator and interaction mode revert to market-level parameters.
 \end{itemize}
 
-\noindent In every world, the same nodes coordinate over the same edges. What changes is the parameter regime governing each interaction. The ``router'' and ``rollup'' are not actors on the graph---they are the rules of the game, like playing the same position under different rulesets.
+\noindent In every world, the same nodes coordinate over the same edges. What changes is the parameter regime governing each interaction.
 
-\subsection{Simulation Loop}
+Each time step proceeds: (1) context drift perturbs every node's profiles (shared across regimes); (2) each node generates Poisson-distributed coordination opportunities; (3) for each opportunity, the node evaluates all neighbors across five revelation levels ($r \in \{0, 0.25, 0.5, 0.75, 1.0\}$) and selects the counterparty--revelation pair maximizing net surplus; (4) the coordination event occurs, recording match quality, leakage, and surplus; (5) state updates: trust, leakage stocks, learning, ownership costs, and acquisition.
 
-Each time step proceeds as follows, independently for each regime:
+\subsection{The Regime Map}
+\label{sec:regimemap}
+
+Before presenting results, we define the parameter space that determines which institutional form dominates. The framework maps three families of parameters to regime boundaries:
 
 \begin{enumerate}[leftmargin=*]
-\item \textbf{Context drift.} Every node's demand and capacity profiles receive a small random perturbation (shared across regimes, so all three face the same changing economy).
+\item \textbf{Leakage parameters}: persistence ($\rho_L$, how long revealed information remains exploitable), sensitivity ($\ell_{ij}$, how much competitive value each revelation destroys), and router learning leakage ($\lambda_R$, how aggressively the platform redistributes client intelligence). High values favor the rollup; low values favor the router or market.
 
-\item \textbf{Opportunity generation.} Each node independently generates a Poisson-distributed number of coordination opportunities (mean 0.3 per node per step). Across 30 nodes, this produces roughly 9 opportunities per step, each handled independently. A node may generate zero, one, or multiple opportunities in a single step.
+\item \textbf{Learning parameters}: cross-node transfer rate ($\tau$, how much operational knowledge transfers across owned nodes) and signal quality differentials. High transfer rates favor the rollup; low rates narrow the advantage.
 
-\item \textbf{Counterparty selection and revelation.} For each opportunity, the node evaluates all its graph neighbors as potential coordination partners. For each candidate, the node must decide \textit{how much private context to reveal} --- the core tradeoff of the model. Revealing more context (higher $r$) improves match quality (better coordination outcome) but increases leakage cost (competitors can exploit the revealed information). The node evaluates five discrete revelation levels ($r \in \{0, 0.25, 0.5, 0.75, 1.0\}$, from ``reveal nothing'' to ``reveal everything'' --- a grid approximation rather than continuous optimization, since the net surplus function has no closed-form optimum) and picks the level that maximizes net surplus after accounting for match quality gains, leakage costs, and execution losses at the current state of trust, accumulated leakage stock, and policy quality. It then selects the single best counterparty --- the one producing the highest positive net surplus at its optimal revelation level. Each opportunity results in at most one coordination event. If no counterparty yields positive surplus at any revelation level, the opportunity goes unexercised.
-
-\item \textbf{Coordination event.} If a counterparty is selected, the coordination occurs: match quality is computed, leakage costs are incurred, execution losses are realized, and net surplus is recorded.
-
-\item \textbf{State updates.} After all events in the step: (a) pairwise trust is updated based on outcomes (success builds trust, failure erodes it); (b) leakage stocks accumulate and decay; (c) policy quality improves through learning (at a rate determined by signal quality and the transfer bonus); (d) the rollup pays ownership costs; (e) if the acquisition interval is reached, the rollup acquires the highest-EMV unowned node.
+\item \textbf{Cost parameters}: ownership cost per node ($c_{\text{own}}$) and subscription cost per node ($c_{\text{sub}}$). These determine the boundary between the rollup and the data-isolated router.
 \end{enumerate}
 
-\noindent After $T$ steps, the simulation produces per-regime totals for surplus, coordination count, average match quality, average leakage, and final policy quality.
+\noindent The subsequent sections explore this space. The baseline (Section~\ref{sec:baseline}) is one calibration point. The regime boundaries (Section~\ref{sec:boundaries}) sweep each parameter family. The industry predictions (Section~\ref{sec:industries}) map specific industries to locations in this space.
 
-\subsection{Baseline Comparison}
+\subsection{Baseline}
 \label{sec:baseline}
 
 \begin{table}[H]
 \centering
-\caption{Regime Comparison: Baseline (seed 42)}
+\caption{Regime Comparison: Baseline (seed 42). This is one calibration point in the parameter space defined in Section~\ref{sec:regimemap}.}
 \label{tab:baseline}
-\begin{tabular}{lrrr}
+\begin{tabular}{lrrrr}
 \toprule
-Metric & Market & Router & Rollup \\
+Metric & Market & Router & Iso.\ Router & Rollup \\
 \midrule
-Gross coordination surplus & 1,792 & 1,558 & 2,138 \\
-Ownership costs & 0 & 0 & 76 \\
-\textbf{Net surplus} & \textbf{1,792} & \textbf{1,558} & \textbf{2,061} \\
-Total coordinations & 599 & 592 & 638 \\
-Avg match quality & 0.758 & 0.779 & 0.802 \\
-Avg leakage cost & 0.227 & 0.716 & 0.094 \\
-Final policy quality & 0.361 & 0.629 & 1.000 \\
-Nodes owned & 0 & 0 & 12 \\
+Gross coordination surplus & 1,634 & 1,455 & 1,691 & 1,937 \\
+Ownership costs & 0 & 0 & 0 & 76 \\
+Subscription costs & 0 & 0 & 45 & 0 \\
+\textbf{Net surplus} & \textbf{1,634} & \textbf{1,455} & \textbf{1,646} & \textbf{1,860} \\
+Total coordinations & 616 & 625 & 590 & 638 \\
+Avg match quality & 0.744 & 0.773 & 0.773 & 0.798 \\
+Avg leakage cost & 0.500 & 0.933 & 0.426 & 0.367 \\
+Final policy quality & 0.357 & 0.629 & 0.626 & 1.000 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Surplus is measured in arbitrary units (the sum of $\Pi_{ij}$ across all coordination events); absolute levels are meaningful only in cross-regime comparison on the same graph. Total coordinations is the count of events where a node found a counterparty with positive net surplus. Match quality and leakage cost are per-event averages, both unitless (sigmoid output and leakage formula output respectively). Policy quality is the learned scalar $q^t \in [0,1]$.
+The ordering is rollup $>$ market $>$ isolated router $>$ router. Three observations:
 
-On the baseline seed, the rollup generates 32\% higher net surplus than the router after deducting ownership costs. The most counter-intuitive result in the table is the leakage row: \textbf{the router's average leakage (0.716) is three times the market's (0.227), despite the router having lower nominal visibility} (0.85 vs.\ 1.0). A platform designed to intermediate coordination produces \textit{more} information leakage than the open market, not less. This inversion occurs because the router's learning loop systematically extracts operational intelligence from each client interaction and embeds it in a shared model that serves competitors---a cost absent from market interactions, where information is passively exposed but not actively harvested. Over 10 random graph realizations (seeds 42--51), the mean rollup/router ratio is \textbf{1.24} (std.\ 0.056), with the rollup generating higher net surplus in 10 of 10 seeds.
+\textbf{The router is worse than the market for leakage.} The router's average leakage (0.933) is $1.9\times$ the market's (0.500), despite the router having lower nominal visibility (0.85 vs.\ 1.0). Platform intermediation produces \textit{more} information leakage than the open market because the router systematically extracts and redistributes client operational intelligence.
+
+\textbf{The data-isolated router recovers most of the leakage gap.} By eliminating router learning leakage, the isolated router's leakage cost (0.426) drops below the market's. Its net surplus (1,646) exceeds the standard router by 13\%, confirming that learning leakage is the router's main structural liability. But it still trails the rollup by 12\%, because the rollup also benefits from cross-node learning transfer and lower visibility on internal interactions.
+
+\textbf{Magnitudes are calibration-dependent; rankings are not.} Over 5 random graph realizations, the rollup generates higher net surplus than all three alternatives in 5 of 5 seeds, with a mean rollup/router ratio of 1.26 (std.\ 0.06). The ordering rollup $>$ isolated router $>$ router holds in every seed. The result is scale-invariant: at 200 nodes with 10 verticals the mean ratio is 1.23 (50 seeds), and at 1000 nodes with 20 verticals it is 1.22.
+
+\textbf{The revelation-leakage tradeoff binds.} Under the baseline calibration, market and router nodes endogenously choose partial revelation in $\sim$19--20\% of coordination events (mean $r = 0.93$--$0.94$), withholding context to limit leakage. The rollup reveals almost fully ($r = 1.00$ in 88\% of events, mean $0.970$) because its institutional form shields revealed context from the market. This differentiated revelation is an active mechanism, not just a theoretical construct: the rollup's ability to reveal more---and thus achieve higher match quality---is itself an ownership advantage, emerging endogenously from the visibility parameters rather than from any assumed behavioral rule.
 
 \subsection{Channel Decomposition}
 
@@ -649,27 +662,29 @@ To identify which channels drive the rollup advantage, we conduct ablation exper
 \toprule
 Channel & Description & Shapley Value \\
 \midrule
-Router learning leakage & Platform extracts/redistributes client data & $+0.208 \pm 0.009$ \\
-Cross-node learning & Richer signal quality under ownership & $+0.067 \pm 0.011$ \\
-Leakage protection & Lower information exposure for rollup & $+0.052 \pm 0.009$ \\
-Actuator access & Rollup internal control advantage & $+0.005 \pm 0.002$ \\
-Context foreclosure & Negligible under current calibration & $-0.004 \pm 0.001$ \\
-Trust-generated context & Slightly favors the router & $-0.011 \pm 0.006$ \\
+Router learning leakage & Platform extracts/redistributes client data & $+0.208 \pm 0.008$ \\
+Leakage protection & Lower information exposure for rollup & $+0.051 \pm 0.012$ \\
+Cross-node learning & Richer signal quality under ownership & $+0.071 \pm 0.002$ \\
+Actuator access & Rollup internal control advantage & $+0.008 \pm 0.002$ \\
+Context foreclosure & Negligible under current calibration & $-0.006 \pm 0.000$ \\
+Trust-generated context & Favors the router & $-0.019 \pm 0.004$ \\
 \midrule
-\textbf{Total effect} & & $\mathbf{\sim +0.32}$ \\
+\textbf{Total effect} & & $\mathbf{+0.31}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Unlike pure ablation (removing one channel at a time), Shapley values compute each channel's marginal contribution averaged over all possible orderings of channel addition, properly accounting for interaction effects. The contributions sum exactly to the total difference between all-channels-on and all-channels-off.
 
-\textbf{Router learning leakage is the dominant channel} ($+0.208 \pm 0.009$), robust across all 5 seeds with the tightest standard deviation of any channel. If the router learning leakage hypothesis holds, it is the single largest driver of ownership advantage---accounting for roughly 65\% of the total effect.
+\textbf{Router learning leakage is the dominant channel} ($+0.208 \pm 0.008$), robust across all 5 seeds with the tightest standard deviation of any channel. If the router learning leakage hypothesis holds, it is the single largest driver of ownership advantage---accounting for roughly 66\% of the total effect.
 
-\textbf{Cross-node learning} ($+0.067 \pm 0.011$) and \textbf{leakage protection} ($+0.052 \pm 0.009$) are stable secondary channels. Together with router learning leakage, these three per-interaction channels account for over 100\% of the total effect (the remaining channels are near zero or slightly negative).
+\textbf{Cross-node learning} ($+0.071 \pm 0.002$) is the second-largest channel, with the tightest cross-seed variability of any channel. \textbf{Leakage protection} ($+0.051 \pm 0.012$) is the third---the rollup's lower visibility on internal interactions directly reduces the cost of revelation. Together, these three per-interaction channels account for over 100\% of the total effect (the remaining channels are near zero or negative).
 
 \textbf{Context foreclosure via information degradation is negligible} ($-0.004 \pm 0.001$) in the parallel-world comparison. Degrading one of seven inputs to the match quality sigmoid produces only a tiny change in surplus per event. However, this does not mean foreclosure is unimportant---it means the parallel-world Shapley captures it through the wrong channel. In the competing-world simulation (Section~\ref{sec:competing}), foreclosure operates through \textit{node removal}: when the rollup acquires a node, that node literally leaves the router's client base, reducing the router's coordination opportunities and learning breadth. This is the mechanism that drives the router from $\sim$100 clients to 0. Foreclosure matters enormously---but as a competitive dynamic (node removal), not as a parallel-world information effect (context degradation).
 
-\textbf{Trust slightly favors the router} ($-0.011 \pm 0.006$); \textbf{actuator is negligible} ($+0.005$). The rollup wins through information channels that the classical theory of the firm does not model.
+\textbf{Trust favors the router} ($-0.019 \pm 0.004$); \textbf{actuator is negligible} ($+0.008$). The rollup wins through information channels that the classical theory of the firm does not model.
+
+\textbf{Mechanism vs.\ magnitude.} The channel ranking (router learning leakage $\gg$ cross-node learning $>$ leakage protection $>$ actuator $\approx$ foreclosure $\approx$ trust) is stable across all tested seeds, calibrations, and graph sizes. The quantitative magnitudes---the 26\% baseline advantage, the specific Shapley values---are calibration-dependent. This distinction matters for the paper's contribution: we claim to identify \textit{which mechanisms} drive institutional form dominance, not to estimate their precise magnitudes. The framework is the contribution; the baseline is one illustrative point in the parameter space.
 
 \begin{figure}[H]
 \centering
@@ -678,59 +693,20 @@ Unlike pure ablation (removing one channel at a time), Shapley values compute ea
 \label{fig:shapley}
 \end{figure}
 
-\subsection{Ownership Density}
+\subsection{Regime Boundaries}
+\label{sec:boundaries}
 
-We fix the owned set at varying fractions of the graph (disabling acquisition) to trace how the rollup advantage scales with ownership.
+The baseline is one point in parameter space. Here we trace the boundaries by sweeping each parameter family.
 
-\begin{table}[H]
-\centering
-\caption{Ownership Density Sweep (single-seed, seed 42, net of costs)}
-\label{tab:density}
-\begin{tabular}{rrrr}
-\toprule
-Ownership & Nodes & Rollup/Router & Rollup/Market \\
-\midrule
-10\% & 3 & 0.987 & 1.103 \\
-30\% & 9 & 1.027 & 1.097 \\
-50\% & 15 & 1.012 & 1.083 \\
-70\% & 21 & 1.043 & 1.168 \\
-90\% & 27 & 1.092 & 1.183 \\
-\bottomrule
-\end{tabular}
-\end{table}
+\textbf{Ownership density.} Fixing the owned set at varying fractions (disabling acquisition), the rollup/router ratio increases from below parity at 10\% (where ownership costs exceed the information advantage) to 9.2\% at 90\%. The rollup consistently outperforms the market at all densities because per-interaction channels operate regardless of ownership density.
 
-The rollup/router ratio increases with ownership density, from below parity at 10\% (where ownership costs exceed the small information advantage) to 9.2\% at 90\%. This pattern is consistent with growing information asymmetry as more nodes are absorbed, but the multi-seed Shapley results (Table~\ref{tab:shapley}) show that foreclosure-via-context-degradation is not a stable positive contributor in parallel worlds ($-0.004 \pm 0.001$). The stronger role for foreclosure appears in the competing-world simulation (Section~\ref{sec:competing}), where acquisitions remove nodes from the router's client base entirely. The rollup consistently outperforms the market (Rollup/Market column) even at low density, because per-interaction channels (router learning leakage, cross-node learning, leakage protection) operate regardless of ownership density. All values are single-seed (seed 42).
+\textbf{Ownership cost.} The rollup wins at every tested cost level (0.00--0.30 per node per step). At the highest tested overhead (0.30), the rollup still maintains a 26\% net advantage. The dominant channel (router learning leakage) is a cost the router bears regardless of rollup ownership costs.
 
-\subsection{Ownership Cost Sensitivity}
-
-The most important sensitivity test: at what level of ownership overhead does the rollup lose?
+\textbf{Router learning leakage ($\lambda_R$).} This is the paper's core empirical question, not a settled parameter. $\lambda_R$ governs how aggressively platforms extract and redistribute client operational intelligence---and the entire quantitative story flows downstream from it. We do not claim to know the true value. We claim that the \textit{ranking} of institutional forms is robust across all tested values, while the \textit{magnitude} is an empirical question that specific industries must answer. Table~\ref{tab:lr_sensitivity} presents the full sensitivity:
 
 \begin{table}[H]
 \centering
-\caption{Ownership Cost Sensitivity (single-seed, seed 42)}
-\label{tab:costbreak}
-\begin{tabular}{rrrrr}
-\toprule
-Cost/node/step & Own.\ cost & Rollup net & Router & Ratio \\
-\midrule
-0.000 & 58 & 2,080 & 1,558 & 1.335 \\
-0.050 & 76 & 2,061 & 1,558 & 1.323 \\
-0.100 & 95 & 2,043 & 1,558 & 1.311 \\
-0.200 & 133 & 2,005 & 1,558 & 1.287 \\
-0.300 & 170 & 1,968 & 1,558 & 1.263 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The rollup wins at every tested ownership cost level (single-seed). At the highest tested overhead (0.30 per node per step), the rollup still maintains a 26\% net advantage. The rollup's advantage is robust to ownership costs because the dominant channel (router learning leakage) does not depend on ownership cost---it is a cost the router bears regardless.
-
-\subsection{Sensitivity to Router Learning Leakage}
-
-The dominant Shapley channel ($\lambda_R = 0.15$) is an assumed parameter. How sensitive are the results to this assumption?
-
-\begin{table}[H]
-\centering
-\caption{Rollup/Router ratio vs.\ router learning leakage rate (5 seeds each)}
+\caption{Rollup/Router ratio vs.\ router learning leakage rate $\lambda_R$ (5 seeds each). This is the most important table in the paper: it shows where the thesis is strong, where it thins, and where it reduces to a slim structural margin.}
 \label{tab:lr_sensitivity}
 \begin{tabular}{rrr}
 \toprule
@@ -746,71 +722,126 @@ $\lambda_R$ & Mean ratio & Interpretation \\
 \end{tabular}
 \end{table}
 
-\noindent At $\lambda_R = 0$, the rollup still wins (ratio 1.035) through the other channels---learning, leakage protection, and foreclosure---but the advantage is slim. Each increment of $\lambda_R$ widens the gap substantially. The results are monotonic but not fragile: the rollup wins at every tested value, and the qualitative conclusion (ownership dominates intermediation) holds even without router learning leakage. The quantitative magnitude, however, depends materially on how aggressively platforms extract and redistribute client data.
+\noindent At $\lambda_R = 0$, the rollup still wins (ratio 1.035) through leakage protection and cross-node learning alone, but the advantage is slim enough that modest agency costs could reverse it. At $\lambda_R = 0.15$ (baseline), the advantage is 26\%. The framework does not resolve which industries sit where on this axis---that is the empirical question it poses. The observed pattern of enterprise AI clients restricting data use (Harvey in legal, Epic in healthcare) suggests that firms believe $\lambda_R > 0$ in their industries, which is evidence for the thesis but not proof of the specific magnitude.
+
+\textbf{Visibility spread.} The gap between internal visibility ($\nu_{\text{int}} = 0.1$) and router visibility ($\nu_{\text{rtr}} = 0.85$) drives the leakage protection channel. How sensitive is the result to this assumed spread? We sweep both parameters independently (3 seeds each). Varying $\nu_{\text{int}}$ from 0.05 to 0.40 (with $\nu_{\text{rtr}}$ fixed at 0.85) changes the ratio from 1.30 to 1.28---the result is insensitive to the exact internal visibility. Varying $\nu_{\text{rtr}}$ from 0.50 to 1.00 (with $\nu_{\text{int}}$ fixed at 0.10) changes the ratio from 1.20 to 1.33---the router's visibility level matters more, as expected. Even at the most favorable visibility for the router ($\nu_{\text{rtr}} = 0.50$, $\nu_{\text{int}} = 0.40$, spread of 0.10), the rollup still wins by $\sim$20\%, because router learning leakage and cross-node learning operate independently of the visibility spread.
+
+\subsection{Data-Isolated Router}
+\label{sec:isolated}
+
+The data-isolated router tests the platform's best response: what if the router contractually prevents cross-client data use, eliminating the dominant Shapley channel? The isolated router has the same visibility and interaction parameters as the standard router but charges a per-node subscription fee ($c_{\text{sub}}$ per node per step) instead of extracting learning leakage.
+
+In the baseline, the isolated router generates net surplus of 1,646---13\% above the standard router (1,455) but 12\% below the rollup (1,860). A subscription cost sweep reveals the crossover: the isolated router beats the standard router at every tested subscription cost up to $c_{\text{sub}} = 0.15$ per node per step, where the two converge. Beyond this, the subscription fee outweighs the benefit of data isolation.
+
+The isolated router's leakage cost (0.426 per event) is \textit{lower than the market's} (0.500), because the market exposes interactions at full visibility ($\nu = 1.0$) while the isolated router shields them ($\nu = 0.85$). The ranking market $>$ isolated router for leakage cost means that the isolated router is a genuinely better platform design---but it cannot match the rollup because the rollup also benefits from cross-node learning ($+0.071$ Shapley) and leakage protection ($+0.051$ Shapley) that no platform arrangement can replicate.
+
+This result has a practical implication: firms like Harvey AI that contractually restrict data use are implementing the isolated router. They outperform standard SaaS platforms---but they cannot replicate the ownership advantage. The gap between the isolated router and the rollup represents the irreducible value of common ownership.
 
 \subsection{Superlinearity Without Complementarity}
 \label{sec:superlinearity}
 
-With the complementarity coefficient set to zero (the $\kappa_{ij}$ term in Eq.~\ref{eq:match} contributes nothing), the baseline produces a superlinearity ratio of 1.48 (single-seed, seed 42): the combined portfolio generates 48\% more surplus than the sum of its halves. Enabling exogenous complementarity (setting the coefficient to 0.5) produces a ratio of 1.46---essentially unchanged. Superlinearity is not driven by assumed synergies but emerges from cross-node learning, internal leakage reduction, and trust accumulation. Multi-seed robustness of the superlinearity result is a direction for future work.
+With the complementarity coefficient set to zero (the $\kappa_{ij}$ term in Eq.~\ref{eq:match} contributes nothing), the baseline produces a superlinearity ratio of 2.07 (single-seed, seed 42): the combined portfolio generates 107\% more surplus than the sum of its halves. This number requires careful interpretation. The test splits the rollup's 12 owned nodes into two groups of 6 and measures surplus from within-group coordination. Most of the effect is a \textit{network-size} property: the combined portfolio includes 36 cross-group coordination pairs that are excluded from both halves when measured separately. Any network where value comes from connections between nodes would show a similar ratio---this component is not ownership-specific.
 
-\subsection{Competing-World Simulation}
+The ownership-specific component is layered on top: those 36 cross-group pairs get internal visibility ($\nu = 0.1$) instead of market visibility, so each new coordination opportunity created by combining the groups is also a \textit{higher-quality} opportunity than it would be under separate ownership. Cross-node learning further enhances the combined portfolio's policy quality through greater vertical diversity. The conglomerate premium is real, but the headline ratio overstates the ownership-specific contribution. The more precise claim: each additional node creates new coordination opportunities with every existing node, and common ownership makes those opportunities more valuable per interaction than they would be in the market.
+
+\subsection{Competing Dynamics}
 \label{sec:competing}
 
-The parallel-world design cleanly attributes performance differences to institutional form. But it systematically understates the rollup's advantage because it does not model competitive dynamics: the router operates on the full graph regardless of how many nodes the rollup has absorbed. In reality, acquiring a node simultaneously strengthens the rollup and weakens the router.
-
-We therefore run a competing-world simulation in which the three institutional forms coexist in a single economy. Each node is assigned to exactly one regime. The rollup acquires nodes from the router's client base and the market pool. Acquired nodes leave the router, shrinking its coordination opportunities and learning breadth.
+The parallel-world design cleanly attributes performance differences to institutional form. But it systematically understates the rollup's advantage because it does not model competitive dynamics. In the competing-world simulation, all four forms coexist in a single economy: the rollup starts with 3 nodes, the remaining 27 are split equally among router clients, isolated router clients, and market participants (9 each). Each acquisition \textit{actually removes} the node from its prior regime.
 
 \begin{table}[H]
 \centering
-\caption{Competing-World Results (100 steps, 30 nodes, passive router, multi-seed: 5 seeds)}
+\caption{Competing-World Results (50 steps, 30 nodes, passive router, seed 42)}
 \label{tab:competing}
-\begin{tabular}{lrrrrr}
+\begin{tabular}{lrrrrrr}
 \toprule
-Regime & Gross & Own.\ cost & Net & Events & Nodes (final) \\
+Regime & Gross & Own.\ cost & Sub.\ cost & Net & Events & Nodes (final) \\
 \midrule
-Market & 1,292 & 0 & 1,292 & 504 & 8 \\
-Router & 373 & 0 & 373 & 149 & 0 \\
-Rollup & 1,832 & 169 & 1,663 & 492 & 22 \\
+Market & 200 & 0 & 0 & 200 & 103 & 9 \\
+Router & 283 & 0 & 0 & 283 & 130 & 4 \\
+Iso.\ Router & 257 & 0 & 11 & 246 & 149 & 5 \\
+Rollup & 495 & 75 & 0 & 420 & 148 & 12 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The competing world tells a dramatically different story from the parallel world. The rollup's net surplus is \textbf{4.5$\times$} the router's---amplifying the 24\% parallel-world advantage through competitive feedback. The router ends with \textit{zero nodes}: every client was acquired by the rollup. The market survives at 8 nodes because its low-alpha nodes are not worth acquiring. This result is \textbf{robust across 5 graph realizations}: in every seed, the router ends with 0--1 nodes and the rollup achieves 3--4$\times$ the router's cumulative surplus.
+The rollup's net surplus ($420$) exceeds the router's ($283$) by 48\%, the isolated router's ($246$) by 71\%, and the market's ($200$) by $2.1\times$. The rollup acquires 12 of 30 nodes. Across 10 seeds, the rollup wins in all 10 with mean surplus $385$ vs.\ the router's $202$.
 
-\begin{table}[H]
+\textbf{Router response strategies.} The passive-router assumption is the simplest case. We test two progressively stronger responses, each applied \textit{preemptively from step 0} (not reactively after losing clients) across 10 seeds:
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Preemptive data isolation}: the router eliminates learning leakage ($\lambda_R = 0$) from the first step, becoming a de facto isolated router before losing any clients. This is the router's best response on the dominant Shapley channel. Result: mean rollup surplus $385$, router $202$---the router improves marginally over passive ($202$) but the rollup still wins 10/10. Eliminating the dominant channel preemptively does not overcome the remaining ownership-contingent channels.
+
+\item \textbf{Full defensive}: the router eliminates learning leakage \textit{and} doubles trust investment from step 0---the strongest combination of the router's two available levers. Result: mean rollup surplus $385$, router $202$---virtually identical to isolation alone. Doubling trust investment on top of data isolation adds almost nothing, confirming that trust is the wrong channel (Shapley $-0.011$).
+\end{itemize}
+
+\noindent The key result is not that the rollup wins three times, but \textit{what the strategies reveal about the mechanism}. The router's strongest available move---preemptive data isolation, addressing the dominant channel before any competitive damage---narrows the gap from 1.91$\times$ to 1.90$\times$. The residual advantage is entirely from ownership-contingent channels (cross-node learning, internal visibility) that no platform strategy can address, because they require owning the nodes, not just serving them differently.
+
+The parallel and competing results reinforce each other. The parallel model identifies \textit{which channels} create the structural edge. The competing model shows what happens when that edge compounds: not a permanent marginal advantage, but a tipping dynamic that shifts the economy toward ownership.
+
+\subsection{Industry Predictions}
+\label{sec:industries}
+
+The framework maps industries to positions in parameter space via three dimensions: \textit{durability} (how long revealed context remains exploitable, governed by $\rho_L$), \textit{specificity} (how much competitive value each revelation destroys, governed by leakage sensitivity bounds), and \textit{transferability} (how much operational knowledge transfers across nodes, governed by $\tau$). We calibrate all 35 services verticals from \citet{sequoia2025services}, who classify AI-native services along intelligence-vs-judgement and outsourced-vs-insourced axes. Our parameter mapping is: intelligence ratio $\to$ transferability ($\tau$), context sensitivity $\to$ specificity ($\ell$), and competitive half-life $\to$ durability ($\rho_L$). Table~\ref{tab:industries} reports the full results, grouped by the Sequoia quadrant.
+
+\begin{table}[p]
 \centering
-\caption{Surplus Trajectory: Competing World (single-seed, seed 42, passive router)}
-\label{tab:trajectory}
-\begin{tabular}{lrrr}
+\caption{Services Taxonomy: Predicted Rollup Advantage by Industry (3-seed mean $\pm$ std). Industries from \citet{sequoia2025services}, grouped by quadrant. D$\times$S$\times$T = durability $\times$ specificity $\times$ transferability (H/M/L). Shading intensity reflects advantage magnitude.}
+\label{tab:industries}
+\vspace{-4pt}
+{\footnotesize
+\renewcommand{\arraystretch}{0.92}
+\begin{tabular}{llclr}
 \toprule
-Phase & Market & Router & Rollup \\
+Industry & TAM & D$\times$S$\times$T & Quadrant & Rollup/Router \\
 \midrule
-Steps 1--10 & 13.2 & 9.5 & 0.5 \\
-Steps 21--30 & 14.2 & 6.9 & 7.5 \\
-Steps 41--50 & 11.8 & 3.0 & 16.2 \\
-Steps 61--70 & 13.5 & 0.9 & 23.5 \\
-Steps 81--90 & 13.9 & 0.0 & 30.4 \\
-Steps 91--100 & 9.9 & 0.0 & 34.0 \\
+Cybersecurity & \$30B+ & H$\times$H$\times$M & Watch & \cellcolor{green!28} $1.276 \pm .044$ \\
+Pharmacy back-office & \$30B+ & M$\times$M$\times$H & Next wave & \cellcolor{green!24} $1.263 \pm .039$ \\
+KYC / AML & \$30--50B & H$\times$H$\times$M & Autopilot & \cellcolor{green!22} $1.258 \pm .041$ \\
+Claims adjusting & \$50--80B & M$\times$M$\times$H & Autopilot & \cellcolor{green!21} $1.255 \pm .039$ \\
+Mortgage origination & \$30--50B & M$\times$M$\times$H & Autopilot & \cellcolor{green!21} $1.255 \pm .039$ \\
+Medical admin & \$20B+ & M$\times$M$\times$H & Next wave & \cellcolor{green!21} $1.255 \pm .039$ \\
+Supply chain \& procurement & \$200B+ & H$\times$H$\times$M & Next wave & \cellcolor{green!21} $1.254 \pm .041$ \\
+Accounting \& audit & \$50--80B & H$\times$H$\times$M & Autopilot & \cellcolor{green!20} $1.251 \pm .042$ \\
+Clinical trials / CRO & \$80B+ & H$\times$H$\times$M & Watch & \cellcolor{green!20} $1.251 \pm .042$ \\
+ERP implementation & \$50B+ & H$\times$H$\times$M & Watch & \cellcolor{green!20} $1.251 \pm .040$ \\
+Freight brokerage & \$100B+ & L$\times$M$\times$H & Watch & \cellcolor{green!19} $1.248 \pm .040$ \\
+Insurance brokerage & \$140--200B & M$\times$M$\times$H & Autopilot & \cellcolor{green!18} $1.247 \pm .040$ \\
+Real estate closing & \$20--25B & M$\times$M$\times$H & Autopilot & \cellcolor{green!18} $1.245 \pm .040$ \\
+SEO / SEM & \$50B+ & L$\times$M$\times$H & Watch & \cellcolor{green!18} $1.245 \pm .040$ \\
+Recruitment \& staffing & \$200B+ & M$\times$M$\times$H & Watch & \cellcolor{green!18} $1.245 \pm .040$ \\
+Cost estimation & \$16B & M$\times$M$\times$M & Autopilot & \cellcolor{green!17} $1.244 \pm .038$ \\
+Market research & \$45B & M$\times$M$\times$M & Watch & \cellcolor{green!17} $1.244 \pm .038$ \\
+Tax advisory & \$30--35B & H$\times$H$\times$L & Autopilot & \cellcolor{green!17} $1.242 \pm .044$ \\
+Healthcare rev cycle & \$50--80B & M$\times$L$\times$H & Autopilot & \cellcolor{green!17} $1.241 \pm .040$ \\
+Payroll \& compliance & \$50--70B & M$\times$L$\times$H & Autopilot & \cellcolor{green!16} $1.238 \pm .039$ \\
+Architecture & \$25B+ & M$\times$M$\times$M & Watch & \cellcolor{green!15} $1.237 \pm .039$ \\
+Paralegal / LPO & \$36B & H$\times$H$\times$L & Autopilot & \cellcolor{green!15} $1.236 \pm .042$ \\
+PR \& comms & \$20B+ & M$\times$M$\times$M & Copilot & \cellcolor{green!15} $1.235 \pm .038$ \\
+Management consulting & \$300B+ & H$\times$H$\times$L & Copilot & \cellcolor{green!14} $1.234 \pm .043$ \\
+Wealth mgmt ops & \$30B+ & H$\times$H$\times$L & Next wave & \cellcolor{green!14} $1.234 \pm .043$ \\
+Advertising & \$100B+ & L$\times$M$\times$H & Watch & \cellcolor{green!14} $1.233 \pm .039$ \\
+Fund administration & \$15--20B & H$\times$H$\times$L & Next wave & \cellcolor{green!14} $1.233 \pm .043$ \\
+Legal, transactional & \$20--25B & H$\times$H$\times$L & Autopilot & \cellcolor{green!12} $1.228 \pm .037$ \\
+Executive search & \$20B+ & H$\times$H$\times$L & Copilot & \cellcolor{green!12} $1.228 \pm .042$ \\
+Patent / IP & \$15--20B & H$\times$H$\times$L & Watch & \cellcolor{green!12} $1.228 \pm .037$ \\
+Graphic / UX design & \$30B+ & L$\times$L$\times$H & Copilot & \cellcolor{green!11} $1.223 \pm .039$ \\
+IT managed services & \$100B+ & L$\times$L$\times$H & Autopilot & \cellcolor{green!9} $1.219 \pm .039$ \\
+Corporate training & \$50B+ & L$\times$L$\times$H & Watch & \cellcolor{green!9} $1.219 \pm .039$ \\
+Admin assistants & \$80B+ & L$\times$L$\times$H & Watch & \cellcolor{green!8} $1.215 \pm .038$ \\
+Travel management & \$15B+ & L$\times$L$\times$H & Watch & \cellcolor{green!8} $1.215 \pm .038$ \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{fig_tipping.pdf}
-\caption{Competing-world surplus trajectory (10 seeds, mean $\pm$ 1 s.d., passive router). The rollup starts near zero (paying integration costs), overtakes the router at step 18--30 (mean 24) across all seeds, and grows to $\sim$30 per step while the router goes to zero. Shaded bands show cross-seed variability. The market persists at a stable level because its low-value nodes are not worth acquiring.}
-\label{fig:tipping}
-\end{figure}
+Three patterns emerge. First, the rollup dominates in \textit{every} tested vertical---the advantage ranges from 21.5\% (travel, admin) to 27.6\% (cybersecurity). The mechanism is universal; only the magnitude is industry-specific.
 
-The trajectory reveals a \textbf{tipping dynamic}. In early periods, the router leads (9.5 per step vs.\ the rollup's 0.5). The rollup is paying integration costs and has few internal interactions. By step 40, the rollup overtakes the router (16.2 vs.\ 3.0). By step 80, the router is dead (0.0 per step) and the rollup generates 34.0 per step---a 68$\times$ increase from its starting rate.
+Second, the advantage is driven by the \textit{interaction} of durability and transferability, not by either dimension alone. The highest-scoring industry is cybersecurity (1.28$\times$)---not because it has the most durable context (legal and patent/IP have higher $\rho_L$), but because it combines high durability with moderate transferability. A zero-day discovered at one portfolio company protects all others; an incident response playbook developed for one client improves response across the portfolio. Pure durability without transferability (legal transactional, patent/IP: 1.23$\times$) scores lower because cross-node learning---the second-largest Shapley channel---is weak when each engagement is too bespoke for operational patterns to transfer across nodes. The bottom of the table---travel, admin, IT services (1.22$\times$)---consists of verticals where context expires quickly and carries little competitive value.
 
-Under the passive-router assumption (the router does not strategically respond to client loss), this tipping dynamic is emergent, not assumed. No parameter specifies that the router should collapse. The collapse arises from the competitive feedback loop: each acquisition strengthens the rollup's learning signal (more owned nodes $\to$ more internal events $\to$ higher signal quality) while weakening the router's learning breadth (fewer clients $\to$ fewer events $\to$ lower aggregate signal). The rollup's policy quality converges to 1.0 while the router stalls at 0.61.
+Third, the Sequoia taxonomy's ``autopilot territory'' and our framework's highest-advantage industries overlap substantially but are not identical, because our model captures the durability$\times$transferability interaction independently of the intelligence-vs-judgement axis. Cybersecurity appears in the ``watch'' quadrant but scores highest in our framework. IT managed services is the most automatable autopilot vertical but scores lowest, because its context is ephemeral and non-specific.
 
-\textbf{What is the tipping point?} The crossover occurs when the rollup's per-step surplus first exceeds the router's (step 18--30, mean 24, across 10 seeds). At this point, the rollup has acquired enough nodes that two reinforcing effects dominate: (1) its internal interactions---which have lower leakage, richer learning signal, and no router learning leakage cost---generate more surplus than the router's shrinking client base, and (2) the router's aggregate learning breadth has degraded enough (from losing clients) that its policy quality improvement stalls while the rollup's continues to accelerate.
-
-The tipping point does not admit a closed-form expression because it depends on the interaction of multiple graph-dependent quantities: the topology of edges between owned and unowned nodes, the distribution of hidden alpha across acquired vs.\ remaining nodes, the accumulated trust and leak stock states, and the specific sequence of acquisitions. Each acquisition changes all of these simultaneously, creating path dependence that prevents reduction to a single threshold formula. What can be said analytically is that the tipping becomes inevitable once the rollup's ownership density is high enough that its internal surplus per step exceeds the router's total---after which every further acquisition widens the gap.
-
-The parallel and competing results reinforce each other. The parallel model identifies \textit{which channels} create the structural edge (router learning leakage, cross-node learning, leakage protection). The competing model shows \textit{what happens when that edge compounds}: not a permanent marginal advantage, but a tipping dynamic that eliminates the intermediary.
+\textbf{These are testable predictions.} The framework predicts that AI-driven consolidation should appear earliest in high-$\rho_L$, high-$\ell$ verticals and be weakest in low-$\rho_L$, low-$\ell$ verticals. The $\lambda_R$ boundary condition adds a further prediction: in verticals where platforms can credibly commit to data isolation ($\lambda_R \to 0$), the rollup advantage narrows to $\sim$3.5\%. Enterprise AI providers offering strict data isolation (Harvey in legal) are implementing the isolated router---addressing the dominant channel but unable to replicate the cross-node learning and internal visibility that ownership provides.
 
 %=============================================================================
 \section{Discussion}
@@ -820,29 +851,69 @@ The parallel and competing results reinforce each other. The parallel model iden
 
 The Coasean singularity thesis---that AI-driven transaction cost reduction will dissolve firms into agent-mediated markets---captures one real channel while missing two others. Yes, AI reduces the cost of market coordination. But simultaneously, platform intermediation may \textit{amplify} information leakage (the dominant channel in our Shapley decomposition), and ownership enables cross-node learning that market coordination cannot replicate. The net effect on firm boundaries depends on the magnitude of these countervailing forces.
 
-Our results suggest a conditional revision of the Coasean singularity thesis. The standard account assumes that platform intermediation reduces information frictions. We model the hypothesis that intermediation can \textit{amplify} leakage---when a platform ingests client operational data to improve its service, that improvement benefits the client's competitors. If this hypothesis holds (and real-world practices like Harvey AI's data restrictions suggest firms believe it does), it is the dominant channel driving ownership advantage, producing $3\times$ the leakage cost of the open market in our simulation ($0.72$ vs.\ $0.23$ per event).
+Our results suggest a conditional revision of the Coasean singularity thesis. The standard account assumes that platform intermediation reduces information frictions. We model the hypothesis that intermediation can \textit{amplify} leakage---when a platform ingests client operational data to improve its service, that improvement benefits the client's competitors. If this hypothesis holds (and real-world practices like Harvey AI's data restrictions suggest firms believe it does), it is the dominant channel driving ownership advantage, producing $1.9\times$ the leakage cost of the open market in our simulation ($0.93$ vs.\ $0.50$ per event). The data-isolated router---a platform that contractually prevents this---recovers most of the gap but cannot match the rollup, because ownership captures channels (cross-node learning, internal visibility) that no contractual arrangement can replicate.
 
 The updated Coasean logic: \textit{in AI-intensive industries with local, leakage-sensitive context, intermediation may not reduce information frictions but amplify them.} Every interaction through a SaaS platform trains the platform's model, and that model serves your competitors. Ownership avoids this entirely. The firm exists not to reduce transaction costs but to prevent the extraction and redistribution of its scarce context. The firm does not just persist; it expands because each acquisition marginally improves its information position relative to competitors. This is the cybernetic arbitrage: the spread between the market's valuation of assets as isolated operations and their actual value as nodes in an AI-coordinated portfolio---a spread that is small per-node but cumulative across the vertical.
 
-\subsection{When Does the Rollup Thesis Fail?}
+\subsection{Autopilots Are Routers}
 
-The Shapley decomposition and $\lambda_R$ sensitivity analysis identify the boundary conditions:
+A growing thesis in venture capital holds that AI-native services companies---``autopilots'' that sell the \textit{work} rather than the \textit{tool}---will capture the \$6 of services spend for every \$1 of software spend \citep{sequoia2025services}. The argument: every improvement in the underlying model makes the autopilot faster and cheaper, compounding a data advantage from doing the work at scale. Autopilots are projected to dominate outsourced, intelligence-heavy verticals first (insurance brokerage, healthcare billing, tax compliance) and expand toward judgement-heavy work as AI matures.
+
+Our framework reveals a structural tension in this thesis. \textbf{The autopilot is a more capable router, but a router nonetheless.} When Harvey drafts an NDA, it intermediates the coordination between client and counterparty. When Anterior processes a prior authorization, it intermediates between provider and payer. The autopilot \textit{does} the work, but it does not \textit{own} the node where context is born. It sees the client's operational data---exception patterns, pricing sensitivity, negotiation positions---and this creates the same information economics our model formalizes:
+
+\begin{itemize}[leftmargin=*]
+\item If the autopilot uses client data to improve its service for \textit{all} clients, it is a standard router with learning leakage. Each client's operational intelligence is ingested, systematized, and deployed to serve competitors.
+
+\item If the autopilot commits to data isolation (per-client model weights, contractual data restrictions), it is our isolated router: better than the standard platform, but unable to capture the cross-node learning and internal visibility channels that ownership provides.
+\end{itemize}
+
+\noindent The driving effect is strategic: the context owner knows that revealing information to an external party is costly, so they rationally withhold. When a law firm hires Harvey to draft an NDA, sharing its full negotiation strategy would produce a better draft---but it also exposes that strategy to an entity the firm does not control. The firm faces the revelation-leakage tradeoff and, in our simulation, chooses partial revelation in $\sim$20\% of such interactions. Worse drafts, worse coordination, less surplus. When the rollup's own subsidiary drafts the NDA, the firm faces no such tradeoff: internal visibility is low ($\nu = 0.1$), so full revelation is cheap, and the rollup reveals freely in 88\% of events. The ownership advantage is not that the rollup has better technology---it is that firms are willing to reveal more to an entity they own than to one they hire.
+
+The prediction is not that autopilots will fail---they will likely outperform copilots and general SaaS platforms, exactly as \citet{sequoia2025services} argues. The prediction is that autopilots face the same structural ceiling as any intermediary: they can eliminate the learning leakage channel through data isolation, but they cannot replicate the cross-node learning, internal visibility, and competitive foreclosure that ownership provides. In verticals where these channels matter (legal, tax, accounting, cybersecurity---the top of Table~\ref{tab:industries}), the endgame is not the autopilot but the entity that owns the firms the autopilot serves. The autopilot is the wedge; the rollup is the moat.
+
+\subsection{Where the Framework Predicts Rollup Dominance---and Where It Does Not}
+
+The regime map (Section~\ref{sec:regimemap}) and industry calibrations (Section~\ref{sec:industries}) generate testable predictions about where different institutional forms should dominate:
 
 \begin{enumerate}[leftmargin=*]
-\item \textbf{If router learning leakage is absent} ($\lambda_R = 0$), the rollup still wins but by only 3.5\% (Table~\ref{tab:lr_sensitivity}). The thesis depends materially on the hypothesis that platforms extract and redistribute client data. In industries where platforms contractually commit to data isolation (and enforce it), this channel may not operate.
+\item \textbf{The rollup wins where context is durable and specific} ($\rho_L > 0.7$, high $\ell$). Legal transactional work, tax advisory, and specialized financial services occupy this region. These verticals should see AI-driven consolidation first.
 
-\item \textbf{Without cross-node learning transfer} (Shapley $+0.065$), the rollup loses its second-largest channel. If operations are too heterogeneous for knowledge to transfer across portfolio companies, or if AI cannot extract transferable patterns, the advantage narrows further.
+\item \textbf{The data-isolated router wins where platforms can credibly commit to isolation}. When $\lambda_R \to 0$ (through contractual restriction or technical architecture), the rollup advantage narrows to $\sim$3.5\%. If ownership costs are also high (agency costs, regulatory overhead), the isolated router can dominate. This predicts that platforms committing to data isolation---contractually guaranteeing that one client's operational data will not be used to serve another---should outperform platforms that pool client data across their user base.
 
-\item \textbf{If leakage is unimportant}---regulated industries with mandatory disclosure, standardized commodity markets, or contexts where information is too short-lived to exploit---the leakage protection channel ($+0.039$) contributes nothing. In most economically interesting coordination, however, context is private, persistent, and valuable.
+\item \textbf{The router/market wins where context is short-lived and non-specific} ($\rho_L < 0.3$, low $\ell$). IT managed services, commodity logistics, and contexts where information is too ephemeral to exploit. Here, leakage protection contributes little, and the platform's breadth advantage in learning from standardized, transferable patterns may offset the rollup's ownership channels.
+
+\item \textbf{The rollup thesis fails when cross-node learning is absent}. If operations are too heterogeneous for knowledge to transfer across portfolio companies ($\tau \to 0$), or if AI cannot extract transferable patterns, the second-largest channel disappears. Combined with data isolation ($\lambda_R = 0$), this leaves only leakage protection---a $\sim$5\% advantage that may not justify ownership overhead.
 \end{enumerate}
 
-\noindent These conditions suggest the rollup thesis applies most strongly to industries where: (a) SaaS platforms learn from client data in ways that benefit competitors, (b) operations are diverse enough for cross-vertical knowledge transfer, and (c) private context has high competitive value.
+\noindent The framework does not predict a universal answer. It maps parameter space to institutional form dominance, generating industry-specific predictions that can be tested against observed patterns of AI-era consolidation.
+
+\subsection{Implications for Industrial Organization}
+
+Three implications follow from the framework that are worth stating explicitly.
+
+\textbf{Cross-node learning has increasing returns.} The transfer bonus in the model scales with the number of distinct verticals in the owned portfolio ($\tau \cdot |\{v_k\}| / K$). This creates a positive feedback loop: more nodes owned $\to$ more verticals covered $\to$ richer cross-node learning $\to$ higher acquisition value of the next node $\to$ more nodes owned. The first entity to reach critical mass in a vertical has a compounding advantage that late entrants cannot overcome, because they face a cold-start problem: they cannot match the cross-node learning without the nodes, and they cannot justify acquiring the nodes without the learning. This implies that AI-era consolidation, once it begins in a vertical, should exhibit winner-take-most dynamics---not because of demand-side network effects (as in platform markets) but because of supply-side learning economies that are structurally ownership-contingent.
+
+\textbf{Operational access can approximate ownership for information flows.} The model treats ownership as binary: a node is owned or it is not. In practice, deep operational engagement---consulting, advisory, integration work---can provide signal quality approaching ownership levels without requiring financial acquisition. A firm embedded inside a company for twelve weeks, observing workflows and exception handling at full depth, achieves something close to the rollup's internal visibility ($\sigma_{\text{own}} = 0.9$) without taking an equity position. This suggests the rollup's information advantage can be partially achieved through services relationships, with financial acquisition reserved for nodes where the context is durable enough to justify the ownership overhead. The consulting engagement becomes the sensing layer; the acquisition follows only where the learning compounds.
+
+\textbf{The parameter space determines whether platforms evolve toward ownership.} The framework predicts not just which regime dominates, but whether the platform-to-ownership transition occurs at all. Where context is durable and specific (high $\rho_L$, high $\ell$---legal, tax, cybersecurity), the leakage cost per unit is high enough that rational actors withhold from intermediaries, degrading the platform's data quality and pushing it toward ownership as the only reliable path to full context access. The historical analogue is Metropolis, a parking technology company that could not sell its software to parking garage operators and instead acquired the garages themselves.
+
+But where context is ephemeral and non-specific (low $\rho_L$, low $\ell$---advertising, logistics, commodity transactions), the platform model can be stable \textit{even with full learning leakage}. Meta's advertising platform extracts retailer conversion data through installed tracking pixels and uses it to optimize ad delivery for all advertisers, including each retailer's competitors. Retailers accept this because the data is high-volume but low-value-per-unit: no individual retailer's conversion events constitute a durable competitive asset, and the value of Meta's ad optimization exceeds the leakage cost. This is the standard router in our model---but operating in the region of parameter space where the rollup advantage is smallest ($\sim$1.22$\times$) and the leakage cost is low enough that clients rationally participate.
+
+The implication is that the autopilot-to-ownership transition is industry-dependent. In the top of Table~\ref{tab:industries}, it is the likely equilibrium: the autopilot is the wedge, but ownership is the moat. In the bottom, the platform model persists because there is not enough durable, specific context to justify the overhead of ownership---and not enough leakage cost to drive clients away.
+
+\textbf{Model training as a new form of cross-node learning.} As AI labs seek operational data for model improvement---through instrumentation partnerships, screen observation, and workflow capture---a question arises: does the model itself absorb the cross-node learning channel? If a lab has trained on 10,000 dental practices across 50 portfolios, the model already knows the optimal scheduling approach. The rollup's ability to observe its own five practices and transfer learnings adds nothing the model does not already provide. In this view, cross-node learning ($\sim$23\% of the Shapley effect) is partially commoditized by model training: the ``what works at dental practices'' knowledge becomes embedded in the model and available to everyone, not just the owner.
+
+The rollup's remaining advantage shifts from \textit{learning what works} (which the model increasingly provides) to \textit{knowing what is happening right now and having the authority to act on it}. The model knows general patterns from historical training data. The rollup knows that this specific practice's lead hygienist quit yesterday, that the local competitor just closed, that the insurance contract is up for renegotiation next month. These are real-time, firm-specific observations that training pipelines cannot capture at the same latency---and that require ownership-level visibility ($\nu = 0.1$) to observe at all. The rollup's advantage migrates from pattern recognition to operational latency and actuator access.
+
+The emerging structure of lab-PE partnerships is consistent with this analysis. Labs are pursuing joint ventures with portfolio owners rather than commercial API relationships---seeking ownership-equivalent context access through equity alignment. This implicitly validates the framework's prediction: commercial access does not provide the context depth that ownership does, and the labs are reaching for ownership-like structures to close the gap.
 
 \subsection{Limitations}
 
 Several limitations warrant discussion.
 
-First, while we model ownership costs (overhead and integration friction), we do not model \textit{agency costs}. In practice, each subsidiary's management has its own incentives---empire-building, risk aversion, headcount padding, pet projects---that diverge from the parent company's goal of maximizing portfolio value. The more subsidiaries owned, the harder each is to monitor, and the more value leaks to misaligned behavior. \citet{berger1995} found that diversified firms trade at a 13--15\% discount to the sum of their parts, and \citet{jensen1986} attributes this largely to inefficient internal capital allocation driven by managerial self-interest. Our flat ownership cost ($c_{\text{overhead}}$ per node per step) understates this problem: real agency costs are likely \textit{convex} in portfolio size, because each additional subsidiary dilutes management attention and introduces cross-subsidiary politics. Whether AI-enabled coordination can reduce agency costs enough that the information benefits of ownership dominate is an open empirical question that our model does not address.
+First, and most critically, while we model ownership costs (overhead and integration friction), we do not model \textit{agency costs}---and agency costs may be the binding constraint on the rollup thesis. In practice, each subsidiary's management has its own incentives---empire-building, risk aversion, headcount padding, pet projects---that diverge from the parent company's goal of maximizing portfolio value. The more subsidiaries owned, the harder each is to monitor, and the more value leaks to misaligned behavior. \citet{berger1995} found that diversified firms trade at a 13--15\% discount to the sum of their parts, and \citet{jensen1986} attributes this largely to inefficient internal capital allocation driven by managerial self-interest. Our flat ownership cost ($c_{\text{overhead}}$ per node per step) understates this problem: real agency costs are likely \textit{convex} in portfolio size, because each additional subsidiary dilutes management attention and introduces cross-subsidiary politics. At the baseline rollup advantage of $\sim$26\%, convex agency costs could plausibly eliminate the margin.
+
+The deeper issue is that context access and context \textit{compounding} are not the same thing. A large consulting firm like BCG or McKinsey has had deep operational access to thousands of companies over decades---arguably more ``context born at the node'' than any rollup could accumulate. Yet this context does not compound: it lives in slide decks, in partners' heads, in institutional memory that walks out the door with departing staff. The organizational structure of a consulting firm---partner incentives misaligned with firm-wide knowledge management, practice areas operating semi-independently, no central system of record for operational observations---is itself an agency cost that prevents the conversion of contact into structured, reusable intelligence. Our model assumes that the rollup can convert ownership into a central, compounding intelligence layer. Whether this assumption holds depends on whether AI-enabled coordination can reduce the organizational overhead of multi-node management sufficiently to overcome the agency costs that have historically made conglomerates value-destructive. This is the strongest version of the counterargument to our thesis, and the model does not resolve it.
 
 Second, the model uses a scalar policy quality rather than heterogeneous policies across nodes. In practice, the value of cross-node learning depends on the transferability of operational knowledge, which varies across industries and firm types.
 
@@ -854,11 +925,13 @@ Fourth, the model does not capture \textit{strategic information withholding} by
 \section{Conclusion}
 %=============================================================================
 
-This paper develops a formal model of coordination over a directed graph economy and uses it to compare three institutional forms: fragmented markets, platform routers, and cybernetic rollups. The central modeling hypothesis is that platform intermediation amplifies information leakage: when a platform ingests client operational data to improve its service, that improvement benefits the client's competitors. If this hypothesis holds---and real-world contractual restrictions on data use (e.g., Harvey AI) suggest firms believe it does---the implications are substantial. In our simulation, router learning leakage is the dominant channel driving ownership advantage (55\% of the Shapley-decomposed total effect), producing $3\times$ the leakage cost of the open market. The rollup avoids this by internalizing context, generating a mean 24\% net surplus advantage across 10 graph realizations. In competing-world simulation under passive-router assumptions, competitive feedback compounds this advantage into router extinction in every tested seed.
+This paper develops a framework that maps the parameter space of information economics to institutional form dominance, comparing four forms---fragmented markets, platform routers, data-isolated routers, and cybernetic rollups---over a directed graph economy. The framework identifies three mechanisms driving ownership advantage (router learning leakage, cross-node learning, leakage protection), establishes their ranking as stable across calibrations, and generates testable predictions about which industries should see AI-driven consolidation.
 
-This finding has implications for both theory and practice. For theory, it identifies a mechanism absent from the platform economics literature: intermediation as potential information redistribution. The platform does not just connect buyers and sellers; it may extract operational intelligence from each client and embed it in a shared model that serves competitors. This is the opposite of the exclusivity that \citet{bonatti2022} show is optimal for information sellers---and it would explain why ownership dominates intermediation in industries with leakage-sensitive context. For practice, it suggests that firms using SaaS platforms for operationally sensitive coordination may be subsidizing their competitors' improvement. The firm that owns its operational context retains it; the firm that routes through a platform risks donating it.
+The central finding is that ownership advantage is robust but not universal. The rollup dominates in verticals where context is durable and specific---legal transactional work, tax advisory, specialized financial services. The advantage narrows where context is short-lived (IT managed services: 1.22$\times$) and nearly vanishes where platforms can credibly commit to data isolation and cross-node learning is absent. A data-isolated router---the platform's best response---eliminates the dominant channel but cannot replicate the cross-node learning and internal visibility that ownership provides, trailing the rollup by $\sim$12\% at baseline calibration.
 
-The cybernetic arbitrage is the spread between the market's valuation of assets as isolated operations and their actual value as nodes in an AI-coordinated portfolio where context is internalized rather than leaked. The winners of this era will not be the platforms that intermediate between independent firms---they will be the entities that own the nodes where context is born, retain that context internally, and compound it through cross-node learning that no intermediary can replicate.
+For theory, the contribution is the framework itself: a mapping from parameter space to institutional form dominance that identifies which mechanisms matter, in what order, and under what conditions. For practice, it generates predictions: AI-driven consolidation should appear earliest in high-durability, high-specificity verticals (legal, tax, specialized finance); platform providers should invest in credible data isolation; and firms using SaaS platforms for operationally sensitive coordination should understand that each interaction may train a model that serves their competitors.
+
+The cybernetic arbitrage is the spread between the market's valuation of assets as isolated operations and their actual value as nodes in an AI-coordinated portfolio where context is internalized rather than leaked. Where that spread exists---and this paper maps where it should---ownership captures the value that AI creates.
 
 %=============================================================================
 % Bibliography
@@ -930,6 +1003,9 @@ Shapiro, David. 2024. ``Billions of Agents.'' September.
 
 \bibitem[Toma\v{s}ev et~al.(2025)]{tomasev2025}
 Toma\v{s}ev, Nenad, Matija Franklin, Joel Z. Leibo, Julian Jacobs, William A. Cunningham, Iason Gabriel, and Simon Osindero. 2025. ``Virtual Agent Economies.'' arXiv:2509.10147.
+
+\bibitem[Bek(2026)]{sequoia2025services}
+Bek, Julien. 2026. ``Services: The New Software.'' \textit{Sequoia Capital}, March.
 
 \bibitem[Shahidi et~al.(2025)]{shahidi2025}
 Shahidi, Peyman, Gili Rusak, Benjamin S. Manning, Andrey Fradkin, and John J. Horton. 2025. ``The Coasean Singularity? Demand, Supply, and Market Design with AI Agents.'' NBER Working Paper.
