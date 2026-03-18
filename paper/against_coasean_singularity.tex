@@ -921,6 +921,8 @@ Third, the parallel-world structural advantage is scale-invariant: at 200 nodes 
 
 Fourth, the model does not capture \textit{strategic information withholding} by router clients. In practice, firms aware of router learning leakage contractually restrict data use: enterprise AI providers like Harvey (legal AI) face strict limitations on using client data to train models that serve other clients. This withholding is rational---it reduces the leakage cost---but it also reduces the value the platform can deliver, creating a tension between service quality and competitive exposure. In our simulation, the revelation optimizer always chooses maximum revelation because match quality gains dominate; a model with stronger leakage costs or contractual restrictions could produce endogenous withholding, further degrading the router's value proposition.
 
+Fifth, the model treats ownership as a per-node property: each owned node gets lower visibility, higher actuator authority, and trust investment, regardless of how many other nodes in the same vertical are also owned. It does not capture \textit{vertical completion effects}---the additional value that accrues when a rollup owns every firm in a sector, including the elimination of within-sector competitive leakage, monopoly pricing power, and complete information over all sector activity.
+
 %=============================================================================
 \section{Conclusion}
 %=============================================================================
